@@ -38,10 +38,23 @@ For now my key can be used.(TBD)
 
 *Language :* Kotlin
  - Has first class support and a tonne of modern language features to leverage on and what I use on a daily basis.
-*Libraries :* 
+
+*Libraries :*
    *UI*
+     - [Compose](https://developer.android.com/jetpack/compose) : Preferred way to build modern android apps,this will save us from 
+future tech debt and brings in code cohesion by using kotlin for everything.
    *Data*
+     - [Retrofit](https://square.github.io/retrofit/) : Familiarity and battle tested in many apps with RESTful APIS.
+     - [OkHTTP](https://square.github.io/okhttp/)
+     - [kotlinx.serialization](https://kotlinlang.org/docs/serialization.html) : Has jetbrains support hence blends in seamlessly with Kotlin.
    *Testing*
+     - [Junit](https://junit.org/junit4/)
+     - [Mockk](https://mockk.io/) : Mocking library that works well with Kotlin.
+     - [Truth](https://truth.dev/) : Better assertions and better than vanilla junit assertions on objects.
+     - [Turbine](https://github.com/cashapp/turbine) : For easier testing of flows.
+   *Tooling/Project setup*
+     - [Gradle secrets plugin](https://github.com/google/secrets-gradle-plugin) : Helps prevent checking secrets into vcs.
+     - [Hilt(DI)](https://developer.android.com/training/dependency-injection/hilt-android) : Easier to use than Dagger and less stressing about manually wiring your modules.
 
 # Open Questions / Things to Note ❓
 
@@ -50,6 +63,7 @@ For now my key can be used.(TBD)
 # Things I would have loved to do 💙
 
 1. Time formatting i.e current time
+2. Add better app icon for debug and release .
 
 # Screenshots 📱
 
