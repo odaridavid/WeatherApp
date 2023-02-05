@@ -28,7 +28,7 @@ object ClientModule {
     fun provideRetrofit(okHttpClient: OkHttpClient,json: Json): Retrofit {
         val contentType = "application/json".toMediaType()
         return Retrofit.Builder()
-            .baseUrl("https://api.openweathermap.org")
+            .baseUrl(BuildConfig.OPEN_WEATHER_BASE_URL)
             .client(okHttpClient)
             .addConverterFactory(json.asConverterFactory(contentType))
             .build()
@@ -40,7 +40,6 @@ object ClientModule {
         OkHttpClient.Builder()
             .connectTimeout(60L, TimeUnit.SECONDS)
             .addInterceptor(loggingInterceptor)
-            .addInterceptor(HeadersInterceptor)
             .build()
 
     @Provides
