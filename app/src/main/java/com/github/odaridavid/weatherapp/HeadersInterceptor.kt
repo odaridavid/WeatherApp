@@ -10,9 +10,8 @@ object HeadersInterceptor : Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
         val request = chain.request()
 
-        // TODO Add api key
         val newRequest = request.newBuilder()
-            .header(HEADER_API_KEY, "")
+            .header(HEADER_API_KEY, BuildConfig.OPEN_WEATHER_API_KEY)
             .build()
 
         return chain.proceed(newRequest)

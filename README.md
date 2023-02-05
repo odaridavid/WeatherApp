@@ -17,7 +17,15 @@ More info on how to make an api call [here](https://openweathermap.org/api/one-c
 
 # Pre requisite 📝
 
-```TODO```
+In your `local.properties` you will need to add your Open Weather API key.
+
+```properties
+OPEN_WEATHER_API_KEY= YOUR KEY
+```
+
+Check for one under  [`Api Keys`](https://home.openweathermap.org/api_keys)
+
+For now my key can be used.(TBD)
 
 # Design/Architectural decisions 📐
 
