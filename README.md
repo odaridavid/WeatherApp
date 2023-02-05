@@ -12,15 +12,18 @@ Reason for choosing mentioned API :
 - Api response can also be modified to include the amount of needed data all with one call ,
 contains icons for different conditions and has multilingual support if adopting for a wider audience is ever needed.
 - They have a large user base and handle millions of requests, if the app were ever to scale, there's confidence on the api providing high availability.
+- Has capabilities for alerts for severe weather conditions
 
 More info on how to make an api call [here](https://openweathermap.org/api/one-call-3#multi).
 
-# Pre requisite 📝
+# Pre-requisite 📝
 
-In your `local.properties` you will need to add your Open Weather API key.
+In your `local.properties` you will need to add your Open Weather API key and copy the urls in.
 
 ```properties
-OPEN_WEATHER_API_KEY= YOUR KEY
+OPEN_WEATHER_API_KEY = YOUR KEY
+OPEN_WEATHER_BASE_URL=https://api.openweathermap.org
+OPEN_WEATHER_ICONS_URL= http://openweathermap.org/img/wn/
 ```
 
 Check for one under  [`Api Keys`](https://home.openweathermap.org/api_keys)
@@ -33,7 +36,12 @@ For now my key can be used.(TBD)
 
 # Technologies 🔨
 
-```TODO```
+*Language :* Kotlin
+ - Has first class support and a tonne of modern language features to leverage on and what I use on a daily basis.
+*Libraries :* 
+   *UI*
+   *Data*
+   *Testing*
 
 # Open Questions / Things to Note ❓
 
@@ -41,7 +49,7 @@ For now my key can be used.(TBD)
 
 # Things I would have loved to do 💙
 
-```TODO```
+1. Time formatting i.e current time
 
 # Screenshots 📱
 
