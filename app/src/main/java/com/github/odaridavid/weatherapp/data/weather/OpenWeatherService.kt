@@ -1,4 +1,4 @@
-package com.github.odaridavid.weatherapp.data
+package com.github.odaridavid.weatherapp.data.weather
 
 import retrofit2.Response
 import retrofit2.http.GET

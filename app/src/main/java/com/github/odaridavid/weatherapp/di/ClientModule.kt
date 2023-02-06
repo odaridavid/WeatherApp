@@ -1,7 +1,7 @@
 package com.github.odaridavid.weatherapp.di
 
 import com.github.odaridavid.weatherapp.BuildConfig
-import com.github.odaridavid.weatherapp.data.OpenWeatherService
+import com.github.odaridavid.weatherapp.data.weather.OpenWeatherService
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import dagger.Module
 import dagger.Provides

@@ -1,11 +1,11 @@
-package com.github.odaridavid.weatherapp.data
+package com.github.odaridavid.weatherapp.data.weather
 
-import com.github.odaridavid.weatherapp.core.CurrentWeather
-import com.github.odaridavid.weatherapp.core.DailyWeather
-import com.github.odaridavid.weatherapp.core.FeelsLike
-import com.github.odaridavid.weatherapp.core.HourlyWeather
-import com.github.odaridavid.weatherapp.core.Temperature
-import com.github.odaridavid.weatherapp.core.Weather
+import com.github.odaridavid.weatherapp.core.model.CurrentWeather
+import com.github.odaridavid.weatherapp.core.model.DailyWeather
+import com.github.odaridavid.weatherapp.core.model.FeelsLike
+import com.github.odaridavid.weatherapp.core.model.HourlyWeather
+import com.github.odaridavid.weatherapp.core.model.Temperature
+import com.github.odaridavid.weatherapp.core.model.Weather
 
 // TODO Check on domain naming
 fun WeatherResponse.toCoreModel(): Weather = Weather(

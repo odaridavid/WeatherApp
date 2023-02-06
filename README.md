@@ -47,6 +47,7 @@ future tech debt and brings in code cohesion by using kotlin for everything.
      - [Retrofit](https://square.github.io/retrofit/) : Familiarity and battle tested in many apps with RESTful APIS.
      - [OkHTTP](https://square.github.io/okhttp/)
      - [kotlinx.serialization](https://kotlinlang.org/docs/serialization.html) : Has jetbrains support hence blends in seamlessly with Kotlin.
+     - [Preference Data Store](https://developer.android.com/topic/libraries/architecture/datastore) : For settings screen key - value pairs
    *Testing*
      - [Junit](https://junit.org/junit4/)
      - [Mockk](https://mockk.io/) : Mocking library that works well with Kotlin.
