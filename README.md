@@ -37,19 +37,19 @@ The project makes use of common android patterns in modern android codebases.
 **Project Structure**
 
 The folders are split into 4 boundaries:
- - **Core**
+ - **Core**:
    Contains the models/data classes that are independent of any framework specific dependencies and represent the business logic. 
    In a Clean Arch world you can consider these as your domain classes and interfaces.
 
- - **Data**
+ - **Data**:
    Contains data sources , local or remote, this is where the implementation for such is kept. All data related actions and formatting happens in this layer as well.
    It may contain framework related dependencies to orchestrate and create instances of data stores like a database or shared preference etc.
    One common pattern used in this area is the repository pattern, which mediates data sources and acts as a source of truth to the consumer.
 
- - **DI**
+ - **DI**:
    This acts as the glue between the core ,data and UI.The UI relies on the core models and interfaces which are implemented in data.
 
- - **UI**
+ - **UI**:
    Contains the presentation layer of the app, the screen components and viewmodels. Framework specific dependencies are best suited for this layer.
    In this layer MVI is also used, it looks similar to MVVM but the difference is the actions from a screen a.k.a intents e.g ```HomeScreenIntent``` are predefined and are finite,making the
    the screen state a bit more predictable and it's easier to scan through what actions are possible from a given screen.
@@ -72,26 +72,21 @@ is written that makes use of fake,so as to mimic the real scenario as much as po
 **Libraries :**
 
    *UI*
-
-- [Compose](https://developer.android.com/jetpack/compose) : Preferred way to build modern android apps,this will save us from 
-future tech debt and brings in code cohesion by using kotlin for everything.
+     - [Compose](https://developer.android.com/jetpack/compose) : Preferred way to build modern android apps,this will save us from future tech debt and brings in code cohesion by using kotlin for everything.
 
    *Data*
-
      - [Retrofit](https://square.github.io/retrofit/) : Familiarity and battle tested in many apps with RESTful APIS.
      - [OkHTTP](https://square.github.io/okhttp/)
      - [kotlinx.serialization](https://kotlinlang.org/docs/serialization.html) : Has jetbrains support hence blends in seamlessly with Kotlin.
      - [Preference Data Store](https://developer.android.com/topic/libraries/architecture/datastore) : For settings screen key - value pairs
 
    *Testing*
-
      - [Junit](https://junit.org/junit4/)
      - [Mockk](https://mockk.io/) : Mocking library that works well with Kotlin.
      - [Truth](https://truth.dev/) : Better assertions and better than vanilla junit assertions on objects.
      - [Turbine](https://github.com/cashapp/turbine) : For easier testing of flows.
 
    *Tooling/Project setup*
-
      - [Gradle secrets plugin](https://github.com/google/secrets-gradle-plugin) : Helps prevent checking secrets into vcs.
      - [Hilt(DI)](https://developer.android.com/training/dependency-injection/hilt-android) : Easier to use than Dagger and less stressing about manually wiring your modules.
 
