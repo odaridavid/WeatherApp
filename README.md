@@ -74,7 +74,6 @@ is written that makes use of fake,so as to mimic the real scenario as much as po
  - Has first class support and a tonne of modern language features to leverage on and what I use on a daily basis.
 
 **Libraries :**
-
   *UI*
 - [Compose](https://developer.android.com/jetpack/compose) : Preferred way to build modern android apps,this will save us from future tech debt and brings in code cohesion by using kotlin for everything.
 
