@@ -1,4 +1,4 @@
-package com.github.odaridavid.weatherapp
+package com.github.odaridavid.weatherapp.ui.home
 
 import android.util.Log
 import androidx.compose.runtime.Composable

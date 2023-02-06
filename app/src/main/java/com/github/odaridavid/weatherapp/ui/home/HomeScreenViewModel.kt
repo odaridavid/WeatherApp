@@ -1,7 +1,9 @@
-package com.github.odaridavid.weatherapp
+package com.github.odaridavid.weatherapp.ui.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.github.odaridavid.weatherapp.core.Weather
+import com.github.odaridavid.weatherapp.core.WeatherRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

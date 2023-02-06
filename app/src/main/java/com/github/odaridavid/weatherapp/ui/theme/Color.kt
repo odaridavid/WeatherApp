@@ -2,7 +2,7 @@ package com.github.odaridavid.weatherapp.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
-val Purple200 = Color(0xFFBB86FC)
-val Purple500 = Color(0xFF6200EE)
-val Purple700 = Color(0xFF3700B3)
-val Teal200 = Color(0xFF03DAC5)
+val pink200 = Color(0xffff7597)
+val pink500 = Color(0xffff0266)
+val pink600 = Color(0xffd8004d)
+val pinkDarkPrimary = Color(0xff24191c)

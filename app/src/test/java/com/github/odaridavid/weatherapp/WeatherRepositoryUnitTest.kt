@@ -1,5 +1,8 @@
 package com.github.odaridavid.weatherapp
 
+import com.github.odaridavid.weatherapp.core.WeatherRepository
+import com.github.odaridavid.weatherapp.data.DefaultWeatherRepository
+import com.github.odaridavid.weatherapp.data.OpenWeatherService
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
 import org.junit.Test

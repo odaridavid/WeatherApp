@@ -1,19 +1,26 @@
-package com.github.odaridavid.weatherapp
+package com.github.odaridavid.weatherapp.data
+
+import com.github.odaridavid.weatherapp.core.CurrentWeather
+import com.github.odaridavid.weatherapp.core.DailyWeather
+import com.github.odaridavid.weatherapp.core.FeelsLike
+import com.github.odaridavid.weatherapp.core.HourlyWeather
+import com.github.odaridavid.weatherapp.core.Temperature
+import com.github.odaridavid.weatherapp.core.Weather
 
 // TODO Check on domain naming
-fun WeatherResponse.toDomain(): Weather = Weather(
-    current = current.toDomain(),
-    daily = daily.map { it.toDomain() },
-    hourly = hourly.map { it.toDomain() }
+fun WeatherResponse.toCoreModel(): Weather = Weather(
+    current = current.toCoreModel(),
+    daily = daily.map { it.toCoreModel() },
+    hourly = hourly.map { it.toCoreModel() }
 )
 
 // TODO Populate and format data
-fun CurrentWeatherResponse.toDomain(): CurrentWeather =
+fun CurrentWeatherResponse.toCoreModel(): CurrentWeather =
     CurrentWeather(
         sunriseTime = 0, sunsetTime = 0, temperature = 0.0f, feelsLike = 0.0f, weather = listOf()
     )
 
-fun DailyWeatherResponse.toDomain(): DailyWeather =
+fun DailyWeatherResponse.toCoreModel(): DailyWeather =
     DailyWeather(
         forecastedTime = 0, sunriseTime = 0, sunsetTime = 0, temperature = Temperature(
             morning = 0.0f,
@@ -31,7 +38,7 @@ fun DailyWeatherResponse.toDomain(): DailyWeather =
 
     )
 
-fun HourlyWeatherResponse.toDomain(): HourlyWeather =
+fun HourlyWeatherResponse.toCoreModel(): HourlyWeather =
     HourlyWeather(
         forecastedTime = 0, temperature = 0.0f, feelsLike = 0.0f, weather = listOf()
     )

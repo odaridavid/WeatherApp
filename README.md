@@ -62,8 +62,9 @@ future tech debt and brings in code cohesion by using kotlin for everything.
 
 # Things I would have loved to do 💙
 
-1. Time formatting i.e current time
-2. Add better app icon for debug and release .
+1. Time formatting i.e current time.
+2. Add better app icon for debug and release.
+3. Define a better app theme.
 
 # Screenshots 📱
 

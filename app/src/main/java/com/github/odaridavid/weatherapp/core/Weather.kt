@@ -1,4 +1,4 @@
-package com.github.odaridavid.weatherapp
+package com.github.odaridavid.weatherapp.core
 
 data class Weather(
     val current: CurrentWeather,

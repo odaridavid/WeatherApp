@@ -1,5 +1,9 @@
-package com.github.odaridavid.weatherapp
+package com.github.odaridavid.weatherapp.data
 
+import com.github.odaridavid.weatherapp.BuildConfig
+import com.github.odaridavid.weatherapp.core.SupportedLanguages
+import com.github.odaridavid.weatherapp.core.Weather
+import com.github.odaridavid.weatherapp.core.WeatherRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
@@ -19,7 +23,7 @@ class DefaultWeatherRepository @Inject constructor(
             appid = BuildConfig.OPEN_WEATHER_API_KEY
         )
         if (response.isSuccessful && response.body() != null) {
-            val weatherData = response.body()!!.toDomain()
+            val weatherData = response.body()!!.toCoreModel()
             emit(Result.success(weatherData))
         } else {
             // TODO Log errors on a dashboard and handle different errors uniquely

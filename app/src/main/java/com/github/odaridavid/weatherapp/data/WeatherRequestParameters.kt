@@ -1,4 +1,4 @@
-package com.github.odaridavid.weatherapp
+package com.github.odaridavid.weatherapp.data
 
 enum class Units(val value:String){
     STANDARD("standard"),

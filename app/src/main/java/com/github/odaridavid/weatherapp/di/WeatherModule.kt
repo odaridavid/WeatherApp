@@ -1,5 +1,7 @@
-package com.github.odaridavid.weatherapp
+package com.github.odaridavid.weatherapp.di
 
+import com.github.odaridavid.weatherapp.data.DefaultWeatherRepository
+import com.github.odaridavid.weatherapp.core.WeatherRepository
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn

@@ -1,4 +1,4 @@
-package com.github.odaridavid.weatherapp
+package com.github.odaridavid.weatherapp.core
 
 enum class SupportedLanguages(val languageName: String, val languageValue: String) {
     AFRIKAANS("Afrikaans", "af"),

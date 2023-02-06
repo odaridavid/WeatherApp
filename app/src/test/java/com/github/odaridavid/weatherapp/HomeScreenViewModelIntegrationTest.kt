@@ -1,5 +1,7 @@
 package com.github.odaridavid.weatherapp
 
+import com.github.odaridavid.weatherapp.core.WeatherRepository
+import com.github.odaridavid.weatherapp.ui.home.HomeScreenViewModel
 import org.junit.Test
 
 class HomeScreenViewModelIntegrationTest {

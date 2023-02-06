@@ -1,4 +1,4 @@
-package com.github.odaridavid.weatherapp
+package com.github.odaridavid.weatherapp.core
 
 import kotlinx.coroutines.flow.Flow
 
