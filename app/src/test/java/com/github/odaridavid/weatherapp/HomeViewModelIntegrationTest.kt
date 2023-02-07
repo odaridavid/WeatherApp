@@ -1,7 +1,7 @@
 package com.github.odaridavid.weatherapp
 
 import com.github.odaridavid.weatherapp.core.api.WeatherRepository
-import com.github.odaridavid.weatherapp.ui.home.HomeScreenViewModel
+import com.github.odaridavid.weatherapp.ui.home.HomeViewModel
 import io.mockk.mockk
 import org.junit.Test
 
@@ -34,7 +34,7 @@ class HomeViewModelIntegrationTest {
         TODO("Implement me")
     }
 
-    fun createViewModel(): HomeScreenViewModel = HomeScreenViewModel(
+    fun createViewModel(): HomeViewModel = HomeViewModel(
         weatherRepository = weatherRepository,
         settingsRepository = mockk()
     )
