@@ -32,7 +32,7 @@ class DefaultWeatherRepository @Inject constructor(
         )
 
         if (response.isSuccessful && response.body() != null) {
-            val weatherData = response.body()!!.toCoreModel()
+            val weatherData = response.body()!!.toCoreModel(unit = units)
             emit(Result.success(weatherData))
         } else {
             emit(Result.failure(Throwable("Error Occurred : ${response.errorBody()?.string()}")))

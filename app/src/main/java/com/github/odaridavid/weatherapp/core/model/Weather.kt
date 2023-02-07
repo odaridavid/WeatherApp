@@ -9,15 +9,15 @@ data class Weather(
 data class CurrentWeather(
     val sunriseTime: Long,
     val sunsetTime: Long,
-    val temperature: Float,
-    val feelsLike: Float,
+    val temperature: String,
+    val feelsLike: String,
     val weather: List<WeatherInfo>
 )
 
 data class HourlyWeather(
     val forecastedTime: Long,
-    val temperature: Float,
-    val feelsLike: Float,
+    val temperature: String,
+    val feelsLike: String,
     val weather: List<WeatherInfo>
 )
 
@@ -38,17 +38,17 @@ data class WeatherInfo(
 )
 
 data class Temperature(
-    val morning: Float,
-    val afternoon: Float,
-    val evening: Float,
-    val night: Float,
-    val min: Float,
-    val max: Float,
+    val morning: String,
+    val afternoon: String,
+    val evening: String,
+    val night: String,
+    val min: String,
+    val max: String,
 )
 
 data class FeelsLike(
-    val morning: Float,
-    val afternoon: Float,
-    val evening: Float,
-    val night: Float,
+    val morning: String,
+    val afternoon: String,
+    val evening: String,
+    val night: String,
 )

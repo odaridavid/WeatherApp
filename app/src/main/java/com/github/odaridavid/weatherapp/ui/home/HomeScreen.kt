@@ -158,7 +158,7 @@ private fun DailyWeatherWidget(dailyWeatherList: List<DailyWeather>) {
 @Composable
 private fun DailyWeatherRow(dailyWeather: DailyWeather) {
     Row {
-        // TODO Flatten the data
+        // TODO Flatten the data, ui model
         AsyncImage(
             model = dailyWeather.weather.first().icon,
             contentDescription = dailyWeather.weather.first().description,
