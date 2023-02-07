@@ -15,6 +15,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.github.odaridavid.weatherapp.R
@@ -25,7 +26,7 @@ fun SettingsScreen(state: SettingsScreenViewState, onBackButtonClicked: () -> Un
         Row(modifier = Modifier.padding(16.dp)) {
             Image(
                 painter = painterResource(id = R.drawable.ic_arrow_back),
-                contentDescription = "Setting Icon",
+                contentDescription = stringResource(R.string.settings_content_description_icon),
                 modifier = Modifier
                     .defaultMinSize(40.dp)
                     .clickable { onBackButtonClicked() }
@@ -33,7 +34,7 @@ fun SettingsScreen(state: SettingsScreenViewState, onBackButtonClicked: () -> Un
             )
 
             Text(
-                text = "Settings",
+                text = stringResource(R.string.settings_screen_title),
                 style = MaterialTheme.typography.h5,
                 textAlign = TextAlign.Center,
                 modifier = Modifier.align(Alignment.CenterVertically)
@@ -41,19 +42,19 @@ fun SettingsScreen(state: SettingsScreenViewState, onBackButtonClicked: () -> Un
         }
 
         SettingOptionRow(
-            optionLabel = "Language",
+            optionLabel = stringResource(R.string.settings_language_label),
             optionValue = state.selectedLanguage,
             optionIcon = R.drawable.ic_language,
-            optionIconContentDescription = "Language Icon"
+            optionIconContentDescription = stringResource(R.string.settings_content_description_lang_icon)
         ) {
             // TODO Open language selection dialog and change value
         }
 
         SettingOptionRow(
-            optionLabel = "Units",
+            optionLabel = stringResource(R.string.settings_unit_label),
             optionValue = state.units,
             optionIcon = R.drawable.ic_units,
-            optionIconContentDescription = "Units Icon"
+            optionIconContentDescription = stringResource(R.string.settings_content_description_unit_icon)
         ) {
             // TODO Open unit selection dialog and change value
         }

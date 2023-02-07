@@ -91,6 +91,7 @@ class HomeViewModel @Inject constructor(
 data class HomeScreenViewState(
     val units: String = "",
     val defaultLocation: DefaultLocation = DefaultLocation(0.0, 0.0),
+    val locationName:String = "-",
     val language: String = "",
     val weather: Weather? = null,
     val isLoading: Boolean = false,

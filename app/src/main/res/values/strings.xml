@@ -1,3 +1,16 @@
 <resources>
     <string name="app_name" translatable="false">WeatherApp</string>
+    <!--Home Screen-->
+    <string name="home_content_description_setting_icon">Setting Icon</string>
+    <string name="home_title_currently">Currently</string>
+    <string name="home_feels_like_description">Feels like %1$s</string>
+    <string name="home_today_forecast_title">Today\'s Forecast</string>
+    <string name="home_weekly_forecast_title">Weekly Forecast</string>
+    <!-- Settings Screen-->
+    <string name="settings_screen_title">Settings</string>
+    <string name="settings_content_description_icon">Setting Icon</string>
+    <string name="settings_language_label">Language</string>
+    <string name="settings_unit_label">Units</string>
+    <string name="settings_content_description_lang_icon">Language Icon</string>
+    <string name="settings_content_description_unit_icon">Units Icon</string>
 </resources>

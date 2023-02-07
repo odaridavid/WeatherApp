@@ -118,6 +118,7 @@ is written that makes use of fake,so as to mimic the real scenario as much as po
 18. Handle no network available,tie in with unique exception handling.
 19. Edit default location from settings.
 20. Translate for currently supported languages.
+21. Cater for loading and error states in Setting screen
 
 # Screenshots 📱
 
