@@ -4,7 +4,7 @@ sealed class SettingsScreenIntent {
 
     object LoadSettingScreenData : SettingsScreenIntent()
 
-    object ChangeLanguage : SettingsScreenIntent()
+    data class ChangeLanguage(val selectedLanguage: String) : SettingsScreenIntent()
 
-    object ChangeUnits : SettingsScreenIntent()
+    data class ChangeUnits(val selectedUnits: String) : SettingsScreenIntent()
 }

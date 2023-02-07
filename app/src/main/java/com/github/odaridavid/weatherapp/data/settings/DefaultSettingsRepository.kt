@@ -41,7 +41,7 @@ class DefaultSettingsRepository @Inject constructor(
     override suspend fun getUnits(): Flow<String> =
         get(key = PREF_UNITS, default = Units.METRIC.value)
 
-    override fun getAppVersion(): String = BuildConfig.VERSION_NAME
+    override fun getAppVersion(): String = "Version : ${BuildConfig.VERSION_NAME}-${BuildConfig.BUILD_TYPE}"
 
     override fun getAvailableLanguages(): List<String> =
         SupportedLanguage.values().map { it.languageName }

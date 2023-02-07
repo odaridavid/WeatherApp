@@ -2,7 +2,7 @@
 
 *Summary*
 
-A simple weather app that displays the forecast for the current day and a few days after that.
+A simple weather app that gets your location and displays the forecast for the current day and a few days after that.
 
 *API :* [OpenWeatherMap](https://openweathermap.org/api)
 
@@ -28,7 +28,7 @@ OPEN_WEATHER_ICONS_URL= http://openweathermap.org/img/wn/
 
 Check for one under  [`Api Keys`](https://home.openweathermap.org/api_keys)
 
-For now my key can be used.(TBD)
+For now my key can be used(to be disabled later and a new one will be generated), check `sample.local.properties` ,rename or copy contents into your `local.properties`
 
 # Design/Architectural decisions 📐
 
@@ -100,26 +100,28 @@ is written that makes use of fake,so as to mimic the real scenario as much as po
 
 1. Time formatting i.e current time, 12hr / 24hr system.
 2. Split debug and release build i.e Better app icon for debug and release and other environment settings.
-3. Define a better app theme.
-4. Integrate CI Pipeline with lint checks,code formatting and code signing
-5. Better issue observability i.e logging errors on a dashboard somewhere and following user session journeys.
-6. Fine grained error handling for API errors.
-7. Setup for performance monitoring i.e Baseline Profiles, Memory Check i.e leak canary etc.
-8. Add a splash screen and smooth onboarding process.
-9. Notification for weather alerts and current day forecast.
-10. Support for a weather widget
-11. Consume more API data once current feature set is polished i.e humidity,wind speed etc.
-12. Figure out an approach to have the excluded data part of user preferences
-13. Ability to select multiple locations
-14. Better dependency management that can be handled by scripts.
-15. Process improvements i.e PR templates/labels/issues etc.
-16. Optimize repeating partterns in the viewmodel for processing intent and result, something to keep an eye on.
-17. Look into configuration changes.
-18. Look into cache and eviction strategies.
+3. Integrate CI Pipeline with lint checks,code formatting and code signing
+4. Better issue observability i.e logging errors on a dashboard somewhere and following user session journeys.
+5. Fine grained error handling for API errors.
+6. Setup for performance monitoring i.e Baseline Profiles, Memory Check i.e leak canary etc.
+7. Add a splash screen.
+8. Notification for weather alerts and current day forecast.
+9. Support for a weather widget
+10. Consume more API data once current feature set is polished i.e humidity,wind speed etc.
+11. Figure out an approach to have the excluded data part of user preferences
+12. Ability to select multiple locations
+13. Better dependency management that can be handled by scripts.
+14. Process improvements i.e PR templates/labels/issues etc.
+15. Optimize repeating partterns in the viewmodel for processing intent and result, something to keep an eye on.
+16. Look into configuration changes.
+17. Look into cache and eviction strategies.
+18. Handle no network available,tie in with unique exception handling.
+19. Edit default location from settings.
+20. Translate for currently supported languages.
 
 # Screenshots 📱
 
-<img src="" width="300px"> <img src="" width="300px">
+<img src="/docs/screenshots/settings.jpeg" width="300px"> <img src="" width="300px">
 
 
 ![](https://media.giphy.com/media/hWvk9iUU4uBBeyBq0k/giphy.gif)
