@@ -78,6 +78,7 @@ is written that makes use of fake,so as to mimic the real scenario as much as po
 
   *UI*
 - [Compose](https://developer.android.com/jetpack/compose) : Preferred way to build modern android apps,this will save us from future tech debt and brings in code cohesion by using kotlin for everything.
+- [Coil](https://coil-kt.github.io/coil/compose/https://coil-kt.github.io/coil/compose/) : Light Image loading library, convenient for Kotlin and compose.
 
   *Data*
 - [Retrofit](https://square.github.io/retrofit/) : Familiarity and battle tested in many apps with RESTful APIS.
