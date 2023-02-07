@@ -16,6 +16,8 @@ interface SettingsRepository {
 
     fun getAvailableLanguages(): List<String>
 
+    fun getAvailableMetrics(): List<String>
+
     suspend fun setDefaultLocation(defaultLocation: DefaultLocation)
 
     suspend fun getDefaultLocation(): Flow<DefaultLocation>

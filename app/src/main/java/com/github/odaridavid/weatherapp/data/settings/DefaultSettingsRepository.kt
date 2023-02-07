@@ -46,6 +46,8 @@ class DefaultSettingsRepository @Inject constructor(
     override fun getAvailableLanguages(): List<String> =
         SupportedLanguage.values().map { it.languageName }
 
+    override fun getAvailableMetrics(): List<String> = Units.values().map { it.value }
+
     override suspend fun setDefaultLocation(defaultLocation: DefaultLocation) {
         set(key = PREF_LAT_LNG, value = "${defaultLocation.latitude}/${defaultLocation.longitude}")
     }
@@ -54,8 +56,8 @@ class DefaultSettingsRepository @Inject constructor(
         return get(
             key = PREF_LAT_LNG,
             default = "$DEFAULT_LATITUDE/$DEFAULT_LONGITUDE"
-        ).map { latllng ->
-            val latLngList = latllng.split("/").map { it.toDouble() }
+        ).map { latlng ->
+            val latLngList = latlng.split("/").map { it.toDouble() }
             DefaultLocation(latitude = latLngList[0], longitude = latLngList[1])
         }
     }

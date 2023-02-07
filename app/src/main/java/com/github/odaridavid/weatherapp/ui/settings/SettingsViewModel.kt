@@ -33,6 +33,12 @@ class SettingsViewModel @Inject constructor(
                         setState { copy(units = units) }
                     }
                 }
+                viewModelScope.launch {
+                    setState { copy(availableLanguages = settingsRepository.getAvailableLanguages()) }
+                }
+                viewModelScope.launch {
+                    setState { copy(availableLanguages = settingsRepository.getAvailableMetrics()) }
+                }
             }
 
             is SettingsScreenIntent.ChangeLanguage -> {
@@ -62,6 +68,7 @@ data class SettingsScreenViewState(
     val units: String = "",
     val selectedLanguage: String = "",
     val availableLanguages: List<String> = emptyList(),
+    val availableMetrics: List<String> = emptyList(),
     val versionInfo: String = "",
     val isLoading: Boolean = false,
     val error: Throwable? = null

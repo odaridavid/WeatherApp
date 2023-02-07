@@ -36,4 +36,8 @@ class FakeSettingsRepository : SettingsRepository {
     override suspend fun getDefaultLocation(): Flow<DefaultLocation> {
         TODO("Not yet implemented")
     }
+
+    override fun getAvailableMetrics(): List<String> {
+        TODO("Not yet implemented")
+    }
 }
