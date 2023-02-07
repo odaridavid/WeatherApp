@@ -20,12 +20,12 @@ class DefaultWeatherRepository @Inject constructor(
         language: String,
         units: String
     ): Flow<Result<Weather>> = flow {
+
         val excludedData = "${ExcludedData.MINUTELY.value},${ExcludedData.ALERTS.value}"
 
         val response = openWeatherService.getWeatherData(
             longitude = defaultLocation.longitude,
             latitude = defaultLocation.latitude,
-            // TODO Look into this when expanding functionality
             excludedInfo = excludedData,
             units = getUnitsValue(units),
             language = getLanguageValue(language),
@@ -35,7 +35,6 @@ class DefaultWeatherRepository @Inject constructor(
             val weatherData = response.body()!!.toCoreModel()
             emit(Result.success(weatherData))
         } else {
-            // TODO Log errors on a dashboard and handle different errors uniquely
             emit(Result.failure(Throwable("Unexpected Error Occurred : ${response.errorBody()}")))
         }
     }
