@@ -49,7 +49,7 @@ fun WeatherInfoResponse.toCoreModel(): WeatherInfo =
         id = id,
         main = main,
         description = description,
-        icon = "${BuildConfig.OPEN_WEATHER_ICONS_URL}$icon.png"
+        icon = "${BuildConfig.OPEN_WEATHER_ICONS_URL}$icon@2x.png"
     )
 
 fun FeelsLikeResponse.toCoreModel(): FeelsLike =

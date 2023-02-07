@@ -1,5 +1,8 @@
 package com.github.odaridavid.weatherapp.ui.home
 
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -9,24 +12,38 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import coil.compose.AsyncImage
+import com.github.odaridavid.weatherapp.R
 import com.github.odaridavid.weatherapp.core.model.CurrentWeather
 import com.github.odaridavid.weatherapp.core.model.DailyWeather
 import com.github.odaridavid.weatherapp.core.model.HourlyWeather
 
 // TODO Improve UI,add loading and error UI and move hardcoded strings
 @Composable
-fun HomeScreen(state: HomeScreenViewState) {
-    Column(modifier = Modifier.verticalScroll(rememberScrollState())) {
-        state.weather?.current?.let { currentWeather ->
-            CurrentWeatherWidget(currentWeather = currentWeather)
-        }
-        state.weather?.hourly?.let { hourlytWeather ->
-            HourlyWeatherWidget(hourlyWeatherList = hourlytWeather)
-        }
-        state.weather?.daily?.let { dailyWeather ->
-            DailyWeatherWidget(dailyWeatherList = dailyWeather)
+fun HomeScreen(state: HomeScreenViewState, onSettingClicked: () -> Unit) {
+    Box(modifier = Modifier.fillMaxWidth()) {
+        Image(
+            painter = painterResource(id = R.drawable.ic_settings),
+            contentDescription = "Setting Icon",
+            modifier = Modifier
+                .clickable { onSettingClicked() }
+                .align(Alignment.TopEnd)
+                .padding(16.dp)
+        )
+        Column(modifier = Modifier.verticalScroll(rememberScrollState())) {
+            state.weather?.current?.let { currentWeather ->
+                CurrentWeatherWidget(currentWeather = currentWeather)
+            }
+            state.weather?.hourly?.let { hourlyWeather ->
+                HourlyWeatherWidget(hourlyWeatherList = hourlyWeather)
+            }
+            state.weather?.daily?.let { dailyWeather ->
+                DailyWeatherWidget(dailyWeatherList = dailyWeather)
+            }
         }
     }
 }
@@ -78,6 +95,11 @@ private fun HourlyWeatherWidget(hourlyWeatherList: List<HourlyWeather>) {
 @Composable
 private fun HourlyWeatherRow(hourlyWeather: HourlyWeather) {
     Row {
+        AsyncImage(
+            model = hourlyWeather.weather.first().icon,
+            contentDescription = hourlyWeather.weather.first().description,
+            modifier = Modifier.padding(4.dp),
+        )
         Text(
             text = "${hourlyWeather.forecastedTime}",
             modifier = Modifier.padding(4.dp),
@@ -112,6 +134,12 @@ private fun DailyWeatherWidget(dailyWeatherList: List<DailyWeather>) {
 @Composable
 private fun DailyWeatherRow(dailyWeather: DailyWeather) {
     Row {
+        // TODO Flatten the data
+        AsyncImage(
+            model = dailyWeather.weather.first().icon,
+            contentDescription = dailyWeather.weather.first().description,
+            modifier = Modifier.padding(4.dp),
+        )
         Text(
             text = "${dailyWeather.forecastedTime}",
             modifier = Modifier.padding(4.dp),
