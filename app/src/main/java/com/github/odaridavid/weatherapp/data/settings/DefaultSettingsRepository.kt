@@ -38,9 +38,8 @@ class DefaultSettingsRepository @Inject constructor(
         set(key = PREF_UNITS, value = units)
     }
 
-    override suspend fun getUnits(): Flow<String> {
-        return get(key = PREF_UNITS, default = Units.METRIC.value)
-    }
+    override suspend fun getUnits(): Flow<String> =
+        get(key = PREF_UNITS, default = Units.METRIC.value)
 
     override fun getAppVersion(): String = BuildConfig.VERSION_NAME
 

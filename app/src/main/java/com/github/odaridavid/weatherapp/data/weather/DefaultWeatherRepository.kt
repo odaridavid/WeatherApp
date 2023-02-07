@@ -1,14 +1,13 @@
 package com.github.odaridavid.weatherapp.data.weather
 
 import com.github.odaridavid.weatherapp.BuildConfig
-import com.github.odaridavid.weatherapp.core.api.SettingsRepository
 import com.github.odaridavid.weatherapp.core.model.ExcludedData
 import com.github.odaridavid.weatherapp.core.model.SupportedLanguage
-import com.github.odaridavid.weatherapp.core.model.Units
 import com.github.odaridavid.weatherapp.core.model.Weather
 import com.github.odaridavid.weatherapp.core.api.WeatherRepository
 import com.github.odaridavid.weatherapp.core.model.DefaultLocation
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
@@ -27,21 +26,22 @@ class DefaultWeatherRepository @Inject constructor(
             longitude = defaultLocation.longitude,
             latitude = defaultLocation.latitude,
             excludedInfo = excludedData,
-            units = getUnitsValue(units),
+            units = units,
             language = getLanguageValue(language),
             appid = BuildConfig.OPEN_WEATHER_API_KEY
         )
+
         if (response.isSuccessful && response.body() != null) {
             val weatherData = response.body()!!.toCoreModel()
             emit(Result.success(weatherData))
         } else {
-            emit(Result.failure(Throwable("Unexpected Error Occurred : ${response.errorBody()}")))
+            emit(Result.failure(Throwable("Error Occurred : ${response.errorBody()?.string()}")))
         }
+    }.catch {
+        emit(Result.failure(Throwable("Unexpected Error Occurred : $it")))
     }
 
-    private fun getUnitsValue(units: String) = Units.values().first { it.value == units }.value
-
-    private fun getLanguageValue(language: String) = SupportedLanguage.values()
-        .first { it.languageName == language }.languageValue
+    private fun getLanguageValue(language: String) =
+        SupportedLanguage.values().first { it.languageName == language }.languageValue
 
 }

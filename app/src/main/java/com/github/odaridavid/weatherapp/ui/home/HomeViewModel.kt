@@ -5,10 +5,10 @@ import androidx.lifecycle.viewModelScope
 import com.github.odaridavid.weatherapp.core.model.Weather
 import com.github.odaridavid.weatherapp.core.api.SettingsRepository
 import com.github.odaridavid.weatherapp.core.api.WeatherRepository
+import com.github.odaridavid.weatherapp.core.model.DefaultLocation
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -22,26 +22,33 @@ class HomeScreenViewModel @Inject constructor(
     val state: StateFlow<HomeScreenViewState> = _state
 
     init {
-        // TODO Load daily,current and  hourly differently
-        processIntent(HomeScreenIntent.LoadWeatherData)
+        viewModelScope.launch {
+            settingsRepository.getLanguage().collect { language ->
+                setState { copy(language = language) }
+            }
+        }
+        viewModelScope.launch {
+            settingsRepository.getUnits().collect { units ->
+                setState { copy(units = units) }
+            }
+        }
+        viewModelScope.launch {
+            settingsRepository.getDefaultLocation().collect { defaultLocation ->
+                setState { copy(defaultLocation = defaultLocation) }
+            }
+        }
     }
 
-    private fun processIntent(homeScreenIntent: HomeScreenIntent) {
+    fun processIntent(homeScreenIntent: HomeScreenIntent) {
         when (homeScreenIntent) {
             is HomeScreenIntent.LoadWeatherData -> {
                 viewModelScope.launch {
-                    combine(
-                        settingsRepository.getLanguage(),
-                        settingsRepository.getUnits(),
-                        settingsRepository.getDefaultLocation()
-                    ) { language, units, defaultLocation ->
-                        weatherRepository.fetchWeatherData(
-                            language = language,
-                            defaultLocation = defaultLocation,
-                            units = units
-                        ).collect { result ->
-                            processResult(result)
-                        }
+                    weatherRepository.fetchWeatherData(
+                        language = state.value.language,
+                        defaultLocation = state.value.defaultLocation,
+                        units = state.value.units
+                    ).collect { result ->
+                        processResult(result)
                     }
                 }
             }
@@ -62,7 +69,6 @@ class HomeScreenViewModel @Inject constructor(
             }
 
             result.isFailure -> {
-                // TODO Localise errors
                 setState {
                     copy(
                         isLoading = false,
@@ -83,6 +89,9 @@ class HomeScreenViewModel @Inject constructor(
 }
 
 data class HomeScreenViewState(
+    val units: String = "",
+    val defaultLocation: DefaultLocation = DefaultLocation(0.0, 0.0),
+    val language: String = "",
     val weather: Weather? = null,
     val isLoading: Boolean = false,
     val error: Throwable? = null

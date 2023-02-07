@@ -74,6 +74,8 @@ is written that makes use of fake,so as to mimic the real scenario as much as po
  - Has first class support and a tonne of modern language features to leverage on and what I use on a daily basis.
 
 **Libraries :**
+  
+
   *UI*
 - [Compose](https://developer.android.com/jetpack/compose) : Preferred way to build modern android apps,this will save us from future tech debt and brings in code cohesion by using kotlin for everything.
 
@@ -106,6 +108,13 @@ is written that makes use of fake,so as to mimic the real scenario as much as po
 9. Notification for weather alerts and current day forecast.
 10. Support for a weather widget
 11. Consume more API data once current feature set is polished i.e humidity,wind speed etc.
+12. Figure out an approach to have the excluded data part of user preferences
+13. Ability to select multiple locations
+14. Better dependency management that can be handled by scripts.
+15. Process improvements i.e PR templates/labels/issues etc.
+16. Optimize repeating partterns in the viewmodel for processing intent and result, something to keep an eye on.
+17. Look into configuration changes.
+18. Look into cache and eviction strategies.
 
 # Screenshots 📱
 
