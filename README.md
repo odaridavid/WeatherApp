@@ -117,7 +117,7 @@ is written that makes use of fake,so as to mimic the real scenario as much as po
 17. Look into cache and eviction strategies i.e make the app offline first and refresh the data after 15/30 min, Room + WorkManager combo.
 18. Handle no network available,tie in with unique exception handling.
 19. Edit default location from settings.
-20. Translate for currently supported languages.
+20. Translate for currently supported languages ,i.e strings in res and days of the week.
 21. Cater for loading and error states in Setting screen
 22. Setup Google Play Services to get location and convert Longitude/Latitude to location name
 
