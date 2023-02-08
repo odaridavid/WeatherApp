@@ -2,6 +2,8 @@ package com.github.odaridavid.weatherapp.ui.home
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.scrollable
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -25,7 +27,7 @@ import com.github.odaridavid.weatherapp.core.model.CurrentWeather
 import com.github.odaridavid.weatherapp.core.model.DailyWeather
 import com.github.odaridavid.weatherapp.core.model.HourlyWeather
 
-// TODO Improve UI,add loading and error UI and move hardcoded strings
+// TODO Add loading and Error UI
 @Composable
 fun HomeScreen(state: HomeScreenViewState, onSettingClicked: () -> Unit) {
     Column(
@@ -97,23 +99,28 @@ private fun CurrentWeatherWidget(currentWeather: CurrentWeather) {
             modifier = Modifier
                 .padding(horizontal = 16.dp)
                 .padding(vertical = 8.dp),
-            style = MaterialTheme.typography.subtitle1
+            style = MaterialTheme.typography.subtitle1,
+            color = MaterialTheme.colors.secondary
         )
     }
 }
 
 @Composable
 private fun HourlyWeatherWidget(hourlyWeatherList: List<HourlyWeather>) {
-    Column(
+    Text(
+        text = stringResource(R.string.home_today_forecast_title),
+        style = MaterialTheme.typography.subtitle1,
         modifier = Modifier
             .fillMaxWidth()
             .padding(16.dp)
+    )
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(16.dp)
+            .horizontalScroll(rememberScrollState())
     ) {
-        Text(
-            text = stringResource(R.string.home_today_forecast_title),
-            style = MaterialTheme.typography.subtitle1,
-            modifier = Modifier.padding(4.dp),
-        )
+
         for (hourlyWeather in hourlyWeatherList) {
             HourlyWeatherRow(hourlyWeather = hourlyWeather)
         }
@@ -126,18 +133,24 @@ private fun HourlyWeatherRow(hourlyWeather: HourlyWeather) {
         AsyncImage(
             model = hourlyWeather.weather.first().icon,
             contentDescription = hourlyWeather.weather.first().description,
-            modifier = Modifier.padding(4.dp),
+            modifier = Modifier
+                .padding(4.dp)
+                .align(Alignment.CenterVertically),
         )
-        Text(
-            text = hourlyWeather.forecastedTime,
-            modifier = Modifier.padding(4.dp),
-            style = MaterialTheme.typography.body2
-        )
-        Text(
-            text = hourlyWeather.temperature,
-            modifier = Modifier.padding(4.dp),
-            style = MaterialTheme.typography.body2
-        )
+        Column(modifier = Modifier
+            .padding(4.dp)
+            .align(Alignment.CenterVertically)) {
+            Text(
+                text = hourlyWeather.temperature,
+                modifier = Modifier.padding(4.dp),
+                style = MaterialTheme.typography.body2
+            )
+            Text(
+                text = hourlyWeather.forecastedTime,
+                modifier = Modifier.padding(4.dp),
+                style = MaterialTheme.typography.body2
+            )
+        }
     }
 }
 
@@ -150,8 +163,7 @@ private fun DailyWeatherWidget(dailyWeatherList: List<DailyWeather>) {
     ) {
         Text(
             text = stringResource(R.string.home_weekly_forecast_title),
-            style = MaterialTheme.typography.subtitle1,
-            modifier = Modifier.padding(4.dp),
+            style = MaterialTheme.typography.subtitle1
         )
         for (dailyWeather in dailyWeatherList) {
             DailyWeatherRow(dailyWeather = dailyWeather)
@@ -161,9 +173,11 @@ private fun DailyWeatherWidget(dailyWeatherList: List<DailyWeather>) {
 
 @Composable
 private fun DailyWeatherRow(dailyWeather: DailyWeather) {
-    Row(modifier = Modifier
-        .padding(8.dp)
-        .fillMaxWidth()) {
+    Row(
+        modifier = Modifier
+            .padding(8.dp)
+            .fillMaxWidth()
+    ) {
         // TODO Flatten the data, ui model
         AsyncImage(
             model = dailyWeather.weather.first().icon,
@@ -173,7 +187,7 @@ private fun DailyWeatherRow(dailyWeather: DailyWeather) {
                 .align(Alignment.CenterVertically),
         )
         Text(
-            text = "${dailyWeather.forecastedTime}",
+            text = dailyWeather.forecastedTime,
             modifier = Modifier
                 .padding(4.dp)
                 .align(Alignment.CenterVertically),

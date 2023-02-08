@@ -34,7 +34,7 @@ fun DailyWeatherResponse.toCoreModel(unit: String): DailyWeather =
 
 fun HourlyWeatherResponse.toCoreModel(unit: String): HourlyWeather =
     HourlyWeather(
-        forecastedTime = getDate(forecastedTime,"EEEE HH:SS"),
+        forecastedTime = getDate(forecastedTime,"HH:SS"),
         temperature = formatTemperatureValue(temperature, unit),
         weather = weather.map { it.toCoreModel() }
     )
