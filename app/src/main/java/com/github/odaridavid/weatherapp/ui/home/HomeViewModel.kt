@@ -9,6 +9,7 @@ import com.github.odaridavid.weatherapp.core.model.DefaultLocation
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -19,7 +20,7 @@ class HomeViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(HomeScreenViewState(isLoading = true))
-    val state: StateFlow<HomeScreenViewState> = _state
+    val state: StateFlow<HomeScreenViewState> = _state.asStateFlow()
 
     init {
         viewModelScope.launch {

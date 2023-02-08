@@ -24,7 +24,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    WeatherAppNavigation(
+                    WeatherAppScreensConfig(
                         navController = rememberNavController(),
                         homeViewModel = viewModel(),
                         settingsViewModel = viewModel()

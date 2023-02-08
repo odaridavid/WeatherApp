@@ -8,6 +8,7 @@
     <string name="home_weekly_forecast_title">Weekly Forecast</string>
     <string name="home_min_temp">Min %1$s</string>
     <string name="home_max_temp">Max %1$s</string>
+    <string name="home_error_occured">An issue occurred</string>
     <!-- Settings Screen-->
     <string name="settings_screen_title">Settings</string>
     <string name="settings_content_description_icon">Setting Icon</string>
@@ -15,4 +16,5 @@
     <string name="settings_unit_label">Units</string>
     <string name="settings_content_description_lang_icon">Language Icon</string>
     <string name="settings_content_description_unit_icon">Units Icon</string>
+    <string name="home_error_try_again">Try Again</string>
 </resources>

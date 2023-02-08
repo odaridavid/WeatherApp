@@ -2,7 +2,6 @@ package com.github.odaridavid.weatherapp.ui.home
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -13,6 +12,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.Button
+import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -20,6 +21,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.github.odaridavid.weatherapp.R
@@ -27,15 +29,39 @@ import com.github.odaridavid.weatherapp.core.model.CurrentWeather
 import com.github.odaridavid.weatherapp.core.model.DailyWeather
 import com.github.odaridavid.weatherapp.core.model.HourlyWeather
 
-// TODO Add loading and Error UI
 @Composable
-fun HomeScreen(state: HomeScreenViewState, onSettingClicked: () -> Unit) {
+fun HomeScreen(
+    state: HomeScreenViewState,
+    onSettingClicked: () -> Unit,
+    onTryAgainClicked: () -> Unit
+) {
     Column(
         modifier = Modifier
             .verticalScroll(rememberScrollState())
             .fillMaxSize()
     ) {
         HomeTopBar(cityName = state.locationName, onSettingClicked)
+
+        if (state.isLoading) {
+            Spacer(modifier = Modifier.weight(0.5f))
+            CircularProgressIndicator(
+                modifier = Modifier
+                    .padding(16.dp)
+                    .align(Alignment.CenterHorizontally)
+            )
+            Spacer(modifier = Modifier.weight(0.5f))
+        }
+
+        if (state.error != null) {
+            Spacer(modifier = Modifier.weight(0.5f))
+            ErrorText(
+                error = state.error,
+                modifier = Modifier.padding(16.dp)
+            ) {
+               onTryAgainClicked()
+            }
+            Spacer(modifier = Modifier.weight(0.5f))
+        }
 
         state.weather?.current?.let { currentWeather ->
             CurrentWeatherWidget(currentWeather = currentWeather)
@@ -47,7 +73,6 @@ fun HomeScreen(state: HomeScreenViewState, onSettingClicked: () -> Unit) {
             DailyWeatherWidget(dailyWeatherList = dailyWeather)
         }
     }
-
 }
 
 @Composable
@@ -137,9 +162,11 @@ private fun HourlyWeatherRow(hourlyWeather: HourlyWeather) {
                 .padding(4.dp)
                 .align(Alignment.CenterVertically),
         )
-        Column(modifier = Modifier
-            .padding(4.dp)
-            .align(Alignment.CenterVertically)) {
+        Column(
+            modifier = Modifier
+                .padding(4.dp)
+                .align(Alignment.CenterVertically)
+        ) {
             Text(
                 text = hourlyWeather.temperature,
                 modifier = Modifier.padding(4.dp),
@@ -206,5 +233,23 @@ private fun DailyWeatherRow(dailyWeather: DailyWeather) {
                 style = MaterialTheme.typography.body2
             )
         }
+    }
+}
+
+@Composable
+private fun ErrorText(error: Throwable, modifier: Modifier, onTryAgainClicked: () -> Unit) {
+
+    Text(
+        text = error.message ?: stringResource(id = R.string.home_error_occured),
+        textAlign = TextAlign.Center,
+        modifier = modifier,
+        style = MaterialTheme.typography.body1
+    )
+    Button(onClick = { onTryAgainClicked() }) {
+        Text(
+            text = stringResource(R.string.home_error_try_again),
+            style = MaterialTheme.typography.body1,
+            textAlign = TextAlign.Center
+        )
     }
 }

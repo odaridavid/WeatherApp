@@ -1,6 +1,5 @@
 package com.github.odaridavid.weatherapp.ui
 
-import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.navigation.NavHostController
@@ -16,7 +15,7 @@ import com.github.odaridavid.weatherapp.ui.settings.SettingsScreenViewState
 import com.github.odaridavid.weatherapp.ui.settings.SettingsViewModel
 
 @Composable
-fun WeatherAppNavigation(
+fun WeatherAppScreensConfig(
     navController: NavHostController,
     homeViewModel: HomeViewModel,
     settingsViewModel: SettingsViewModel
@@ -30,9 +29,11 @@ fun WeatherAppNavigation(
 
             homeViewModel.processIntent(HomeScreenIntent.LoadWeatherData)
 
-            HomeScreen(state = state) {
-                navController.navigate(Destinations.SETTINGS.route)
-            }
+            HomeScreen(
+                state = state,
+                onSettingClicked = { navController.navigate(Destinations.SETTINGS.route) },
+                onTryAgainClicked = { homeViewModel.processIntent(HomeScreenIntent.LoadWeatherData) }
+            )
         }
         composable(Destinations.SETTINGS.route) {
             val state = settingsViewModel
@@ -42,14 +43,14 @@ fun WeatherAppNavigation(
 
             settingsViewModel.processIntent(SettingsScreenIntent.LoadSettingScreenData)
 
-            SettingsScreen(state = state){
+            SettingsScreen(state = state) {
                 navController.navigate(Destinations.HOME.route)
             }
         }
     }
 }
 
-enum class Destinations(val route:String){
+enum class Destinations(val route: String) {
     HOME("home"),
     SETTINGS("settings")
 }
