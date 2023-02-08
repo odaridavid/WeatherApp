@@ -28,7 +28,7 @@ OPEN_WEATHER_ICONS_URL= http://openweathermap.org/img/wn/
 
 Check for one under  [`Api Keys`](https://home.openweathermap.org/api_keys)
 
-For now my key can be used(to be disabled later and a new one will be generated), check `sample.local.properties` ,rename or copy contents into your `local.properties`
+For now my key can be used(to be disabled later and a new one will be generated,also easier to remove from vcs history), check `sample.local.properties` ,rename or copy contents into your `local.properties`
 
 # Design/Architectural decisions 📐
 
@@ -119,6 +119,7 @@ is written that makes use of fake,so as to mimic the real scenario as much as po
 19. Edit default location from settings.
 20. Translate for currently supported languages.
 21. Cater for loading and error states in Setting screen
+22. Setup Google Play Services to get location and convert Longitude/Latitude to location name
 
 # Screenshots 📱
 

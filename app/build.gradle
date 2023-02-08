@@ -64,6 +64,9 @@ dependencies {
     implementation "androidx.datastore:datastore-preferences:1.0.0"
     implementation "androidx.lifecycle:lifecycle-viewmodel-compose:2.5.1"
 
+    // Google Play Services
+    implementation 'com.google.android.gms:play-services-location:21.0.1'
+
 
     // Data & Async
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'

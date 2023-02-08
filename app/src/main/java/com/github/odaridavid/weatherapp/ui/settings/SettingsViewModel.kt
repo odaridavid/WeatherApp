@@ -31,28 +31,28 @@ class SettingsViewModel @Inject constructor(
                 }
                 viewModelScope.launch {
                     settingsRepository.getUnits().collect { units ->
-                        setState { copy(units = units) }
+                        setState { copy(selectedUnit = units) }
                     }
                 }
                 viewModelScope.launch {
                     setState { copy(availableLanguages = settingsRepository.getAvailableLanguages()) }
                 }
                 viewModelScope.launch {
-                    setState { copy(availableLanguages = settingsRepository.getAvailableMetrics()) }
+                    setState { copy(availableUnits = settingsRepository.getAvailableMetrics()) }
                 }
             }
 
             is SettingsScreenIntent.ChangeLanguage -> {
                 viewModelScope.launch {
                     settingsRepository.setLanguage(settingsScreenIntent.selectedLanguage)
-                    setState { copy(units = settingsScreenIntent.selectedLanguage) }
+                    setState { copy(selectedLanguage = settingsScreenIntent.selectedLanguage) }
                 }
             }
 
             is SettingsScreenIntent.ChangeUnits -> {
                 viewModelScope.launch {
                     settingsRepository.setUnits(settingsScreenIntent.selectedUnits)
-                    setState { copy(units = settingsScreenIntent.selectedUnits) }
+                    setState { copy(selectedUnit = settingsScreenIntent.selectedUnits) }
                 }
             }
         }
@@ -66,10 +66,10 @@ class SettingsViewModel @Inject constructor(
 }
 
 data class SettingsScreenViewState(
-    val units: String = "",
+    val selectedUnit: String = "",
     val selectedLanguage: String = "",
     val availableLanguages: List<String> = emptyList(),
-    val availableMetrics: List<String> = emptyList(),
+    val availableUnits: List<String> = emptyList(),
     val versionInfo: String = "",
     val isLoading: Boolean = false,
     val error: Throwable? = null

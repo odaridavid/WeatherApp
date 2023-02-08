@@ -43,9 +43,20 @@ fun WeatherAppScreensConfig(
 
             settingsViewModel.processIntent(SettingsScreenIntent.LoadSettingScreenData)
 
-            SettingsScreen(state = state) {
-                navController.navigate(Destinations.HOME.route)
-            }
+            SettingsScreen(
+                state = state,
+                onBackButtonClicked = { navController.navigate(Destinations.HOME.route) },
+                onLanguageChanged = { selectedLanguage ->
+                    settingsViewModel.processIntent(
+                        SettingsScreenIntent.ChangeLanguage(
+                            selectedLanguage
+                        )
+                    )
+                },
+                onUnitChanged = { selectedUnit ->
+                    settingsViewModel.processIntent(SettingsScreenIntent.ChangeUnits(selectedUnit))
+                }
+            )
         }
     }
 }

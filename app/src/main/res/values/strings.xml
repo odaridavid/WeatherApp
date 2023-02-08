@@ -17,4 +17,5 @@
     <string name="settings_content_description_lang_icon">Language Icon</string>
     <string name="settings_content_description_unit_icon">Units Icon</string>
     <string name="home_error_try_again">Try Again</string>
+    <string name="settings_confirm">Confirm</string>
 </resources>
