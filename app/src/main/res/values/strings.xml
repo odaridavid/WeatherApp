@@ -6,6 +6,8 @@
     <string name="home_feels_like_description">Feels like %1$s</string>
     <string name="home_today_forecast_title">Today\'s Forecast</string>
     <string name="home_weekly_forecast_title">Weekly Forecast</string>
+    <string name="home_min_temp">Min %1$s</string>
+    <string name="home_max_temp">Max %1$s</string>
     <!-- Settings Screen-->
     <string name="settings_screen_title">Settings</string>
     <string name="settings_content_description_icon">Setting Icon</string>
