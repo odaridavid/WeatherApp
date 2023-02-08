@@ -112,9 +112,9 @@ is written that makes use of fake,so as to mimic the real scenario as much as po
 12. Ability to select multiple locations
 13. Better dependency management that can be handled by scripts.
 14. Process improvements i.e PR templates/labels/issues etc.
-15. Optimize repeating partterns in the viewmodel for processing intent and result, something to keep an eye on.
+15. Optimize repeating patterns in the viewmodel for processing intent and result, something to keep an eye on.
 16. Look into configuration changes.
-17. Look into cache and eviction strategies.
+17. Look into cache and eviction strategies i.e make the app offline first and refresh the data after 15/30 min, Room + WorkManager combo.
 18. Handle no network available,tie in with unique exception handling.
 19. Edit default location from settings.
 20. Translate for currently supported languages.
@@ -122,7 +122,7 @@ is written that makes use of fake,so as to mimic the real scenario as much as po
 
 # Screenshots 📱
 
-<img src="/docs/screenshots/settings.jpeg" width="300px"> <img src="" width="300px">
+<img src="/docs/screenshots/home.jpeg" width="300px"> <img src="/docs/screenshots/settings.jpeg" width="300px">
 
 
 ![](https://media.giphy.com/media/hWvk9iUU4uBBeyBq0k/giphy.gif)
