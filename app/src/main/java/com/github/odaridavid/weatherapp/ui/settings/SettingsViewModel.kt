@@ -15,7 +15,7 @@ class SettingsViewModel @Inject constructor(
     private val settingsRepository: SettingsRepository
 ) : ViewModel() {
 
-    private val _state = MutableStateFlow(SettingsScreenViewState(isLoading = true))
+    private val _state = MutableStateFlow(SettingsScreenViewState())
     val state: StateFlow<SettingsScreenViewState> = _state.asStateFlow()
 
     fun processIntent(settingsScreenIntent: SettingsScreenIntent) {
@@ -71,6 +71,5 @@ data class SettingsScreenViewState(
     val availableLanguages: List<String> = emptyList(),
     val availableUnits: List<String> = emptyList(),
     val versionInfo: String = "",
-    val isLoading: Boolean = false,
     val error: Throwable? = null
 )

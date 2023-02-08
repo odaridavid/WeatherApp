@@ -9,24 +9,14 @@ import kotlinx.coroutines.flow.flow
 
 class FakeWeatherRepository : WeatherRepository {
 
-    var isSuccessful = false
+    var isSuccessful = true
     override fun fetchWeatherData(
         defaultLocation: DefaultLocation,
         language: String,
         units: String
     ): Flow<Result<Weather>> = flow {
         if (isSuccessful){
-            emit(Result.success(
-                Weather(
-                    current = CurrentWeather(
-                        temperature = "",
-                        feelsLike = "",
-                        weather = listOf()
-                    ),
-                    hourly = listOf(),
-                    daily = listOf()
-                )
-            ))
+            emit(Result.success(fakeSuccessMappedWeatherResponse))
         }else{
             emit(Result.failure(Throwable("An Error Occurred")))
         }
