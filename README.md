@@ -28,8 +28,6 @@ OPEN_WEATHER_ICONS_URL= http://openweathermap.org/img/wn/
 
 Check for one under  [`Api Keys`](https://home.openweathermap.org/api_keys)
 
-For now my key can be used(to be disabled later and a new one will be generated,also easier to remove from vcs history), check `sample.local.properties` ,rename or copy contents into your `local.properties`
-
 # Design/Architectural decisions 📐
 
 The project makes use of common android patterns in modern android codebases.
@@ -95,31 +93,6 @@ is written that makes use of fake,so as to mimic the real scenario as much as po
    *Tooling/Project setup*
 - [Gradle secrets plugin](https://github.com/google/secrets-gradle-plugin) : Helps prevent checking secrets into vcs.
 - [Hilt(DI)](https://developer.android.com/training/dependency-injection/hilt-android) : Easier to use than Dagger and less stressing about manually wiring your modules.
-
-# Things I would have loved to do/On the RoadMap 💙
-
-1. Time formatting i.e current time, 12hr / 24hr system.
-2. Split debug and release build i.e Better app icon for debug and release and other environment settings.
-3. Integrate CI Pipeline with lint checks,code formatting and code signing
-4. Better issue observability i.e logging errors on a dashboard somewhere and following user session journeys.
-5. Fine grained error handling for API errors.
-6. Setup for performance monitoring i.e Baseline Profiles, Memory Check i.e leak canary etc.
-7. Add a splash screen.
-8. Notification for weather alerts and current day forecast.
-9. Support for a weather widget
-10. Consume more API data once current feature set is polished i.e humidity,wind speed etc.
-11. Figure out an approach to have the excluded data part of user preferences
-12. Ability to select multiple locations
-13. Better dependency management that can be handled by scripts.
-14. Process improvements i.e PR templates/labels/issues etc.
-15. Optimize repeating patterns in the viewmodel for processing intent and result, something to keep an eye on.
-16. Look into configuration changes.
-17. Look into cache and eviction strategies i.e make the app offline first and refresh the data after 15/30 min, Room + WorkManager combo.
-18. Handle no network available,tie in with unique exception handling.
-19. Edit default location from settings.
-20. Translate for currently supported languages ,i.e strings in res and days of the week.
-21. Cater for loading and error states in Setting screen
-22. Setup Google Play Services to get location and convert Longitude/Latitude to location name
 
 # Screenshots 📱
 
