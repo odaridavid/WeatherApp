@@ -55,6 +55,11 @@ fun WeatherAppScreensConfig(
                 },
                 onUnitChanged = { selectedUnit ->
                     settingsViewModel.processIntent(SettingsScreenIntent.ChangeUnits(selectedUnit))
+                },
+                onTimeFormatChanged = { selectedFormat ->
+                    settingsViewModel.processIntent(
+                        SettingsScreenIntent.ChangeTimeFormat(selectedFormat)
+                    )
                 }
             )
         }

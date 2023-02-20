@@ -8,6 +8,7 @@ import com.github.odaridavid.weatherapp.BuildConfig
 import com.github.odaridavid.weatherapp.core.api.SettingsRepository
 import com.github.odaridavid.weatherapp.core.model.DefaultLocation
 import com.github.odaridavid.weatherapp.core.model.SupportedLanguage
+import com.github.odaridavid.weatherapp.core.model.TimeFormat
 import com.github.odaridavid.weatherapp.core.model.Units
 import com.github.odaridavid.weatherapp.data.dataStore
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -21,6 +22,7 @@ class DefaultSettingsRepository @Inject constructor(
 
     private val PREF_LANGUAGE by lazy { stringPreferencesKey("language") }
     private val PREF_UNITS by lazy { stringPreferencesKey("units") }
+    private val TIME_FORMAT by lazy { stringPreferencesKey("time_formats") }
     private val PREF_LAT_LNG by lazy { stringPreferencesKey("lat_lng") }
 
     //Düsseldorf
@@ -41,7 +43,8 @@ class DefaultSettingsRepository @Inject constructor(
     override suspend fun getUnits(): Flow<String> =
         get(key = PREF_UNITS, default = Units.METRIC.value)
 
-    override fun getAppVersion(): String = "Version : ${BuildConfig.VERSION_NAME}-${BuildConfig.BUILD_TYPE}"
+    override fun getAppVersion(): String =
+        "Version : ${BuildConfig.VERSION_NAME}-${BuildConfig.BUILD_TYPE}"
 
     override fun getAvailableLanguages(): List<String> =
         SupportedLanguage.values().map { it.languageName }
@@ -60,6 +63,18 @@ class DefaultSettingsRepository @Inject constructor(
             val latLngList = latlng.split("/").map { it.toDouble() }
             DefaultLocation(latitude = latLngList[0], longitude = latLngList[1])
         }
+    }
+
+    override suspend fun getFormat(): Flow<String> =
+        get(key = TIME_FORMAT, default = TimeFormat.TWENTY_FOUR_HOUR.name)
+
+
+    override suspend fun setFormat(format: TimeFormat) {
+        set(key = TIME_FORMAT, value = format.name)
+    }
+
+    override fun getFormats(): List<TimeFormat> {
+       return TimeFormat.values().toList()
     }
 
     private suspend fun <T> set(key: Preferences.Key<T>, value: T) {

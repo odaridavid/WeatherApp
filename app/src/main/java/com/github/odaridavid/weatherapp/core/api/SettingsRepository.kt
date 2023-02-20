@@ -1,6 +1,7 @@
 package com.github.odaridavid.weatherapp.core.api
 
 import com.github.odaridavid.weatherapp.core.model.DefaultLocation
+import com.github.odaridavid.weatherapp.core.model.TimeFormat
 import kotlinx.coroutines.flow.Flow
 
 interface SettingsRepository {
@@ -21,4 +22,11 @@ interface SettingsRepository {
     suspend fun setDefaultLocation(defaultLocation: DefaultLocation)
 
     suspend fun getDefaultLocation(): Flow<DefaultLocation>
+
+    suspend fun getFormat(): Flow<String>
+
+    suspend fun setFormat(format: TimeFormat)
+
+    fun getFormats() : List<TimeFormat>
+
 }
