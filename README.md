@@ -68,31 +68,30 @@ is written that makes use of fake,so as to mimic the real scenario as much as po
 
 # Technologies 🔨
 
-**Language :** Kotlin
- - Has first class support and a tonne of modern language features to leverage on and what I use on a daily basis.
+**Language :** [Kotlin](https://github.com/JetBrains/kotlin)
 
 **Libraries :**
-  
 
   *UI*
-- [Compose](https://developer.android.com/jetpack/compose) : Preferred way to build modern android apps,this will save us from future tech debt and brings in code cohesion by using kotlin for everything.
-- [Coil](https://coil-kt.github.io/coil/compose/https://coil-kt.github.io/coil/compose/) : Light Image loading library, convenient for Kotlin and compose.
+- [Compose](https://developer.android.com/jetpack/compose)
+- [Coil](https://coil-kt.github.io/coil/compose/https://coil-kt.github.io/coil/compose/) 
 
   *Data*
-- [Retrofit](https://square.github.io/retrofit/) : Familiarity and battle tested in many apps with RESTful APIS.
+- [Retrofit](https://square.github.io/retrofit/)
 - [OkHTTP](https://square.github.io/okhttp/)
-- [kotlinx.serialization](https://kotlinlang.org/docs/serialization.html) : Has jetbrains support hence blends in seamlessly with Kotlin.
-- [Preference Data Store](https://developer.android.com/topic/libraries/architecture/datastore) : For settings screen key - value pairs
+- [kotlinx.serialization](https://kotlinlang.org/docs/serialization.html)
+- [Preference Data Store](https://developer.android.com/topic/libraries/architecture/datastore) 
 
    *Testing*
 - [Junit](https://junit.org/junit4/)
-- [Mockk](https://mockk.io/) : Mocking library that works well with Kotlin.
-- [Truth](https://truth.dev/) : Better assertions and better than vanilla junit assertions on objects.
-- [Turbine](https://github.com/cashapp/turbine) : For easier testing of flows.
+- [Mockk](https://mockk.io/) 
+- [Truth](https://truth.dev/)
+- [Turbine](https://github.com/cashapp/turbine)
 
    *Tooling/Project setup*
-- [Gradle secrets plugin](https://github.com/google/secrets-gradle-plugin) : Helps prevent checking secrets into vcs.
-- [Hilt(DI)](https://developer.android.com/training/dependency-injection/hilt-android) : Easier to use than Dagger and less stressing about manually wiring your modules.
+- [Gradle secrets plugin](https://github.com/google/secrets-gradle-plugin)
+- [Hilt(DI)](https://developer.android.com/training/dependency-injection/hilt-android)
+
 
 # Screenshots 📱
 
