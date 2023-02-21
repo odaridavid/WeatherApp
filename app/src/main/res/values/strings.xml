@@ -20,4 +20,8 @@
     <string name="settings_content_description_time_icon">Time Icon</string>
     <string name="home_error_try_again">Try Again</string>
     <string name="settings_confirm">Confirm</string>
+    <!--  Time Format  -->
+    <string name="time_format_24_hour_display">24 Hour (2400 hrs)</string>
+    <string name="time_format_12_hour_display">12 Hour (AM/PM)</string>
+
 </resources>

@@ -75,7 +75,7 @@ fun SettingsScreen(
         val openTimeFormatSelectionDialog = remember { mutableStateOf(false) }
         SettingOptionRow(
             optionLabel = stringResource(R.string.settings_time_format),
-            optionValue = state.selectedTimeFormat.displayName,
+            optionValue = stringResource(state.selectedTimeFormat.displayName),
             optionIcon = R.drawable.baseline_access_time_24,
             optionIconContentDescription = stringResource(R.string.settings_content_description_time_icon)
         ) {
@@ -207,7 +207,7 @@ fun SettingsScreen(
                                         onClick = { onOptionSelected(text) }
                                     )
                                     Text(
-                                        text = text.displayName,
+                                        text = stringResource(text.displayName),
                                         style = MaterialTheme.typography.body1.merge(),
                                         modifier = Modifier.padding(start = 16.dp)
                                     )
