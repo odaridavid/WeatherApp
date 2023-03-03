@@ -1,5 +1,7 @@
 ### Weather App
 
+[![Build Status](https://app.bitrise.io/app/80f9b4627fc90757/status.svg?token=3KnRQl0WRfDT5UTzPDiRgA&branch=develop)](https://app.bitrise.io/app/80f9b4627fc90757)
+
 *Summary*
 
 A simple weather app that gets your location and displays the forecast for the current day and a few days after that.
