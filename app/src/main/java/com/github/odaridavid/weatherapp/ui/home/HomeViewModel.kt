@@ -74,7 +74,6 @@ class HomeViewModel @Inject constructor(
                     copy(
                         isLoading = false,
                         error = result.exceptionOrNull()
-                            ?: Throwable("Unknown error occurred")
                     )
                 }
             }
