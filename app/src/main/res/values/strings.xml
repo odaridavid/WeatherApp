@@ -18,4 +18,9 @@
     <string name="settings_content_description_unit_icon">Units Icon</string>
     <string name="home_error_try_again">Try Again</string>
     <string name="settings_confirm">Confirm</string>
+    <string name="location_rationale_title">Permission Request</string>
+    <string name="location_rationale_description">Hey there, we need location permission to show you relevant / accurate weather information.</string>
+    <string name="location_rationale_button_grant">Grant Permission</string>
+    <string name="location_rationale_button_deny">Deny Permission</string>
+    <string name="location_no_permission_screen_description">You need to grant location access to use the app</string>
 </resources>
