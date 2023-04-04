@@ -46,24 +46,12 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    val showWeatherUI = remember { mutableStateOf(false) }
                     CheckForPermissions(
                         onPermissionGranted = {
                             mainViewModel.processIntent(MainViewIntent.GrantPermission(isGranted = true))
                         },
                         onPermissionDenied = {
-                            if (shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_COARSE_LOCATION)) {
-                                val isDialogShown = remember { mutableStateOf(true) }
-                                if (isDialogShown.value) {
-                                    PermissionRationaleDialog(
-                                        isDialogShown,
-                                        activityPermissionResult,
-                                        showWeatherUI
-                                    )
-                                }
-                            } else {
-                                activityPermissionResult.launch(Manifest.permission.ACCESS_COARSE_LOCATION)
-                            }
+                            OnPermissionDenied(activityPermissionResult)
                         }
                     )
 
