@@ -7,6 +7,7 @@ import android.content.pm.PackageManager
 import androidx.activity.result.ActivityResultLauncher
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.AlertDialog
 import androidx.compose.material.Button
@@ -55,7 +56,11 @@ fun PermissionRationaleDialog(
 
 @Composable
 fun RequiresPermissionsScreen() {
-    Column {
+    Column(
+        Modifier
+            .fillMaxWidth()
+            .padding(16.dp)
+    ) {
         Spacer(modifier = Modifier.weight(0.5f))
         Text(
             text = stringResource(R.string.location_no_permission_screen_description),
@@ -101,5 +106,23 @@ fun Activity.OnPermissionDenied(
         }
     } else {
         activityPermissionResult.launch(Manifest.permission.ACCESS_COARSE_LOCATION)
+    }
+}
+
+@Composable
+fun CheckLocationSettings() {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(16.dp)
+    ) {
+        Spacer(modifier = Modifier.weight(0.5f))
+        Text(
+            text = stringResource(R.string.location_check_location_settings),
+            modifier = Modifier
+                .padding(16.dp)
+                .align(Alignment.CenterHorizontally)
+        )
+        Spacer(modifier = Modifier.weight(0.5f))
     }
 }

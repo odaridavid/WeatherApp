@@ -1,5 +1,6 @@
 package com.github.odaridavid.weatherapp.ui
 
+import android.app.Activity
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -19,13 +20,25 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
+    private val mainViewModel: MainViewModel by viewModels()
+    val locationSettingsResult =
+        registerForActivityResult(ActivityResultContracts.StartIntentSenderForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                mainViewModel.processIntent(MainViewIntent.CheckLocationEnabled(isPossible = true))
+            } else {
+                mainViewModel.processIntent(MainViewIntent.CheckLocationEnabled(isPossible = false))
+            }
+        }
+    private val activityPermissionResult =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
+            mainViewModel.processIntent(MainViewIntent.GrantPermission(isGranted = isGranted))
+        }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val mainViewModel: MainViewModel by viewModels()
-        val activityPermissionResult =
-            registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
-                mainViewModel.processIntent(MainViewIntent.GrantPermission(isGranted = isGranted))
-            }
+        createLocationRequest(this@MainActivity,locationSettingsResult){
+            mainViewModel.processIntent(MainViewIntent.CheckLocationEnabled(isPossible = true))
+        }
 
         setContent {
             val state = mainViewModel.state.collectAsState().value
@@ -44,14 +57,22 @@ class MainActivity : ComponentActivity() {
                         }
                     )
 
-                    if (state.isPermissionGranted) {
-                        WeatherAppScreensConfig(
-                            navController = rememberNavController(),
-                            homeViewModel = viewModel(),
-                            settingsViewModel = viewModel()
-                        )
-                    } else {
-                        RequiresPermissionsScreen()
+                    when {
+                        state.isPermissionGranted && state.canFetchLocation -> {
+                            WeatherAppScreensConfig(
+                                navController = rememberNavController(),
+                                homeViewModel = viewModel(),
+                                settingsViewModel = viewModel()
+                            )
+                        }
+                        !state.isPermissionGranted && state.canFetchLocation -> {
+                            RequiresPermissionsScreen()
+                        }
+                        state.isPermissionGranted && !state.canFetchLocation -> {
+                            CheckLocationSettings()
+                        }
+                        else -> RequiresPermissionsScreen()
+
                     }
                 }
             }
