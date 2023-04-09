@@ -23,4 +23,5 @@
     <string name="location_rationale_button_grant">Grant Permission</string>
     <string name="location_rationale_button_deny">Deny Permission</string>
     <string name="location_no_permission_screen_description">You need to grant location access to use the app</string>
+    <string name="location_settings_not_enabled">Check your location settings and enable them</string>
 </resources>
