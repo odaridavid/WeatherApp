@@ -1,42 +1,61 @@
 package com.github.odaridavid.weatherapp.ui
 
-import android.Manifest
-import android.content.pm.PackageManager
+import android.app.Activity
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.IntentSenderRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material.*
-import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Surface
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
-import androidx.core.content.ContextCompat
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.rememberNavController
 import com.github.odaridavid.weatherapp.MainViewIntent
 import com.github.odaridavid.weatherapp.MainViewModel
-import com.github.odaridavid.weatherapp.R
+import com.github.odaridavid.weatherapp.MainViewState
 import com.github.odaridavid.weatherapp.ui.theme.WeatherAppTheme
+import com.google.android.gms.common.api.ApiException
+import com.google.android.gms.common.api.ResolvableApiException
+import com.google.android.gms.location.LocationRequest
+import com.google.android.gms.location.LocationServices
+import com.google.android.gms.location.LocationSettingsRequest
+import com.google.android.gms.location.LocationSettingsResponse
+import com.google.android.gms.location.LocationSettingsStatusCodes
+import com.google.android.gms.location.Priority
+import com.google.android.gms.tasks.Task
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
+    private val mainViewModel: MainViewModel by viewModels()
+    private val locationRequestLauncher =
+        registerForActivityResult(ActivityResultContracts.StartIntentSenderForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                mainViewModel.processIntent(MainViewIntent.CheckLocationSettings(isEnabled = true))
+            } else {
+                mainViewModel.processIntent(MainViewIntent.CheckLocationSettings(isEnabled = false))
+            }
+        }
+    private val permissionRequestLauncher =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
+            mainViewModel.processIntent(MainViewIntent.GrantPermission(isGranted = isGranted))
+        }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val mainViewModel: MainViewModel by viewModels()
-        val activityPermissionResult =
-            registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
-                mainViewModel.processIntent(MainViewIntent.GrantPermission(isGranted = isGranted))
-            }
+
+        createLocationRequest(
+            activity = this@MainActivity,
+            locationRequestLauncher = locationRequestLauncher
+        ) {
+            mainViewModel.processIntent(MainViewIntent.CheckLocationSettings(isEnabled = true))
+        }
 
         setContent {
             val state = mainViewModel.state.collectAsState().value
@@ -46,101 +65,38 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    val showWeatherUI = remember { mutableStateOf(false) }
                     CheckForPermissions(
                         onPermissionGranted = {
                             mainViewModel.processIntent(MainViewIntent.GrantPermission(isGranted = true))
                         },
                         onPermissionDenied = {
-                            if (shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_COARSE_LOCATION)) {
-                                val isDialogShown = remember { mutableStateOf(true) }
-                                if (isDialogShown.value) {
-                                    PermissionRationaleDialog(
-                                        isDialogShown,
-                                        activityPermissionResult,
-                                        showWeatherUI
-                                    )
-                                }
-                            } else {
-                                activityPermissionResult.launch(Manifest.permission.ACCESS_COARSE_LOCATION)
-                            }
+                            OnPermissionDenied(activityPermissionResult = permissionRequestLauncher)
                         }
                     )
 
-                    if (state.isPermissionGranted) {
-                        WeatherAppScreensConfig(
-                            navController = rememberNavController(),
-                            homeViewModel = viewModel(),
-                            settingsViewModel = viewModel()
-                        )
-                    } else {
-                        RequiresPermissionsScreen()
-                    }
+                    InitMainScreen(state)
                 }
             }
         }
     }
 
     @Composable
-    private fun PermissionRationaleDialog(
-        isDialogShown: MutableState<Boolean>,
-        activityPermissionResult: ActivityResultLauncher<String>,
-        showWeatherUI: MutableState<Boolean>
-    ) {
-        AlertDialog(
-            onDismissRequest = { isDialogShown.value = false },
-            title = {
-                Text(text = getString(R.string.location_rationale_title))
-            },
-            text = {
-                Text(text = getString(R.string.location_rationale_description))
-            },
-            buttons = {
-                Button(onClick = {
-                    isDialogShown.value = false
-                    activityPermissionResult.launch(Manifest.permission.ACCESS_COARSE_LOCATION)
-                }) {
-                    Text(text = getString(R.string.location_rationale_button_grant))
-                }
-                Button(onClick = {
-                    isDialogShown.value = false
-                    showWeatherUI.value = false
-                }) {
-                    Text(text = getString(R.string.location_rationale_button_deny))
-                }
+    private fun InitMainScreen(state: MainViewState) {
+        when {
+            state.isLocationSettingEnabled && state.isPermissionGranted -> {
+                WeatherAppScreensConfig(
+                    navController = rememberNavController(),
+                    homeViewModel = viewModel(),
+                    settingsViewModel = viewModel()
+                )
             }
-        )
-    }
-
-    @Composable
-    private fun RequiresPermissionsScreen() {
-        Column {
-            Spacer(modifier = Modifier.weight(0.5f))
-            Text(
-                text = stringResource(R.string.location_no_permission_screen_description),
-                modifier = Modifier
-                    .padding(16.dp)
-                    .align(Alignment.CenterHorizontally)
-            )
-            Spacer(modifier = Modifier.weight(0.5f))
-        }
-    }
-
-    @Composable
-    private fun CheckForPermissions(
-        onPermissionGranted: @Composable () -> Unit,
-        onPermissionDenied: @Composable () -> Unit
-    ) {
-        when (ContextCompat.checkSelfPermission(
-            this,
-            Manifest.permission.ACCESS_COARSE_LOCATION
-        )) {
-            PackageManager.PERMISSION_GRANTED -> {
-                onPermissionGranted()
+            state.isLocationSettingEnabled && !state.isPermissionGranted -> {
+                RequiresPermissionsScreen()
             }
-            PackageManager.PERMISSION_DENIED -> {
-                onPermissionDenied()
+            !state.isLocationSettingEnabled && !state.isPermissionGranted -> {
+                EnableLocationSettingScreen()
             }
+            else -> RequiresPermissionsScreen()
         }
     }
 }
