@@ -1,10 +1,10 @@
 package com.github.odaridavid.weatherapp.ui
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.activity.result.IntentSenderRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.compose.foundation.layout.fillMaxSize
@@ -19,15 +19,8 @@ import com.github.odaridavid.weatherapp.MainViewIntent
 import com.github.odaridavid.weatherapp.MainViewModel
 import com.github.odaridavid.weatherapp.MainViewState
 import com.github.odaridavid.weatherapp.ui.theme.WeatherAppTheme
-import com.google.android.gms.common.api.ApiException
-import com.google.android.gms.common.api.ResolvableApiException
-import com.google.android.gms.location.LocationRequest
+import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
-import com.google.android.gms.location.LocationSettingsRequest
-import com.google.android.gms.location.LocationSettingsResponse
-import com.google.android.gms.location.LocationSettingsStatusCodes
-import com.google.android.gms.location.Priority
-import com.google.android.gms.tasks.Task
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -47,6 +40,7 @@ class MainActivity : ComponentActivity() {
             mainViewModel.processIntent(MainViewIntent.GrantPermission(isGranted = isGranted))
         }
 
+    private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -57,14 +51,17 @@ class MainActivity : ComponentActivity() {
             mainViewModel.processIntent(MainViewIntent.CheckLocationSettings(isEnabled = true))
         }
 
+        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
+
         setContent {
-            val state = mainViewModel.state.collectAsState().value
 
             WeatherAppTheme {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
+                    val state = mainViewModel.state.collectAsState().value
+
                     CheckForPermissions(
                         onPermissionGranted = {
                             mainViewModel.processIntent(MainViewIntent.GrantPermission(isGranted = true))
@@ -80,10 +77,20 @@ class MainActivity : ComponentActivity() {
         }
     }
 
+    @SuppressLint("MissingPermission")
     @Composable
     private fun InitMainScreen(state: MainViewState) {
         when {
             state.isLocationSettingEnabled && state.isPermissionGranted -> {
+                fusedLocationProviderClient.lastLocation
+                    .addOnSuccessListener { location ->
+                        mainViewModel.processIntent(
+                            MainViewIntent.ReceiveLocation(
+                                longitude = location.longitude,
+                                latitude = location.latitude
+                            )
+                        )
+                    }
                 WeatherAppScreensConfig(
                     navController = rememberNavController(),
                     homeViewModel = viewModel(),
