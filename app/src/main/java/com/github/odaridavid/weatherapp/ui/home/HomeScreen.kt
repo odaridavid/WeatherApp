@@ -4,6 +4,7 @@ import androidx.annotation.StringRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -90,7 +91,7 @@ private fun HomeTopBar(cityName: String, onSettingClicked: () -> Unit) {
         )
         Spacer(modifier = Modifier.weight(1.0f))
         Image(
-            painter = painterResource(id = R.drawable.ic_settings),
+            painter = painterResource(id = if (isSystemInDarkTheme()) R.drawable.ic_settings_dark else R.drawable.ic_settings),
             contentDescription = stringResource(R.string.home_content_description_setting_icon),
             modifier = Modifier
                 .defaultMinSize(40.dp)
