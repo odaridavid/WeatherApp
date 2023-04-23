@@ -254,8 +254,6 @@ class WeatherRepositoryUnitTest {
         }
     }
 
-
-
     private fun createWeatherRepository(): WeatherRepository = DefaultWeatherRepository(
         openWeatherService = mockOpenWeatherService
     )
