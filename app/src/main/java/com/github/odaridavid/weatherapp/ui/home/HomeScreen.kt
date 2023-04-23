@@ -243,18 +243,24 @@ private fun ErrorText(
     modifier: Modifier,
     onTryAgainClicked: () -> Unit
 ) {
-
-    Text(
-        text = stringResource(id = errorMessageId),
-        textAlign = TextAlign.Center,
-        modifier = modifier,
-        style = MaterialTheme.typography.body1
-    )
-    Button(onClick = { onTryAgainClicked() }) {
+    Column(modifier = Modifier.fillMaxWidth()) {
         Text(
-            text = stringResource(R.string.home_error_try_again),
-            style = MaterialTheme.typography.body1,
-            textAlign = TextAlign.Center
+            text = stringResource(id = errorMessageId),
+            textAlign = TextAlign.Center,
+            modifier = modifier.align(Alignment.CenterHorizontally),
+            style = MaterialTheme.typography.body1
         )
+        Button(
+            onClick = { onTryAgainClicked() },
+            modifier = Modifier
+                .padding(16.dp)
+                .align(Alignment.CenterHorizontally)
+        ) {
+            Text(
+                text = stringResource(R.string.home_error_try_again),
+                style = MaterialTheme.typography.body1,
+                textAlign = TextAlign.Center
+            )
+        }
     }
 }
