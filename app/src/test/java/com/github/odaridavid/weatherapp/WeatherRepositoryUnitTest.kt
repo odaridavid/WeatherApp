@@ -15,6 +15,7 @@ import kotlinx.coroutines.runBlocking
 import okhttp3.ResponseBody.Companion.toResponseBody
 import org.junit.Test
 import retrofit2.Response
+import java.io.IOException
 
 class WeatherRepositoryUnitTest {
 
@@ -157,7 +158,6 @@ class WeatherRepositoryUnitTest {
         }
     }
 
-
     @Test
     fun `when we fetch weather data and a generic error occurs, then a generic error is emitted`() = runBlocking {
         coEvery {
@@ -191,6 +191,70 @@ class WeatherRepositoryUnitTest {
             awaitComplete()
         }
     }
+
+    @Test
+    fun `when we fetch weather data and an IOException is thrown, then a connection error is emitted`() = runBlocking {
+        coEvery {
+            mockOpenWeatherService.getWeatherData(
+                any(),
+                any(),
+                any(),
+                any(),
+                any(),
+                any()
+            )
+        } throws IOException()
+
+        val weatherRepository = createWeatherRepository()
+
+        weatherRepository.fetchWeatherData(
+            defaultLocation = DefaultLocation(
+                longitude = 10.0,
+                latitude = 12.90
+            ),
+            language = "English",
+            units = "metric"
+        ).test {
+            awaitItem().also { result ->
+                Truth.assertThat(result).isInstanceOf(ApiResult.Error::class.java)
+                Truth.assertThat((result as ApiResult.Error).messageId).isEqualTo(R.string.error_connection)
+            }
+            awaitComplete()
+        }
+    }
+
+    @Test
+    fun `when we fetch weather data and an unknown Exception is thrown, then a generic error is emitted`() = runBlocking {
+        coEvery {
+            mockOpenWeatherService.getWeatherData(
+                any(),
+                any(),
+                any(),
+                any(),
+                any(),
+                any()
+            )
+        } throws Exception()
+
+        val weatherRepository = createWeatherRepository()
+
+        weatherRepository.fetchWeatherData(
+            defaultLocation = DefaultLocation(
+                longitude = 10.0,
+                latitude = 12.90
+            ),
+            language = "English",
+            units = "metric"
+        ).test {
+            awaitItem().also { result ->
+                Truth.assertThat(result).isInstanceOf(ApiResult.Error::class.java)
+                Truth.assertThat((result as ApiResult.Error).messageId).isEqualTo(R.string.error_generic)
+            }
+            awaitComplete()
+        }
+    }
+
+
 
     private fun createWeatherRepository(): WeatherRepository = DefaultWeatherRepository(
         openWeatherService = mockOpenWeatherService
