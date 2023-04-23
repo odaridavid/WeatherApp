@@ -24,7 +24,7 @@ fun WeatherAppScreensConfig(
         composable(Destinations.HOME.route) {
             val state = homeViewModel
                 .state
-                .collectAsState(initial = HomeScreenViewState())
+                .collectAsState()
                 .value
 
             homeViewModel.processIntent(HomeScreenIntent.LoadWeatherData)

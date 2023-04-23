@@ -1,5 +1,6 @@
 package com.github.odaridavid.weatherapp.ui.home
 
+import androidx.annotation.StringRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
@@ -52,13 +53,13 @@ fun HomeScreen(
             Spacer(modifier = Modifier.weight(0.5f))
         }
 
-        if (state.error != null) {
+        if (state.errorMessageId != null) {
             Spacer(modifier = Modifier.weight(0.5f))
             ErrorText(
-                error = state.error,
+                errorMessageId = state.errorMessageId,
                 modifier = Modifier.padding(16.dp)
             ) {
-               onTryAgainClicked()
+                onTryAgainClicked()
             }
             Spacer(modifier = Modifier.weight(0.5f))
         }
@@ -237,10 +238,14 @@ private fun DailyWeatherRow(dailyWeather: DailyWeather) {
 }
 
 @Composable
-private fun ErrorText(error: Throwable, modifier: Modifier, onTryAgainClicked: () -> Unit) {
+private fun ErrorText(
+    @StringRes errorMessageId: Int,
+    modifier: Modifier,
+    onTryAgainClicked: () -> Unit
+) {
 
     Text(
-        text = error.message ?: stringResource(id = R.string.home_error_occured),
+        text = stringResource(id = errorMessageId),
         textAlign = TextAlign.Center,
         modifier = modifier,
         style = MaterialTheme.typography.body1
