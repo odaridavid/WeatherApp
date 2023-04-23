@@ -3,75 +3,145 @@ package com.github.odaridavid.weatherapp
 import app.cash.turbine.test
 import com.github.odaridavid.weatherapp.core.api.SettingsRepository
 import com.github.odaridavid.weatherapp.core.api.WeatherRepository
+import com.github.odaridavid.weatherapp.core.model.DefaultLocation
+import com.github.odaridavid.weatherapp.data.weather.DefaultWeatherRepository
+import com.github.odaridavid.weatherapp.data.weather.OpenWeatherService
+import com.github.odaridavid.weatherapp.data.weather.WeatherResponse
 import com.github.odaridavid.weatherapp.ui.home.HomeScreenIntent
+import com.github.odaridavid.weatherapp.ui.home.HomeScreenViewState
 import com.github.odaridavid.weatherapp.ui.home.HomeViewModel
+import com.google.common.truth.Truth
+import io.mockk.coEvery
+import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.runBlocking
+import okhttp3.ResponseBody.Companion.toResponseBody
 import org.junit.Rule
 import org.junit.Test
+import retrofit2.Response
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class HomeViewModelIntegrationTest {
 
-    private val weatherRepository = FakeWeatherRepository()
     private val settingsRepository = FakeSettingsRepository()
+
+    @MockK
+    val mockOpenWeatherService = mockk<OpenWeatherService>(relaxed = true)
 
     @get:Rule
     val coroutineRule = MainCoroutineRule()
 
     @Test
     fun `when fetching weather data is successful, then display correct data`() = runBlocking {
-        weatherRepository.isSuccessful = true
+        coEvery {
+            mockOpenWeatherService.getWeatherData(
+                any(),
+                any(),
+                any(),
+                any(),
+                any(),
+                any()
+            )
+        } returns Response.success<WeatherResponse>(
+            fakeSuccessWeatherResponse
+        )
 
-        val viewModel = createViewModel()
+        val weatherRepository = DefaultWeatherRepository(openWeatherService = mockOpenWeatherService)
+
+        val viewModel = createViewModel(weatherRepository = weatherRepository)
 
         viewModel.processIntent(HomeScreenIntent.LoadWeatherData)
 
+        val expectedState = HomeScreenViewState(
+            units = "metric",
+            defaultLocation = DefaultLocation(
+                longitude = 0.0,
+                latitude = 0.0
+            ),
+            locationName = "-",
+            language = "English",
+            weather = fakeSuccessMappedWeatherResponse,
+            isLoading = false,
+            errorMessageId = null
+        )
+
         viewModel.state.test {
             awaitItem().also { state ->
-                assert(!state.isLoading)
-                assert(state.language == "English")
-                assert(state.units == "metric")
-                assert(state.weather == fakeSuccessMappedWeatherResponse)
+                Truth.assertThat(state).isEqualTo(expectedState)
             }
         }
     }
 
     @Test
     fun `when fetching weather data is unsuccessful, then display correct error state`() = runBlocking {
-        weatherRepository.isSuccessful = false
+        coEvery {
+            mockOpenWeatherService.getWeatherData(
+                any(),
+                any(),
+                any(),
+                any(),
+                any(),
+                any()
+            )
+        } returns Response.error<WeatherResponse>(
+            404,
+            "{}".toResponseBody()
+        )
 
-        val viewModel = createViewModel()
+        val weatherRepository = DefaultWeatherRepository(openWeatherService = mockOpenWeatherService)
+
+        val viewModel = createViewModel(weatherRepository = weatherRepository)
 
         viewModel.processIntent(HomeScreenIntent.LoadWeatherData)
 
+        val expectedState = HomeScreenViewState(
+            units = "metric",
+            defaultLocation = DefaultLocation(
+                longitude = 0.0,
+                latitude = 0.0
+            ),
+            locationName = "-",
+            language = "English",
+            weather = null,
+            isLoading = false,
+            errorMessageId = R.string.error_client
+        )
+
         viewModel.state.test {
             awaitItem().also { state ->
-                println(state)
-                assert(!state.isLoading)
-                assert(state.language == "English")
-                assert(state.units == "metric")
-                assert(state.weather == null)
-                assert(state.error != null)
+                Truth.assertThat(state).isEqualTo(expectedState)
             }
         }
     }
 
     @Test
     fun `when we init the screen, then update the state`() = runBlocking {
-        val viewModel = createViewModel()
+        val weatherRepository = DefaultWeatherRepository(openWeatherService = mockOpenWeatherService)
+
+        val viewModel = createViewModel(weatherRepository = weatherRepository)
+
+        val expectedState = HomeScreenViewState(
+            units = "metric",
+            defaultLocation = DefaultLocation(
+                longitude = 0.0,
+                latitude = 0.0
+            ),
+            locationName = "-",
+            language = "English",
+            weather = null,
+            isLoading = true,
+            errorMessageId = null
+        )
 
         viewModel.state.test {
             awaitItem().also { state ->
-                assert(state.isLoading)
-                assert(state.language == "English")
-                assert(state.units == "metric")
+                Truth.assertThat(state).isEqualTo(expectedState)
             }
         }
     }
 
-    private fun createViewModel(): HomeViewModel = HomeViewModel(
+    private fun createViewModel(weatherRepository:WeatherRepository): HomeViewModel = HomeViewModel(
         weatherRepository = weatherRepository,
         settingsRepository = settingsRepository
     )

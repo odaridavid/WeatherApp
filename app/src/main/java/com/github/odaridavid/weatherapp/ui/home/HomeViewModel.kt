@@ -1,11 +1,13 @@
 package com.github.odaridavid.weatherapp.ui.home
 
+import androidx.annotation.StringRes
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.github.odaridavid.weatherapp.core.model.Weather
 import com.github.odaridavid.weatherapp.core.api.SettingsRepository
 import com.github.odaridavid.weatherapp.core.api.WeatherRepository
 import com.github.odaridavid.weatherapp.core.model.DefaultLocation
+import com.github.odaridavid.weatherapp.data.weather.ApiResult
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -56,24 +58,24 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    private fun processResult(result: Result<Weather>) {
-        when {
-            result.isSuccess -> {
-                val weatherData = result.getOrThrow()
+    private fun processResult(result: ApiResult<Weather>) {
+        when (result) {
+            is ApiResult.Success -> {
+                val weatherData = result.data
                 setState {
                     copy(
                         weather = weatherData,
                         isLoading = false,
-                        error = null
+                        errorMessageId = null
                     )
                 }
             }
 
-            result.isFailure -> {
+            is ApiResult.Error -> {
                 setState {
                     copy(
                         isLoading = false,
-                        error = result.exceptionOrNull()
+                        errorMessageId = result.messageId
                     )
                 }
             }
@@ -91,9 +93,9 @@ class HomeViewModel @Inject constructor(
 data class HomeScreenViewState(
     val units: String = "",
     val defaultLocation: DefaultLocation = DefaultLocation(0.0, 0.0),
-    val locationName:String = "-",
+    val locationName: String = "-",
     val language: String = "",
     val weather: Weather? = null,
     val isLoading: Boolean = false,
-    val error: Throwable? = null
+    @StringRes val errorMessageId: Int? = null
 )

@@ -1,8 +1,10 @@
 package com.github.odaridavid.weatherapp.ui.home
 
+import androidx.annotation.StringRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -52,13 +54,13 @@ fun HomeScreen(
             Spacer(modifier = Modifier.weight(0.5f))
         }
 
-        if (state.error != null) {
+        if (state.errorMessageId != null) {
             Spacer(modifier = Modifier.weight(0.5f))
             ErrorText(
-                error = state.error,
+                errorMessageId = state.errorMessageId,
                 modifier = Modifier.padding(16.dp)
             ) {
-               onTryAgainClicked()
+                onTryAgainClicked()
             }
             Spacer(modifier = Modifier.weight(0.5f))
         }
@@ -89,7 +91,7 @@ private fun HomeTopBar(cityName: String, onSettingClicked: () -> Unit) {
         )
         Spacer(modifier = Modifier.weight(1.0f))
         Image(
-            painter = painterResource(id = R.drawable.ic_settings),
+            painter = painterResource(id = if (isSystemInDarkTheme()) R.drawable.ic_settings_dark else R.drawable.ic_settings),
             contentDescription = stringResource(R.string.home_content_description_setting_icon),
             modifier = Modifier
                 .defaultMinSize(40.dp)
@@ -237,19 +239,29 @@ private fun DailyWeatherRow(dailyWeather: DailyWeather) {
 }
 
 @Composable
-private fun ErrorText(error: Throwable, modifier: Modifier, onTryAgainClicked: () -> Unit) {
-
-    Text(
-        text = error.message ?: stringResource(id = R.string.home_error_occured),
-        textAlign = TextAlign.Center,
-        modifier = modifier,
-        style = MaterialTheme.typography.body1
-    )
-    Button(onClick = { onTryAgainClicked() }) {
+private fun ErrorText(
+    @StringRes errorMessageId: Int,
+    modifier: Modifier,
+    onTryAgainClicked: () -> Unit
+) {
+    Column(modifier = Modifier.fillMaxWidth()) {
         Text(
-            text = stringResource(R.string.home_error_try_again),
-            style = MaterialTheme.typography.body1,
-            textAlign = TextAlign.Center
+            text = stringResource(id = errorMessageId),
+            textAlign = TextAlign.Center,
+            modifier = modifier.align(Alignment.CenterHorizontally),
+            style = MaterialTheme.typography.body1
         )
+        Button(
+            onClick = { onTryAgainClicked() },
+            modifier = Modifier
+                .padding(16.dp)
+                .align(Alignment.CenterHorizontally)
+        ) {
+            Text(
+                text = stringResource(R.string.home_error_try_again),
+                style = MaterialTheme.typography.body1,
+                textAlign = TextAlign.Center
+            )
+        }
     }
 }
