@@ -21,6 +21,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -30,18 +31,29 @@ import com.github.odaridavid.weatherapp.R
 import com.github.odaridavid.weatherapp.core.model.CurrentWeather
 import com.github.odaridavid.weatherapp.core.model.DailyWeather
 import com.github.odaridavid.weatherapp.core.model.HourlyWeather
+import com.github.odaridavid.weatherapp.ui.getCityName
 
 @Composable
 fun HomeScreen(
     state: HomeScreenViewState,
     onSettingClicked: () -> Unit,
-    onTryAgainClicked: () -> Unit
+    onTryAgainClicked: () -> Unit,
+    onCityNameReceived: (String) -> Unit
 ) {
     Column(
         modifier = Modifier
             .verticalScroll(rememberScrollState())
             .fillMaxSize()
     ) {
+
+        LocalContext.current.getCityName(
+            latitude = state.defaultLocation.latitude,
+            longitude = state.defaultLocation.longitude
+        ) { address ->
+            val cityName = address.locality
+            onCityNameReceived(cityName)
+        }
+
         HomeTopBar(cityName = state.locationName, onSettingClicked)
 
         if (state.isLoading) {
@@ -86,8 +98,7 @@ private fun HomeTopBar(cityName: String, onSettingClicked: () -> Unit) {
     ) {
         Text(
             text = cityName,
-            style = MaterialTheme.typography.h5,
-            modifier = Modifier.padding(8.dp)
+            style = MaterialTheme.typography.h5
         )
         Spacer(modifier = Modifier.weight(1.0f))
         Image(
