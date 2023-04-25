@@ -117,10 +117,17 @@ is written that makes use of fake,so as to mimic the real scenario as much as po
 
 # Screenshots 📱
 
-<img src="/docs/screenshots/home.jpeg" width="300px"> <img src="/docs/screenshots/settings.jpeg" width="300px">
+|               Home       (Light Theme)                |                  Home  (Dark Theme)                   |
+|:-----------------------------------------------------:|:-----------------------------------------------------:|
+| <img src="/docs/screenshots/white.png" width="300px"> | <img src="/docs/screenshots/black.png" width="300px"> |
 
+|                         Settings                          |
+|:---------------------------------------------------------:|
+| <img src="/docs/screenshots/settings.jpeg" width="300px"> |
 
-<img src="/docs/screenshots/drk.png" width="300px">
+|                        Error                        |
+|:---------------------------------------------------:|
+| <img src="/docs/screenshots/drk.png" width="300px"> |
 
 
 ![](https://media.giphy.com/media/hWvk9iUU4uBBeyBq0k/giphy.gif)
