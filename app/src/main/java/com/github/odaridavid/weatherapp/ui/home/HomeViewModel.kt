@@ -55,6 +55,9 @@ class HomeViewModel @Inject constructor(
                     }
                 }
             }
+            is HomeScreenIntent.DisplayCityName -> {
+                setState { copy(locationName = homeScreenIntent.cityName) }
+            }
         }
     }
 

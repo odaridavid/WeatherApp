@@ -32,7 +32,10 @@ fun WeatherAppScreensConfig(
             HomeScreen(
                 state = state,
                 onSettingClicked = { navController.navigate(Destinations.SETTINGS.route) },
-                onTryAgainClicked = { homeViewModel.processIntent(HomeScreenIntent.LoadWeatherData) }
+                onTryAgainClicked = { homeViewModel.processIntent(HomeScreenIntent.LoadWeatherData) },
+                onCityNameReceived = { cityName ->
+                    homeViewModel.processIntent(HomeScreenIntent.DisplayCityName(cityName = cityName))
+                }
             )
         }
         composable(Destinations.SETTINGS.route) {
