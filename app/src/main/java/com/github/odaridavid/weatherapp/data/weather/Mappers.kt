@@ -8,6 +8,7 @@ import com.github.odaridavid.weatherapp.core.model.Temperature
 import com.github.odaridavid.weatherapp.core.model.Units
 import com.github.odaridavid.weatherapp.core.model.Weather
 import com.github.odaridavid.weatherapp.core.model.WeatherInfo
+import com.github.odaridavid.weatherapp.data.weather.local.entity.WeatherEntity
 import java.text.SimpleDateFormat
 import java.util.Date
 import kotlin.math.roundToInt
@@ -68,3 +69,66 @@ private fun getDate(utcInMillis: Long, formatPattern: String): String {
     val dateFormat = Date(utcInMillis * 1000)
     return sdf.format(dateFormat)
 }
+
+fun WeatherResponse.asEntity(
+    currentWeatherResponse: CurrentWeatherResponse,
+    hourlyWeatherResponse: List<HourlyWeatherResponse>,
+    dailyWeatherResponse: List<DailyWeatherResponse>
+) = WeatherEntity(
+    id = currentWeatherResponse.weather.first().id,
+    dt = hourlyWeatherResponse.first().forecastedTime,
+    feels_like = currentWeatherResponse.feelsLike,
+    temp = currentWeatherResponse.temperature,
+    temp_max = dailyWeatherResponse.first().temperature.max,
+    temp_min = dailyWeatherResponse.first().temperature.min,
+    description = currentWeatherResponse.weather.first().description,
+    icon = currentWeatherResponse.weather.first().icon,
+    main = currentWeatherResponse.weather.first().main,
+)
+
+fun WeatherEntity.asExternalModel(unit: String):Weather =
+    Weather(
+    current = CurrentWeather(
+        temperature = formatTemperatureValue(temp, unit),
+        feelsLike = formatTemperatureValue(feels_like, unit),
+        weather = listOf(
+            WeatherInfo(
+                id = id,
+                main = main,
+                description = description,
+                icon = icon,
+            )
+        )
+    ) ,
+    hourly = listOf(
+       HourlyWeather(
+           forecastedTime = getDate(dt,"HH:SS"),
+           temperature = formatTemperatureValue(temp, unit),
+           weather = listOf(
+               WeatherInfo(
+                   id = id,
+                   main = main,
+                   description = description,
+                   icon = "${BuildConfig.OPEN_WEATHER_ICONS_URL}$icon@2x.png"
+               )
+           )
+       )
+    ),
+    daily = listOf(
+        DailyWeather(
+            forecastedTime = getDate(dt,"EEEE dd/M"),
+            temperature = Temperature(
+                min = formatTemperatureValue(temp_min, unit),
+                max = formatTemperatureValue(temp_max, unit),
+            ),
+            weather = listOf(
+                WeatherInfo(
+                    id = id,
+                    main = main,
+                    description = description,
+                    icon = "${BuildConfig.OPEN_WEATHER_ICONS_URL}$icon@2x.png"
+                )
+            )
+        )
+    )
+)
