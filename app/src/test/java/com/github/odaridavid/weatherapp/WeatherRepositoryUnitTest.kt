@@ -1,6 +1,7 @@
 package com.github.odaridavid.weatherapp
 
 import app.cash.turbine.test
+import com.github.odaridavid.weatherapp.core.api.Logger
 import com.github.odaridavid.weatherapp.core.api.WeatherRepository
 import com.github.odaridavid.weatherapp.core.model.DefaultLocation
 import com.github.odaridavid.weatherapp.data.weather.ApiResult
@@ -21,6 +22,10 @@ class WeatherRepositoryUnitTest {
 
     @MockK
     val mockOpenWeatherService = mockk<OpenWeatherService>(relaxed = true)
+
+    @MockK
+    val mockLogger = mockk<Logger>(relaxed = true)
+
     @Test
     fun `when we fetch weather data successfully, then a successfully mapped result is emitted`() = runBlocking {
         coEvery {
@@ -254,7 +259,8 @@ class WeatherRepositoryUnitTest {
         }
     }
 
-    private fun createWeatherRepository(): WeatherRepository = DefaultWeatherRepository(
-        openWeatherService = mockOpenWeatherService
+    private fun createWeatherRepository(logger: Logger = mockLogger): WeatherRepository = DefaultWeatherRepository(
+        openWeatherService = mockOpenWeatherService,
+        logger = logger
     )
 }

@@ -1,6 +1,7 @@
 package com.github.odaridavid.weatherapp
 
 import app.cash.turbine.test
+import com.github.odaridavid.weatherapp.core.api.Logger
 import com.github.odaridavid.weatherapp.core.api.WeatherRepository
 import com.github.odaridavid.weatherapp.core.model.DefaultLocation
 import com.github.odaridavid.weatherapp.data.weather.DefaultWeatherRepository
@@ -29,6 +30,9 @@ class HomeViewModelIntegrationTest {
     @MockK
     val mockOpenWeatherService = mockk<OpenWeatherService>(relaxed = true)
 
+    @MockK
+    val mockLogger = mockk<Logger>(relaxed = true)
+
     @get:Rule
     val coroutineRule = MainCoroutineRule()
 
@@ -47,8 +51,7 @@ class HomeViewModelIntegrationTest {
             fakeSuccessWeatherResponse
         )
 
-        val weatherRepository =
-            DefaultWeatherRepository(openWeatherService = mockOpenWeatherService)
+        val weatherRepository = createWeatherRepository()
 
         val viewModel = createViewModel(weatherRepository = weatherRepository)
 
@@ -91,8 +94,7 @@ class HomeViewModelIntegrationTest {
                 "{}".toResponseBody()
             )
 
-            val weatherRepository =
-                DefaultWeatherRepository(openWeatherService = mockOpenWeatherService)
+            val weatherRepository = createWeatherRepository()
 
             val viewModel = createViewModel(weatherRepository = weatherRepository)
 
@@ -121,7 +123,7 @@ class HomeViewModelIntegrationTest {
     @Test
     fun `when we init the screen, then update the state`() = runBlocking {
         val weatherRepository =
-            DefaultWeatherRepository(openWeatherService = mockOpenWeatherService)
+            createWeatherRepository()
 
         val viewModel = createViewModel(weatherRepository = weatherRepository)
 
@@ -178,4 +180,8 @@ class HomeViewModelIntegrationTest {
             weatherRepository = weatherRepository,
             settingsRepository = settingsRepository
         )
+
+
+    private fun createWeatherRepository() =
+        DefaultWeatherRepository(openWeatherService = mockOpenWeatherService, logger = mockLogger)
 }

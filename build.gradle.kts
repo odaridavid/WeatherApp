@@ -6,3 +6,10 @@ plugins {
     alias(libs.plugins.dagger.hilt.android) apply false
     alias(libs.plugins.org.jetbrains.kotlin.plugin.serialization) apply false
 }
+
+buildscript {
+    dependencies {
+        classpath(libs.com.google.services)
+        classpath(libs.com.firebase.crashlytics.plugin)
+    }
+}
