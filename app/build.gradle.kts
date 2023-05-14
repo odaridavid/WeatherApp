@@ -5,6 +5,8 @@ plugins {
     kotlin("kapt")
     alias(libs.plugins.dagger.hilt.android)
     alias(libs.plugins.org.jetbrains.kotlin.plugin.serialization)
+    id("com.google.gms.google-services")
+    id("com.google.firebase.crashlytics")
 }
 
 android {
@@ -77,6 +79,10 @@ dependencies {
     // DI
     implementation(libs.hilt.android)
     kapt(libs.hilt.compiler)
+
+    // Firebase
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.bundles.firebase)
 
     // Test
     testImplementation(libs.junit)

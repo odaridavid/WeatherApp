@@ -7,6 +7,8 @@ import com.github.odaridavid.weatherapp.core.model.DefaultLocation
 import com.github.odaridavid.weatherapp.core.model.ExcludedData
 import com.github.odaridavid.weatherapp.core.model.SupportedLanguage
 import com.github.odaridavid.weatherapp.core.model.Weather
+import com.google.firebase.crashlytics.ktx.crashlytics
+import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
@@ -46,6 +48,7 @@ class DefaultWeatherRepository @Inject constructor(
             is IOException -> R.string.error_connection
             else -> R.string.error_generic
         }
+        Firebase.crashlytics.recordException(throwable)
         emit(ApiResult.Error(errorMessage))
     }
 
