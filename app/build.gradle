@@ -78,9 +78,23 @@ dependencies {
     implementation 'org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.1'
     implementation("io.coil-kt:coil-compose:2.2.2")
 
+    // Room components
+    implementation "androidx.room:room-runtime:2.5.1"
+    kapt "androidx.room:room-compiler:2.5.1"
+    implementation "androidx.room:room-ktx:2.5.1"
+
+    //Work Manager
+    implementation "androidx.work:work-runtime-ktx:2.8.1"
+    implementation 'androidx.hilt:hilt-work:1.0.0'
+    kapt 'androidx.hilt:hilt-compiler:1.0.0'
+
+
     // DI
     implementation "com.google.dagger:hilt-android:2.44"
     kapt "com.google.dagger:hilt-compiler:2.44"
+
+    //Timber
+    implementation 'com.jakewharton.timber:timber:5.0.1'
 
     // Test
     testImplementation 'junit:junit:4.13.2'
