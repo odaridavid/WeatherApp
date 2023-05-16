@@ -8,7 +8,11 @@ import com.github.odaridavid.weatherapp.core.model.Temperature
 import com.github.odaridavid.weatherapp.core.model.Units
 import com.github.odaridavid.weatherapp.core.model.Weather
 import com.github.odaridavid.weatherapp.core.model.WeatherInfo
+import com.github.odaridavid.weatherapp.data.weather.local.entity.DailyWeatherEntity
+import com.github.odaridavid.weatherapp.data.weather.local.entity.HourlyWeatherEntity
+import com.github.odaridavid.weatherapp.data.weather.local.entity.TemperatureEntity
 import com.github.odaridavid.weatherapp.data.weather.local.entity.WeatherEntity
+import com.github.odaridavid.weatherapp.data.weather.local.entity.WeatherInfoResponseEntity
 import java.text.SimpleDateFormat
 import java.util.Date
 import kotlin.math.roundToInt
@@ -53,6 +57,52 @@ fun TemperatureResponse.toCoreModel(unit: String): Temperature =
         min = formatTemperatureValue(min, unit),
         max = formatTemperatureValue(max, unit)
     )
+fun WeatherEntity.toCoreEntity(unit: String): Weather =
+    Weather(
+        current = toCurrentWeather(unit = unit),
+        hourly = hourly.map { it.toCoreEntity(unit = unit) },
+        daily = daily.map { it.toCoreEntity(unit = unit) }
+    )
+private fun WeatherEntity.toCurrentWeather(unit: String): CurrentWeather =
+    CurrentWeather(
+        temperature = formatTemperatureValue(temp, unit),
+        feelsLike = formatTemperatureValue(feels_like, unit),
+        weather = listOf(toWeatherInfo())
+    )
+private fun WeatherEntity.toWeatherInfo(): WeatherInfo =
+    WeatherInfo(
+        id = id,
+        main = main,
+        description = description,
+        icon = "${BuildConfig.OPEN_WEATHER_ICONS_URL}$icon@2x.png"
+    )
+fun DailyWeatherEntity.toCoreEntity(unit: String): DailyWeather =
+    DailyWeather(
+        forecastedTime = getDate(dt,"EEEE dd/M"),
+        temperature = temperature.toCoreEntity(unit = unit),
+        weather = weather.map { it.toCoreEntity() }
+    )
+
+fun HourlyWeatherEntity.toCoreEntity(unit: String): HourlyWeather =
+    HourlyWeather(
+        forecastedTime = getDate(dt,"HH:SS"),
+        temperature = formatTemperatureValue(temperature, unit),
+        weather = weather.map { it.toCoreEntity() }
+    )
+
+fun WeatherInfoResponseEntity.toCoreEntity(): WeatherInfo =
+    WeatherInfo(
+        id = id,
+        main = main,
+        description = description,
+        icon = "${BuildConfig.OPEN_WEATHER_ICONS_URL}$icon@2x.png"
+    )
+
+fun TemperatureEntity.toCoreEntity(unit: String): Temperature =
+    Temperature(
+        min = formatTemperatureValue(min, unit),
+        max = formatTemperatureValue(max, unit)
+    )
 
 private fun formatTemperatureValue(temperature: Float, unit: String): String =
     "${temperature.roundToInt()}${getUnitSymbols(unit = unit)}"
@@ -70,65 +120,55 @@ private fun getDate(utcInMillis: Long, formatPattern: String): String {
     return sdf.format(dateFormat)
 }
 
-fun WeatherResponse.asEntity(
-    currentWeatherResponse: CurrentWeatherResponse,
-    hourlyWeatherResponse: List<HourlyWeatherResponse>,
-    dailyWeatherResponse: List<DailyWeatherResponse>
-) = WeatherEntity(
-    id = currentWeatherResponse.weather.first().id,
-    dt = hourlyWeatherResponse.first().forecastedTime,
-    feels_like = currentWeatherResponse.feelsLike,
-    temp = currentWeatherResponse.temperature,
-    temp_max = dailyWeatherResponse.first().temperature.max,
-    temp_min = dailyWeatherResponse.first().temperature.min,
-    description = currentWeatherResponse.weather.first().description,
-    icon = currentWeatherResponse.weather.first().icon,
-    main = currentWeatherResponse.weather.first().main,
-)
+fun WeatherResponse.toWeatherEntity(): WeatherEntity {
+    val currentTime = System.currentTimeMillis()
+    val currentWeatherInfo = current.weather.first()
 
-fun WeatherEntity.asExternalModel(unit: String):Weather =
-    Weather(
-    current = CurrentWeather(
-        temperature = formatTemperatureValue(temp, unit),
-        feelsLike = formatTemperatureValue(feels_like, unit),
-        weather = listOf(
-            WeatherInfo(
-                id = id,
-                main = main,
-                description = description,
-                icon = icon,
-            )
+    val hourlyWeatherEntities = hourly.map { hourlyResponse ->
+        HourlyWeatherEntity(
+            dt = hourlyResponse.forecastedTime,
+            temperature = hourlyResponse.temperature,
+            weather = hourlyResponse.weather.map { it.toWeatherInfoResponse() }
         )
-    ) ,
-    hourly = listOf(
-       HourlyWeather(
-           forecastedTime = getDate(dt,"HH:SS"),
-           temperature = formatTemperatureValue(temp, unit),
-           weather = listOf(
-               WeatherInfo(
-                   id = id,
-                   main = main,
-                   description = description,
-                   icon = "${BuildConfig.OPEN_WEATHER_ICONS_URL}$icon@2x.png"
-               )
-           )
-       )
-    ),
-    daily = listOf(
-        DailyWeather(
-            forecastedTime = getDate(dt,"EEEE dd/M"),
-            temperature = Temperature(
-                min = formatTemperatureValue(temp_min, unit),
-                max = formatTemperatureValue(temp_max, unit),
-            ),
-            weather = listOf(
-                WeatherInfo(
-                    id = id,
-                    main = main,
-                    description = description,
-                    icon = "${BuildConfig.OPEN_WEATHER_ICONS_URL}$icon@2x.png"
-                )
-            )
+    }
+
+    val dailyWeatherEntities = daily.map { dailyResponse ->
+        DailyWeatherEntity(
+            dt = dailyResponse.forecastedTime,
+            temperature = dailyResponse.temperature.toTemperatureEntity(),
+            weather = dailyResponse.weather.map { it.toWeatherInfoResponse() }
         )
+    }
+
+    return WeatherEntity(
+        dt = currentTime,
+        id = 0,
+        feels_like = current.feelsLike,
+        temp = current.temperature,
+        temp_max = current.temperature,
+        temp_min = current.temperature,
+        description = currentWeatherInfo.description,
+        icon = currentWeatherInfo.icon,
+        main = currentWeatherInfo.main,
+        lastRefreshed = currentTime,
+        isValid = true,
+        hourly = hourlyWeatherEntities,
+        daily = dailyWeatherEntities
     )
-)
+}
+
+private fun WeatherInfoResponse.toWeatherInfoResponse(): WeatherInfoResponseEntity {
+    return WeatherInfoResponseEntity(
+        id = id,
+        main = main,
+        description = description,
+        icon = icon
+    )
+}
+
+fun TemperatureResponse.toTemperatureEntity(): TemperatureEntity {
+    return TemperatureEntity(
+        min = min,
+        max = max
+    )
+}

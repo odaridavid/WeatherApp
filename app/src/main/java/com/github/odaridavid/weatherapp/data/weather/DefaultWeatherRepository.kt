@@ -37,7 +37,7 @@ class DefaultWeatherRepository @Inject constructor(
     ): Flow<ApiResult<Weather>> = flow {
         val cachedWeather = weatherDao.getWeather()
         if (cachedWeather != null && cachedWeather.isDataValid()) {
-            val weatherData = cachedWeather.asExternalModel(unit = units)
+            val weatherData = cachedWeather.toCoreEntity(unit = units)
             emit(ApiResult.Success(data = weatherData))
             return@flow
         }
@@ -53,17 +53,11 @@ class DefaultWeatherRepository @Inject constructor(
         )
         val response = apiResponse.body()
         if (apiResponse.isSuccessful && response != null) {
-            val currentWeatherResponse = response.current
-            val hourlyWeatherResponse = response.hourly
-            val dailyWeatherResponse = response.daily
-            val weatherEntity = response.asEntity(
-                currentWeatherResponse = currentWeatherResponse,
-                hourlyWeatherResponse = hourlyWeatherResponse,
-                dailyWeatherResponse = dailyWeatherResponse
-            )
-            weatherDao.insertCurrentWeather(weatherEntity)
-            val weatherData = weatherEntity.asExternalModel(units)
-            emit(ApiResult.Success(data = weatherData))
+            val entity = apiResponse.body()!!.toWeatherEntity()
+
+            weatherDao.insertCurrentWeather(entity)
+            val weatherData = entity.toCoreEntity(unit= units)
+            emit(ApiResult.Success(data =weatherData))
         } else {
             val errorMessage = mapResponseCodeToErrorMessage(apiResponse.code())
             Timber.e("Error Message $errorMessage")
