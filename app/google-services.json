@@ -1,0 +1,68 @@
+{
+  "project_info": {
+    "project_number": "610111461146",
+    "project_id": "weatherapp-e7fb4",
+    "storage_bucket": "weatherapp-e7fb4.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:610111461146:android:93477e9051250424edbea3",
+        "android_client_info": {
+          "package_name": "com.github.odaridavid.weatherapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "610111461146-na7se6v73h0i76v52d4g53snq48p9vi2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAZXonDiplhz8zSQJbC1JT0XiqVmtHbKy0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "610111461146-na7se6v73h0i76v52d4g53snq48p9vi2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:610111461146:android:c4a8151c04739b83edbea3",
+        "android_client_info": {
+          "package_name": "dev.davidodari.weatherupdates"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "610111461146-na7se6v73h0i76v52d4g53snq48p9vi2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAZXonDiplhz8zSQJbC1JT0XiqVmtHbKy0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "610111461146-na7se6v73h0i76v52d4g53snq48p9vi2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
