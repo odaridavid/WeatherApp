@@ -1,5 +1,8 @@
 package com.github.odaridavid.weatherapp
 
+import android.content.Context
+import androidx.test.core.app.ApplicationProvider
+import androidx.work.testing.WorkManagerTestInitHelper
 import app.cash.turbine.test
 import com.github.odaridavid.weatherapp.core.api.WeatherRepository
 import com.github.odaridavid.weatherapp.core.model.DefaultLocation
@@ -7,20 +10,35 @@ import com.github.odaridavid.weatherapp.data.weather.ApiResult
 import com.github.odaridavid.weatherapp.data.weather.DefaultWeatherRepository
 import com.github.odaridavid.weatherapp.data.weather.OpenWeatherService
 import com.github.odaridavid.weatherapp.data.weather.WeatherResponse
+import com.github.odaridavid.weatherapp.data.weather.local.dao.WeatherDao
 import com.google.common.truth.Truth
 import io.mockk.coEvery
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
 import kotlinx.coroutines.runBlocking
 import okhttp3.ResponseBody.Companion.toResponseBody
+import org.junit.Before
 import org.junit.Test
+import org.junit.runner.RunWith
+import org.robolectric.RobolectricTestRunner
 import retrofit2.Response
 import java.io.IOException
 
+@RunWith(RobolectricTestRunner::class)
 class WeatherRepositoryUnitTest {
 
     @MockK
     val mockOpenWeatherService = mockk<OpenWeatherService>(relaxed = true)
+    @MockK
+    val mockWeatherDao = mockk<WeatherDao>(relaxed = true)
+    @MockK
+    val mockContext = mockk<Context>(relaxed = true)
+
+    @Before
+    fun setUp() {
+        val context = ApplicationProvider.getApplicationContext<Context>()
+        WorkManagerTestInitHelper.initializeTestWorkManager(context)
+    }
     @Test
     fun `when we fetch weather data successfully, then a successfully mapped result is emitted`() = runBlocking {
         coEvery {
@@ -35,6 +53,7 @@ class WeatherRepositoryUnitTest {
         } returns Response.success<WeatherResponse>(
             fakeSuccessWeatherResponse
         )
+        coEvery { mockWeatherDao.getWeather() } returns fakeSuccessMappedEntityResponse
 
         val weatherRepository = createWeatherRepository()
 
@@ -255,6 +274,8 @@ class WeatherRepositoryUnitTest {
     }
 
     private fun createWeatherRepository(): WeatherRepository = DefaultWeatherRepository(
-        openWeatherService = mockOpenWeatherService
+        openWeatherService = mockOpenWeatherService,
+        weatherDao = mockWeatherDao,
+        context = mockContext
     )
 }
