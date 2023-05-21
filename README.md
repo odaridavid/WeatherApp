@@ -93,6 +93,7 @@ is written that makes use of fake,so as to mimic the real scenario as much as po
    *Tooling/Project setup*
 - [Gradle secrets plugin](https://github.com/google/secrets-gradle-plugin)
 - [Hilt(DI)](https://developer.android.com/training/dependency-injection/hilt-android)
+- [Firebase - Crashlytics](https://firebase.google.com/docs/crashlytics)
 
 
 # LICENSE
