@@ -1,6 +1,6 @@
 [versions]
 # Plugins
-android-gradle-plugin = "8.2.0-alpha03"
+android-gradle-plugin = "8.0.1"
 kotlin-android = "1.8.20"
 mapsplatform-secrets = "2.0.1"
 hilt-plugin = "2.44"
