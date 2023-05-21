@@ -32,6 +32,12 @@ fun setupAndroidReporting() {
             group = "Reporting"
             description = "Generate Jacoco coverage reports on the ${sourceName.capitalize()} build."
 
+            reports {
+                xml.required.set(true)
+                csv.required.set(false)
+                html.required.set(true)
+            }
+
             val fileFilter = listOf(
                 // android
                 "**/R.class",
