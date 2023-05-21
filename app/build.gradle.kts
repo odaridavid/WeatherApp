@@ -7,6 +7,7 @@ plugins {
     alias(libs.plugins.org.jetbrains.kotlin.plugin.serialization)
     id("com.google.gms.google-services")
     id("com.google.firebase.crashlytics")
+    jacoco
 }
 
 android {
@@ -33,6 +34,9 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+        }
+        debug {
+            enableUnitTestCoverage = true
         }
     }
     compileOptions {
