@@ -1,6 +1,7 @@
 ### Weather App
 
 [![Build Status](https://app.bitrise.io/app/80f9b4627fc90757/status.svg?token=3KnRQl0WRfDT5UTzPDiRgA&branch=develop)](https://app.bitrise.io/app/80f9b4627fc90757)
+[![codecov](https://codecov.io/gh/odaridavid/WeatherApp/branch/main/graph/badge.svg?token=eZcGjGhF83)](https://codecov.io/gh/odaridavid/WeatherApp)
 
 *Summary*
 
