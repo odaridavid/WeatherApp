@@ -43,20 +43,13 @@ object ClientModule {
     @Provides
     @Singleton
     fun provideOkhttpClient(
-        @ApplicationContext context:Context,
-        loggingInterceptor: HttpLoggingInterceptor
+        loggingInterceptor: HttpLoggingInterceptor,
+        chuckerInterceptor: ChuckerInterceptor,
     ): OkHttpClient =
         OkHttpClient.Builder()
             .connectTimeout(60L, TimeUnit.SECONDS)
             .addInterceptor(loggingInterceptor)
-            .addInterceptor(
-                ChuckerInterceptor.Builder(context = context)
-                    .collector(ChuckerCollector(context = context))
-                    .maxContentLength(length = 250000L)
-                    .redactHeaders(headerNames = emptySet())
-                    .alwaysReadResponseBody(enable = false)
-                    .build()
-            )
+            .addInterceptor(chuckerInterceptor)
             .build()
 
     @Provides
@@ -68,6 +61,19 @@ object ClientModule {
         return HttpLoggingInterceptor().also {
             it.level = level
         }
+    }
+
+    @Provides
+    @Singleton
+    fun provideChuckerInterceptor(
+        @ApplicationContext context:Context,
+        ): ChuckerInterceptor {
+        return ChuckerInterceptor.Builder(context = context)
+            .collector(ChuckerCollector(context = context))
+            .maxContentLength(length = 250000L)
+            .redactHeaders(headerNames = emptySet())
+            .alwaysReadResponseBody(enable = false)
+            .build()
     }
 
     @Provides
