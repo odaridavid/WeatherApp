@@ -1,11 +1,15 @@
 package com.github.odaridavid.weatherapp.di
 
+import android.content.Context
+import com.chuckerteam.chucker.api.ChuckerCollector
+import com.chuckerteam.chucker.api.ChuckerInterceptor
 import com.github.odaridavid.weatherapp.BuildConfig
 import com.github.odaridavid.weatherapp.data.weather.OpenWeatherService
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
@@ -38,10 +42,14 @@ object ClientModule {
 
     @Provides
     @Singleton
-    fun provideOkhttpClient(loggingInterceptor: HttpLoggingInterceptor): OkHttpClient =
+    fun provideOkhttpClient(
+        loggingInterceptor: HttpLoggingInterceptor,
+        chuckerInterceptor: ChuckerInterceptor,
+    ): OkHttpClient =
         OkHttpClient.Builder()
             .connectTimeout(60L, TimeUnit.SECONDS)
             .addInterceptor(loggingInterceptor)
+            .addInterceptor(chuckerInterceptor)
             .build()
 
     @Provides
@@ -53,6 +61,19 @@ object ClientModule {
         return HttpLoggingInterceptor().also {
             it.level = level
         }
+    }
+
+    @Provides
+    @Singleton
+    fun provideChuckerInterceptor(
+        @ApplicationContext context:Context,
+        ): ChuckerInterceptor {
+        return ChuckerInterceptor.Builder(context = context)
+            .collector(ChuckerCollector(context = context))
+            .maxContentLength(length = 250000L)
+            .redactHeaders(headerNames = emptySet())
+            .alwaysReadResponseBody(enable = false)
+            .build()
     }
 
     @Provides

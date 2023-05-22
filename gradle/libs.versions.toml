@@ -76,6 +76,10 @@ firebase-bom = { group = "com.google.firebase", name = "firebase-bom", version.r
 firebase-analytics = { group = "com.google.firebase", name = "firebase-analytics-ktx" }
 firebase-crashlytics = { group = "com.google.firebase", name = "firebase-crashlytics-ktx" }
 
+#chucker
+chucker-debug =  "com.github.chuckerteam.chucker:library:3.5.2"
+chucker-release =  "com.github.chuckerteam.chucker:library-no-op:3.5.2"
+
 [plugins]
 com-android-application = { id = "com.android.application", version.ref = "android-gradle-plugin" }
 com-android-library = { id = "com.android.library", version.ref = "android-gradle-plugin" }

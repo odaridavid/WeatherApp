@@ -181,6 +181,10 @@ dependencies {
     testImplementation(libs.coroutines.test)
     debugImplementation(libs.compose.ui.tooling)
     debugImplementation(libs.compose.ui.test.manifest)
+    
+    // chucker
+    debugImplementation(libs.chucker.debug)
+    releaseImplementation(libs.chucker.release)
 }
 
 kapt {
