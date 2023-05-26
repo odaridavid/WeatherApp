@@ -4,10 +4,12 @@ import android.content.Context
 import androidx.hilt.work.HiltWorker
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
+import com.github.odaridavid.weatherapp.R
 import com.github.odaridavid.weatherapp.core.model.DefaultLocation
 import com.github.odaridavid.weatherapp.core.model.SupportedLanguage
 import com.github.odaridavid.weatherapp.core.model.Units
 import com.github.odaridavid.weatherapp.data.weather.DefaultWeatherRepository
+import com.github.odaridavid.weatherapp.data.weather.RefreshWeatherUseCase
 import com.github.odaridavid.weatherapp.util.NotificationUtil
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
@@ -17,8 +19,7 @@ import dagger.assisted.AssistedInject
 class UpdateWeatherWorker @AssistedInject constructor(
     @Assisted context: Context,
     @Assisted params: WorkerParameters,
-    private val weatherRepository: DefaultWeatherRepository,
-    private val notificationUtil: NotificationUtil
+    private val refreshWeatherUseCase: RefreshWeatherUseCase,
 ): CoroutineWorker(context, params){
 
     override suspend fun doWork(): Result {
@@ -26,12 +27,10 @@ class UpdateWeatherWorker @AssistedInject constructor(
             val defaultLocation = getDefaultLocation()
             val language = getDefaultLanguage()
             val units = getDefaultUnits()
-            weatherRepository.fetchWeatherData(
+            refreshWeatherUseCase.invoke(
                 defaultLocation = defaultLocation,
                 language = language,
-                units = units
-            )
-            notificationUtil.makeNotification("Weather Updated")
+                units = units)
             Result.success()
         } catch(e: Error) {
             Result.retry()
