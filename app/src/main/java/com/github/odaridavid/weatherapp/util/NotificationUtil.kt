@@ -22,8 +22,8 @@ class NotificationUtil @Inject constructor(
 
     private fun createNotificationChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val name = "notification"
-            val descriptionText = "description"
+            val name = context.getString(R.string.weather_notification)
+            val descriptionText = context.getString(R.string.weather_updates)
             val importance = NotificationManager.IMPORTANCE_DEFAULT
             val channel = NotificationChannel("default", name, importance).apply {
                 description = descriptionText
