@@ -42,11 +42,6 @@ crashlytics-plugin = "2.9.5"
 room = "2.5.1"
 hiltExt = "1.0.0"
 
-#Gson
-gson = "2.9.0"
-
-#Timber
-timber = "5.0.1"
 
 [libraries]
 #AndroidX
@@ -72,8 +67,7 @@ kotlinx-coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-
 okhttp-bom = { group = "com.squareup.okhttp3", name = "okhttp-bom", version.ref = "okhttp" }
 okhttp = { group = "com.squareup.okhttp3", name = "okhttp" }
 okhttp-logging-interceptor = { group = "com.squareup.okhttp3", name = "logging-interceptor" }
-#Timber
-timber = { group = "com.jakewharton.timber", name = "timber", version.ref = "timber" }
+
 # Testing
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 turbine = { group = "app.cash.turbine", name = "turbine", version.ref = "turbine" }
@@ -103,9 +97,6 @@ firebase-crashlytics = { group = "com.google.firebase", name = "firebase-crashly
 room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
 room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room" }
 room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
-#Gson
-retrofit-converter-gson = { group = "com.squareup.retrofit2", name = "converter-gson", version.ref = "gson" }
-
 
 [plugins]
 com-android-application = { id = "com.android.application", version.ref = "android-gradle-plugin" }

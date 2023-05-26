@@ -75,7 +75,6 @@ dependencies {
     implementation(libs.kotlinx.serialization.converter)
     implementation(libs.kotlinx.serialization)
     implementation(libs.coil)
-    implementation(libs.retrofit.converter.gson)
     // DI
     implementation(libs.hilt.android)
     kapt(libs.hilt.compiler)
@@ -107,9 +106,6 @@ dependencies {
     testImplementation(libs.roboelectric)
     testImplementation(libs.androidx.arch.core)
     implementation(libs.core.ktx.test)
-
-    //Timber
-    implementation(libs.timber)
 
 }
 
