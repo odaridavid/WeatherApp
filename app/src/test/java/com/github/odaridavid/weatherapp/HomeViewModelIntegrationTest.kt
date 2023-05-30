@@ -2,6 +2,7 @@ package com.github.odaridavid.weatherapp
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import app.cash.turbine.test
+import com.github.odaridavid.weatherapp.core.api.Logger
 import com.github.odaridavid.weatherapp.core.api.WeatherRepository
 import com.github.odaridavid.weatherapp.core.model.DefaultLocation
 import com.github.odaridavid.weatherapp.data.weather.DefaultWeatherRepository
@@ -37,6 +38,9 @@ class HomeViewModelIntegrationTest {
     @get:Rule
     val coroutineRule = MainCoroutineRule()
 
+    @MockK
+    val mockLogger = mockk<Logger>(relaxed = true)
+
     @get:Rule
     val instantExecutorRule = InstantTaskExecutorRule()
 
@@ -60,6 +64,7 @@ class HomeViewModelIntegrationTest {
             DefaultWeatherRepository(
                 openWeatherService = mockOpenWeatherService,
                 weatherDao = mockWeatherDao,
+                logger = mockLogger
             )
 
         val viewModel = createViewModel(weatherRepository = weatherRepository)
@@ -106,7 +111,10 @@ class HomeViewModelIntegrationTest {
             val weatherRepository =
                 DefaultWeatherRepository(
                     openWeatherService = mockOpenWeatherService,
-                    weatherDao = mockWeatherDao)
+                    weatherDao = mockWeatherDao,
+                    logger = mockLogger
+
+                )
 
             val viewModel = createViewModel(weatherRepository = weatherRepository)
 
@@ -137,7 +145,9 @@ class HomeViewModelIntegrationTest {
         val weatherRepository =
             DefaultWeatherRepository(
                 openWeatherService = mockOpenWeatherService,
-                weatherDao = mockWeatherDao)
+                weatherDao = mockWeatherDao,
+                logger = mockLogger
+            )
 
         val viewModel = createViewModel(weatherRepository = weatherRepository)
 

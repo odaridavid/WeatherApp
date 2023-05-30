@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.test.core.app.ApplicationProvider
 import androidx.work.testing.WorkManagerTestInitHelper
 import app.cash.turbine.test
+import com.github.odaridavid.weatherapp.core.api.Logger
 import com.github.odaridavid.weatherapp.core.api.WeatherRepository
 import com.github.odaridavid.weatherapp.core.model.DefaultLocation
 import com.github.odaridavid.weatherapp.data.weather.ApiResult
@@ -31,6 +32,9 @@ class WeatherRepositoryUnitTest {
     val mockOpenWeatherService = mockk<OpenWeatherService>(relaxed = true)
     @MockK
     val mockWeatherDao = mockk<WeatherDao>(relaxed = true)
+
+    @MockK
+    val mockLogger = mockk<Logger>(relaxed = true)
 
     @Before
     fun setUp() {
@@ -273,5 +277,7 @@ class WeatherRepositoryUnitTest {
 
     private fun createWeatherRepository(): WeatherRepository = DefaultWeatherRepository(
         openWeatherService = mockOpenWeatherService,
-        weatherDao = mockWeatherDao)
+        weatherDao = mockWeatherDao,
+        logger = mockLogger
+    )
 }
