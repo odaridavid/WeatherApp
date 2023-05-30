@@ -6,6 +6,7 @@ import com.github.odaridavid.weatherapp.data.weather.local.WeatherDatabase
 import com.github.odaridavid.weatherapp.data.weather.local.converters.Converters
 import com.github.odaridavid.weatherapp.data.weather.local.dao.WeatherDao
 import com.github.odaridavid.weatherapp.util.NotificationUtil
+import com.github.odaridavid.weatherapp.worker.WeatherUpdateScheduler
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -29,6 +30,12 @@ object LocalModule {
     @Provides
     fun provideNotificationUtil(@ApplicationContext context: Context): NotificationUtil {
         return NotificationUtil(context)
+    }
+
+    @Singleton
+    @Provides
+    fun provideWeatherUpdateScheduler(@ApplicationContext context: Context): WeatherUpdateScheduler {
+        return WeatherUpdateScheduler(context)
     }
 
     @Provides
