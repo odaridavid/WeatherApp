@@ -42,6 +42,8 @@ crashlytics-plugin = "2.9.5"
 room = "2.5.1"
 hiltExt = "1.0.0"
 
+# Chucker
+chucker = "3.5.2"
 
 [libraries]
 #AndroidX
@@ -92,6 +94,10 @@ com-firebase-crashlytics-plugin = { group = "com.google.firebase", name = "fireb
 firebase-bom = { group = "com.google.firebase", name = "firebase-bom", version.ref = "firebase-bom" }
 firebase-analytics = { group = "com.google.firebase", name = "firebase-analytics-ktx" }
 firebase-crashlytics = { group = "com.google.firebase", name = "firebase-crashlytics-ktx" }
+
+#chucker
+chucker-debug = { group = "com.github.chuckerteam.chucker", name = "library", version.ref = "chucker" }
+chucker-release = { group = "com.github.chuckerteam.chucker", name = "library-no-op", version.ref = "chucker" }
 
 #Room
 room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
