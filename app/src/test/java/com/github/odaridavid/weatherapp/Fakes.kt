@@ -23,7 +23,14 @@ val fakeSuccessWeatherResponse = WeatherResponse(
     current = CurrentWeatherResponse(
         temperature = 3.0f,
         feelsLike = 2.0f,
-        weather = listOf()
+        weather = listOf(
+            WeatherInfoResponse(
+            id = 1,
+            main = "main",
+            description = "desc",
+            icon = "icon"
+        )
+        )
     ),
     hourly = listOf(),
     daily = listOf()
@@ -33,16 +40,30 @@ val fakeSuccessMappedWeatherResponse = Weather(
     current = CurrentWeather(
         temperature = "3°C",
         feelsLike = "2°C",
-        weather = listOf()
+        weather = listOf(
+            WeatherInfo(
+                id = 1,
+                main = "main",
+                description = "desc",
+                icon = "icon"
+            )
+        )
     ),
     hourly = listOf(),
     daily = listOf()
 )
 val fakeSuccessResponse = Weather(
     current = CurrentWeather(
-        temperature = "0°C",
-        feelsLike = "0°C",
-        weather = listOf()
+        temperature = "3°C",
+        feelsLike = "2°C",
+        weather = listOf(
+            WeatherInfo(
+                id = 1,
+                main = "main",
+                description = "desc",
+                icon = "icon"
+            )
+        )
     ),
     hourly = listOf(),
     daily = listOf()
@@ -50,9 +71,15 @@ val fakeSuccessResponse = Weather(
 
 val fakePopulatedResponse = PopulatedWeather(
     current = WeatherEntity(
+        dt = 1L,
+        main = "main",
+        temp = 3.0F,
+        temp_max = 0.0F,
+        temp_min = 0.0F,
+        description ="desc",
+        icon = "icon",
+        id = 1,
         feels_like = 2.0f,
-        temp = 3.0f,
-        weather = listOf()
     ),
     hourly = listOf(),
     daily = listOf()

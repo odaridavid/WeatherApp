@@ -1,6 +1,6 @@
 package com.github.odaridavid.weatherapp
 
-import android.content.Context
+import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import app.cash.turbine.test
 import com.github.odaridavid.weatherapp.core.api.WeatherRepository
 import com.github.odaridavid.weatherapp.core.model.DefaultLocation
@@ -11,7 +11,6 @@ import com.github.odaridavid.weatherapp.data.weather.local.dao.WeatherDao
 import com.github.odaridavid.weatherapp.ui.home.HomeScreenIntent
 import com.github.odaridavid.weatherapp.ui.home.HomeScreenViewState
 import com.github.odaridavid.weatherapp.ui.home.HomeViewModel
-import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.google.common.truth.Truth
 import io.mockk.coEvery
 import io.mockk.impl.annotations.MockK
@@ -35,9 +34,6 @@ class HomeViewModelIntegrationTest {
     @MockK
     val mockWeatherDao = mockk<WeatherDao>(relaxed = true)
 
-    @MockK
-    val mockContext = mockk<Context>(relaxed = true)
-
     @get:Rule
     val coroutineRule = MainCoroutineRule()
 
@@ -58,12 +54,12 @@ class HomeViewModelIntegrationTest {
         } returns Response.success<WeatherResponse>(
             fakeSuccessWeatherResponse
         )
+        coEvery { mockWeatherDao.getWeather() } returns fakePopulatedResponse
 
         val weatherRepository =
             DefaultWeatherRepository(
                 openWeatherService = mockOpenWeatherService,
                 weatherDao = mockWeatherDao,
-                context = mockContext
             )
 
         val viewModel = createViewModel(weatherRepository = weatherRepository)
@@ -78,7 +74,7 @@ class HomeViewModelIntegrationTest {
             ),
             locationName = "-",
             language = "English",
-            weather = fakeSuccessMappedWeatherResponse,
+            weather = fakeSuccessResponse,
             isLoading = false,
             errorMessageId = null
         )
@@ -110,9 +106,7 @@ class HomeViewModelIntegrationTest {
             val weatherRepository =
                 DefaultWeatherRepository(
                     openWeatherService = mockOpenWeatherService,
-                    weatherDao = mockWeatherDao,
-                    context = mockContext
-                )
+                    weatherDao = mockWeatherDao)
 
             val viewModel = createViewModel(weatherRepository = weatherRepository)
 
@@ -143,9 +137,7 @@ class HomeViewModelIntegrationTest {
         val weatherRepository =
             DefaultWeatherRepository(
                 openWeatherService = mockOpenWeatherService,
-                weatherDao = mockWeatherDao,
-                context = mockContext
-            )
+                weatherDao = mockWeatherDao)
 
         val viewModel = createViewModel(weatherRepository = weatherRepository)
 

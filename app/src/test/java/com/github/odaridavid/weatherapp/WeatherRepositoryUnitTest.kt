@@ -31,8 +31,6 @@ class WeatherRepositoryUnitTest {
     val mockOpenWeatherService = mockk<OpenWeatherService>(relaxed = true)
     @MockK
     val mockWeatherDao = mockk<WeatherDao>(relaxed = true)
-    @MockK
-    val mockContext = mockk<Context>(relaxed = true)
 
     @Before
     fun setUp() {
@@ -53,7 +51,7 @@ class WeatherRepositoryUnitTest {
         } returns Response.success<WeatherResponse>(
             fakeSuccessWeatherResponse
         )
-        coEvery { mockWeatherDao.getWeather() } returns fakeSuccessMappedEntityResponse
+        coEvery { mockWeatherDao.getWeather() } returns fakePopulatedResponse
 
         val weatherRepository = createWeatherRepository()
 
@@ -275,7 +273,5 @@ class WeatherRepositoryUnitTest {
 
     private fun createWeatherRepository(): WeatherRepository = DefaultWeatherRepository(
         openWeatherService = mockOpenWeatherService,
-        weatherDao = mockWeatherDao,
-        context = mockContext
-    )
+        weatherDao = mockWeatherDao)
 }
