@@ -2,6 +2,7 @@ package com.github.odaridavid.weatherapp.data.weather
 
 import com.github.odaridavid.weatherapp.BuildConfig
 import com.github.odaridavid.weatherapp.R
+import com.github.odaridavid.weatherapp.core.api.Logger
 import com.github.odaridavid.weatherapp.core.api.WeatherRepository
 import com.github.odaridavid.weatherapp.core.model.DefaultLocation
 import com.github.odaridavid.weatherapp.core.model.ExcludedData
@@ -18,6 +19,7 @@ import javax.inject.Inject
 class DefaultWeatherRepository @Inject constructor(
     private val openWeatherService: OpenWeatherService,
     private val weatherDao: WeatherDao,
+    private val logger: Logger
 ) : WeatherRepository {
     override fun fetchWeatherData(
         defaultLocation: DefaultLocation,
@@ -60,6 +62,7 @@ class DefaultWeatherRepository @Inject constructor(
             is IOException -> R.string.error_connection
             else -> R.string.error_generic
         }
+        logger.logException(throwable)
         emit(ApiResult.Error(errorMessage))
     }
     private fun mapResponseCodeToErrorMessage(code: Int): Int = when (code) {
