@@ -150,6 +150,7 @@ dependencies {
     // Jetpack Core
     implementation(libs.bundles.androidx)
     implementation(platform(libs.compose.bom))
+    implementation(libs.bundles.compose)
 
     // Google Play Services
     implementation(libs.playservices.location)

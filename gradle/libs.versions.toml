@@ -95,9 +95,15 @@ androidx = [
     "core-ktx",
     "lifecycle-runtime-ktx",
     "activity-compose",
-    "compose-navigation",
     "datastore",
-    "compose-viewmodel-lifecycle"
+]
+
+compose = [
+    "compose-ui",
+    "compose-preview",
+    "compose-material",
+    "compose-viewmodel-lifecycle",
+    "compose-navigation",
 ]
 
 firebase = [
