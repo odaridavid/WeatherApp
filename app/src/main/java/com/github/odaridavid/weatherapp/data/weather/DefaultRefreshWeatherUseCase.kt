@@ -2,6 +2,7 @@ package com.github.odaridavid.weatherapp.data.weather
 
 import android.content.Context
 import com.github.odaridavid.weatherapp.R
+import com.github.odaridavid.weatherapp.core.Result
 import com.github.odaridavid.weatherapp.core.api.RefreshWeatherUseCase
 import com.github.odaridavid.weatherapp.core.api.WeatherRepository
 import com.github.odaridavid.weatherapp.core.model.DefaultLocation
@@ -20,17 +21,17 @@ class DefaultRefreshWeatherUseCase @Inject constructor(
         defaultLocation: DefaultLocation,
         language: String,
         units: String
-    ): Flow<ApiResult<Weather>>  = flow{
+    ): Flow<Result<Weather>>  = flow{
         weatherRepository.fetchWeatherData(
             defaultLocation = defaultLocation,
             language = language,
             units =units
         ).collect{ result->
             when (result) {
-                is ApiResult.Success -> {
+                is Result.Success -> {
                     notificationUtil.makeNotification(context.getString(R.string.weather_updates))
                 }
-                is ApiResult.Error -> {
+                is Result.Error -> {
                     R.string.error_generic
                 }
             }

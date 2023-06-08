@@ -4,10 +4,11 @@ import android.content.Context
 import androidx.test.core.app.ApplicationProvider
 import androidx.work.testing.WorkManagerTestInitHelper
 import app.cash.turbine.test
+import com.github.odaridavid.weatherapp.core.ErrorType
 import com.github.odaridavid.weatherapp.core.api.Logger
 import com.github.odaridavid.weatherapp.core.api.WeatherRepository
 import com.github.odaridavid.weatherapp.core.model.DefaultLocation
-import com.github.odaridavid.weatherapp.data.weather.ApiResult
+import com.github.odaridavid.weatherapp.core.Result
 import com.github.odaridavid.weatherapp.data.weather.DefaultWeatherRepository
 import com.github.odaridavid.weatherapp.data.weather.OpenWeatherService
 import com.github.odaridavid.weatherapp.data.weather.WeatherResponse
@@ -70,8 +71,8 @@ class WeatherRepositoryUnitTest {
             units = "metric"
         ).test {
             awaitItem().also { result ->
-                Truth.assertThat(result).isInstanceOf(ApiResult.Success::class.java)
-                Truth.assertThat((result as ApiResult.Success).data).isEqualTo(expectedResult)
+                Truth.assertThat(result).isInstanceOf(Result.Success::class.java)
+                Truth.assertThat((result as Result.Success).data).isEqualTo(expectedResult)
             }
             awaitComplete()
         }
@@ -104,8 +105,8 @@ class WeatherRepositoryUnitTest {
             units = "metric"
         ).test {
             awaitItem().also { result ->
-                Truth.assertThat(result).isInstanceOf(ApiResult.Error::class.java)
-                Truth.assertThat((result as ApiResult.Error).messageId).isEqualTo(R.string.error_server)
+                Truth.assertThat(result).isInstanceOf(Result.Error::class.java)
+                Truth.assertThat((result as Result.Error).errorType).isEqualTo(ErrorType.SERVER)
             }
             awaitComplete()
         }
@@ -138,8 +139,8 @@ class WeatherRepositoryUnitTest {
             units = "metric"
         ).test {
             awaitItem().also { result ->
-                Truth.assertThat(result).isInstanceOf(ApiResult.Error::class.java)
-                Truth.assertThat((result as ApiResult.Error).messageId).isEqualTo(R.string.error_client)
+                Truth.assertThat(result).isInstanceOf(Result.Error::class.java)
+                Truth.assertThat((result as Result.Error).errorType).isEqualTo(ErrorType.CLIENT)
             }
             awaitComplete()
         }
@@ -172,8 +173,8 @@ class WeatherRepositoryUnitTest {
             units = "metric"
         ).test {
             awaitItem().also { result ->
-                Truth.assertThat(result).isInstanceOf(ApiResult.Error::class.java)
-                Truth.assertThat((result as ApiResult.Error).messageId).isEqualTo(R.string.error_unauthorized)
+                Truth.assertThat(result).isInstanceOf(Result.Error::class.java)
+                Truth.assertThat((result as Result.Error).errorType).isEqualTo(ErrorType.UNAUTHORIZED)
             }
             awaitComplete()
         }
@@ -206,8 +207,8 @@ class WeatherRepositoryUnitTest {
             units = "metric"
         ).test {
             awaitItem().also { result ->
-                Truth.assertThat(result).isInstanceOf(ApiResult.Error::class.java)
-                Truth.assertThat((result as ApiResult.Error).messageId).isEqualTo(R.string.error_generic)
+                Truth.assertThat(result).isInstanceOf(Result.Error::class.java)
+                Truth.assertThat((result as Result.Error).errorType).isEqualTo(ErrorType.GENERIC)
             }
             awaitComplete()
         }
@@ -237,8 +238,8 @@ class WeatherRepositoryUnitTest {
             units = "metric"
         ).test {
             awaitItem().also { result ->
-                Truth.assertThat(result).isInstanceOf(ApiResult.Error::class.java)
-                Truth.assertThat((result as ApiResult.Error).messageId).isEqualTo(R.string.error_connection)
+                Truth.assertThat(result).isInstanceOf(Result.Error::class.java)
+                Truth.assertThat((result as Result.Error).errorType).isEqualTo(ErrorType.IO_CONNECTION)
             }
             awaitComplete()
         }
@@ -268,16 +269,16 @@ class WeatherRepositoryUnitTest {
             units = "metric"
         ).test {
             awaitItem().also { result ->
-                Truth.assertThat(result).isInstanceOf(ApiResult.Error::class.java)
-                Truth.assertThat((result as ApiResult.Error).messageId).isEqualTo(R.string.error_generic)
+                Truth.assertThat(result).isInstanceOf(Result.Error::class.java)
+                Truth.assertThat((result as Result.Error).errorType).isEqualTo(ErrorType.GENERIC)
             }
             awaitComplete()
         }
     }
 
-    private fun createWeatherRepository(): WeatherRepository = DefaultWeatherRepository(
+    private fun createWeatherRepository(logger: Logger = mockLogger): WeatherRepository = DefaultWeatherRepository(
         openWeatherService = mockOpenWeatherService,
         weatherDao = mockWeatherDao,
-        logger = mockLogger
+        logger = logger
     )
 }

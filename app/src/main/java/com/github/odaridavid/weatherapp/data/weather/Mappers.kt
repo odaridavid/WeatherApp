@@ -1,6 +1,7 @@
 package com.github.odaridavid.weatherapp.data.weather
 
 import com.github.odaridavid.weatherapp.BuildConfig
+import com.github.odaridavid.weatherapp.core.ErrorType
 import com.github.odaridavid.weatherapp.core.model.CurrentWeather
 import com.github.odaridavid.weatherapp.core.model.DailyWeather
 import com.github.odaridavid.weatherapp.core.model.HourlyWeather
@@ -14,6 +15,8 @@ import com.github.odaridavid.weatherapp.data.weather.local.entity.PopulatedWeath
 import com.github.odaridavid.weatherapp.data.weather.local.entity.TemperatureEntity
 import com.github.odaridavid.weatherapp.data.weather.local.entity.WeatherEntity
 import com.github.odaridavid.weatherapp.data.weather.local.entity.WeatherInfoResponseEntity
+import java.io.IOException
+import java.net.HttpURLConnection
 import java.text.SimpleDateFormat
 import java.util.Date
 import kotlin.math.roundToInt
@@ -181,4 +184,19 @@ fun TemperatureResponse.toTemperatureEntity(): TemperatureEntity {
         min = min,
         max = max
     )
+}
+
+fun mapThrowableToErrorType(throwable: Throwable): ErrorType {
+    val errorType = when (throwable) {
+        is IOException -> ErrorType.IO_CONNECTION
+        else -> ErrorType.GENERIC
+    }
+    return errorType
+}
+
+fun mapResponseCodeToErrorType(code: Int): ErrorType = when (code) {
+    HttpURLConnection.HTTP_UNAUTHORIZED -> ErrorType.UNAUTHORIZED
+    in 400..499 -> ErrorType.CLIENT
+    in 500..600 -> ErrorType.SERVER
+    else -> ErrorType.GENERIC
 }

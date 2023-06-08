@@ -3,11 +3,11 @@ package com.github.odaridavid.weatherapp.ui.home
 import androidx.annotation.StringRes
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.github.odaridavid.weatherapp.core.Result
 import com.github.odaridavid.weatherapp.core.model.Weather
 import com.github.odaridavid.weatherapp.core.api.SettingsRepository
 import com.github.odaridavid.weatherapp.core.api.WeatherRepository
 import com.github.odaridavid.weatherapp.core.model.DefaultLocation
-import com.github.odaridavid.weatherapp.data.weather.ApiResult
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -61,9 +61,9 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    private fun processResult(result: ApiResult<Weather>) {
+    private fun processResult(result: Result<Weather>) {
         when (result) {
-            is ApiResult.Success -> {
+            is Result.Success -> {
                 val weatherData = result.data
                 setState {
                     copy(
@@ -74,11 +74,11 @@ class HomeViewModel @Inject constructor(
                 }
             }
 
-            is ApiResult.Error -> {
+            is Result.Error -> {
                 setState {
                     copy(
                         isLoading = false,
-                        errorMessageId = result.messageId
+                        errorMessageId = mapErrorTypeToResourceId(result.errorType)
                     )
                 }
             }

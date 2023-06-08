@@ -2,6 +2,7 @@ package com.github.odaridavid.weatherapp.data.weather
 
 import com.github.odaridavid.weatherapp.BuildConfig
 import com.github.odaridavid.weatherapp.R
+import com.github.odaridavid.weatherapp.core.Result
 import com.github.odaridavid.weatherapp.core.api.Logger
 import com.github.odaridavid.weatherapp.core.api.WeatherRepository
 import com.github.odaridavid.weatherapp.core.model.DefaultLocation
@@ -25,11 +26,11 @@ class DefaultWeatherRepository @Inject constructor(
         defaultLocation: DefaultLocation,
         language: String,
         units: String
-    ): Flow<ApiResult<Weather>> = flow {
+    ): Flow<Result<Weather>> = flow {
         val cachedWeather = weatherDao.getWeather()
         if (cachedWeather != null && cachedWeather.isDataValid()) {
             val weatherData = cachedWeather.toCoreEntity(unit = units)
-            emit(ApiResult.Success(data = weatherData))
+            emit(Result.Success(data = weatherData))
             return@flow
         }
         val excludedData = "${ExcludedData.MINUTELY.value},${ExcludedData.ALERTS.value}"
@@ -52,24 +53,15 @@ class DefaultWeatherRepository @Inject constructor(
             weatherDao.insertDailyWeather(dailyEntity)
             val getWeather = weatherDao.getWeather()
             val data = getWeather!!.toCoreEntity(unit = units)
-            emit(ApiResult.Success(data =data))
+            emit(Result.Success(data =data))
         } else {
-            val errorMessage = mapResponseCodeToErrorMessage(apiResponse.code())
-            emit(ApiResult.Error(errorMessage))
+            val errorType = mapResponseCodeToErrorType(apiResponse.code())
+            emit(Result.Error(errorType = errorType))
         }
-    }.catch { throwable ->
-        val errorMessage = when (throwable) {
-            is IOException -> R.string.error_connection
-            else -> R.string.error_generic
-        }
+    }.catch { throwable: Throwable ->
+        val errorType = mapThrowableToErrorType(throwable)
         logger.logException(throwable)
-        emit(ApiResult.Error(errorMessage))
-    }
-    private fun mapResponseCodeToErrorMessage(code: Int): Int = when (code) {
-        HTTP_UNAUTHORIZED -> R.string.error_unauthorized
-        in 400..499 -> R.string.error_client
-        in 500..600 -> R.string.error_server
-        else -> R.string.error_generic
+        emit(Result.Error(errorType))
     }
 
     private fun getLanguageValue(language: String) =
