@@ -4,29 +4,25 @@ import android.content.Context
 import androidx.hilt.work.HiltWorker
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
-import com.github.odaridavid.weatherapp.R
-import com.github.odaridavid.weatherapp.core.model.DefaultLocation
-import com.github.odaridavid.weatherapp.core.model.SupportedLanguage
-import com.github.odaridavid.weatherapp.core.model.Units
-import com.github.odaridavid.weatherapp.data.weather.DefaultWeatherRepository
-import com.github.odaridavid.weatherapp.data.weather.RefreshWeatherUseCase
-import com.github.odaridavid.weatherapp.util.NotificationUtil
+import com.github.odaridavid.weatherapp.core.api.SettingsRepository
+import com.github.odaridavid.weatherapp.data.weather.DefaultRefreshWeatherUseCase
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
-
+import kotlinx.coroutines.flow.first
 
 @HiltWorker
 class UpdateWeatherWorker @AssistedInject constructor(
     @Assisted context: Context,
     @Assisted params: WorkerParameters,
-    private val refreshWeatherUseCase: RefreshWeatherUseCase,
+    private val refreshWeatherUseCase: DefaultRefreshWeatherUseCase,
+    private val settingsRepository: SettingsRepository
 ): CoroutineWorker(context, params){
 
     override suspend fun doWork(): Result {
         return try {
-            val defaultLocation = getDefaultLocation()
-            val language = getDefaultLanguage()
-            val units = getDefaultUnits()
+            val defaultLocation = settingsRepository.getDefaultLocation().first()
+            val language = settingsRepository.getLanguage().first()
+            val units = settingsRepository.getUnits().first()
             refreshWeatherUseCase.invoke(
                 defaultLocation = defaultLocation,
                 language = language,
@@ -35,20 +31,5 @@ class UpdateWeatherWorker @AssistedInject constructor(
         } catch(e: Error) {
             Result.retry()
         }
-    }
-
-    private fun getDefaultLocation(): DefaultLocation {
-       return DefaultLocation(
-           latitude = 12.11,
-           longitude = 98.55,
-       )
-    }
-
-    private fun getDefaultLanguage(): String {
-        return SupportedLanguage.values().toString()
-    }
-
-    private fun getDefaultUnits(): String {
-        return Units.METRIC.value
     }
 }
