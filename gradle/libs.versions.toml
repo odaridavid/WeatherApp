@@ -9,7 +9,7 @@ kotlin-serialization = "1.6.10"
 core-ktx-version = "1.10.1"
 lifecycle-runtime-ktx = "2.6.1"
 activity-compose = "1.7.2"
-compose = "1.4.3"
+compose-bom="2023.05.01"
 compose-navigation = "2.5.3"
 datastore = "1.0.0"
 lifecycle-viewmodel-compose = "2.6.1"
@@ -40,9 +40,10 @@ crashlytics-plugin = "2.9.5"
 core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "core-ktx-version" }
 lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycle-runtime-ktx" }
 activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "activity-compose" }
-compose-ui = { group = "androidx.compose.ui", name = "ui", version.ref = "compose" }
-compose-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview", version.ref = "compose" }
-compose-material = { group = "androidx.compose.material", name = "material", version.ref = "compose" }
+compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "compose-bom" }
+compose-ui = { group = "androidx.compose.ui", name = "ui" }
+compose-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
+compose-material = { group = "androidx.compose.material", name = "material" }
 compose-navigation = { group = "androidx.navigation", name = "navigation-compose", version.ref = "compose-navigation" }
 datastore = { group = "androidx.datastore", name = "datastore-preferences", version.ref = "datastore" }
 #DI
@@ -66,8 +67,8 @@ mock-android = { group = "io.mockk", name = "mockk-android", version.ref = "mock
 mock-agent = { group = "io.mockk", name = "mockk-agent", version.ref = "mockk" }
 truth = { group = "com.google.truth", name = "truth", version.ref = "truth" }
 coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "coroutines-test" }
-compose-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling", version.ref = "compose" }
-compose-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest", version.ref = "compose" }
+compose-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
+compose-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
 
 #Firebase
 com-google-services = { group = "com.google.gms", name = "google-services", version.ref = "com-google-services" }
@@ -94,9 +95,6 @@ androidx = [
     "core-ktx",
     "lifecycle-runtime-ktx",
     "activity-compose",
-    "compose-ui",
-    "compose-preview",
-    "compose-material",
     "compose-navigation",
     "datastore",
     "compose-viewmodel-lifecycle"
