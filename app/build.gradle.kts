@@ -149,10 +149,11 @@ dependencies {
 
     // Jetpack Core
     implementation(libs.bundles.androidx)
+    implementation(platform(libs.compose.bom))
+    implementation(libs.bundles.compose)
 
     // Google Play Services
     implementation(libs.playservices.location)
-
 
     // Data & Async
     implementation(libs.retrofit)
@@ -182,7 +183,7 @@ dependencies {
     debugImplementation(libs.compose.ui.tooling)
     debugImplementation(libs.compose.ui.test.manifest)
     
-    // chucker
+    // Chucker
     debugImplementation(libs.chucker.debug)
     releaseImplementation(libs.chucker.release)
 }
