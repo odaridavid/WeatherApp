@@ -5,6 +5,7 @@ import com.github.odaridavid.weatherapp.core.api.Logger
 import com.github.odaridavid.weatherapp.core.api.WeatherRepository
 import com.github.odaridavid.weatherapp.core.model.DefaultLocation
 import com.github.odaridavid.weatherapp.data.weather.DefaultWeatherRepository
+import com.github.odaridavid.weatherapp.data.weather.remote.DefaultRemoteWeatherDataSource
 import com.github.odaridavid.weatherapp.data.weather.remote.OpenWeatherService
 import com.github.odaridavid.weatherapp.data.weather.remote.WeatherResponse
 import com.github.odaridavid.weatherapp.ui.home.HomeScreenIntent
@@ -40,12 +41,7 @@ class HomeViewModelIntegrationTest {
     fun `when fetching weather data is successful, then display correct data`() = runBlocking {
         coEvery {
             mockOpenWeatherService.getWeatherData(
-                any(),
-                any(),
-                any(),
-                any(),
-                any(),
-                any()
+                any(), any(), any(), any(), any(), any()
             )
         } returns Response.success<WeatherResponse>(
             fakeSuccessWeatherResponse
@@ -60,8 +56,7 @@ class HomeViewModelIntegrationTest {
         val expectedState = HomeScreenViewState(
             units = "metric",
             defaultLocation = DefaultLocation(
-                longitude = 0.0,
-                latitude = 0.0
+                longitude = 0.0, latitude = 0.0
             ),
             locationName = "-",
             language = "English",
@@ -82,16 +77,10 @@ class HomeViewModelIntegrationTest {
         runBlocking {
             coEvery {
                 mockOpenWeatherService.getWeatherData(
-                    any(),
-                    any(),
-                    any(),
-                    any(),
-                    any(),
-                    any()
+                    any(), any(), any(), any(), any(), any()
                 )
             } returns Response.error<WeatherResponse>(
-                404,
-                "{}".toResponseBody()
+                404, "{}".toResponseBody()
             )
 
             val weatherRepository = createWeatherRepository()
@@ -103,8 +92,7 @@ class HomeViewModelIntegrationTest {
             val expectedState = HomeScreenViewState(
                 units = "metric",
                 defaultLocation = DefaultLocation(
-                    longitude = 0.0,
-                    latitude = 0.0
+                    longitude = 0.0, latitude = 0.0
                 ),
                 locationName = "-",
                 language = "English",
@@ -122,16 +110,14 @@ class HomeViewModelIntegrationTest {
 
     @Test
     fun `when we init the screen, then update the state`() = runBlocking {
-        val weatherRepository =
-            createWeatherRepository()
+        val weatherRepository = createWeatherRepository()
 
         val viewModel = createViewModel(weatherRepository = weatherRepository)
 
         val expectedState = HomeScreenViewState(
             units = "metric",
             defaultLocation = DefaultLocation(
-                longitude = 0.0,
-                latitude = 0.0
+                longitude = 0.0, latitude = 0.0
             ),
             locationName = "-",
             language = "English",
@@ -156,8 +142,7 @@ class HomeViewModelIntegrationTest {
         val expectedState = HomeScreenViewState(
             units = "metric",
             defaultLocation = DefaultLocation(
-                longitude = 0.0,
-                latitude = 0.0
+                longitude = 0.0, latitude = 0.0
             ),
             locationName = "Paradise",
             language = "English",
@@ -177,11 +162,13 @@ class HomeViewModelIntegrationTest {
 
     private fun createViewModel(weatherRepository: WeatherRepository): HomeViewModel =
         HomeViewModel(
-            weatherRepository = weatherRepository,
-            settingsRepository = settingsRepository
+            weatherRepository = weatherRepository, settingsRepository = settingsRepository
         )
 
-
-    private fun createWeatherRepository() =
-        DefaultWeatherRepository(openWeatherService = mockOpenWeatherService, logger = mockLogger)
+    private fun createWeatherRepository() = DefaultWeatherRepository(
+        remoteWeatherDataSource = DefaultRemoteWeatherDataSource(
+            mockOpenWeatherService
+        ),
+        logger = mockLogger
+    )
 }
