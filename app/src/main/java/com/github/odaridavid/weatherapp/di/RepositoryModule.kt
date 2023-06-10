@@ -6,6 +6,8 @@ import com.github.odaridavid.weatherapp.data.weather.DefaultWeatherRepository
 import com.github.odaridavid.weatherapp.core.api.WeatherRepository
 import com.github.odaridavid.weatherapp.data.settings.DefaultSettingsRepository
 import com.github.odaridavid.weatherapp.data.weather.FirebaseLogger
+import com.github.odaridavid.weatherapp.data.weather.remote.DefaultRemoteWeatherDataSource
+import com.github.odaridavid.weatherapp.data.weather.remote.RemoteWeatherDataSource
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -23,5 +25,8 @@ interface RepositoryModule {
 
     @Binds
     fun bindFirebaseLogger(logger: FirebaseLogger): Logger
+
+    @Binds
+    fun bindRemoteWeatherDataSource(remoteWeatherDataSource: DefaultRemoteWeatherDataSource): RemoteWeatherDataSource
 
 }

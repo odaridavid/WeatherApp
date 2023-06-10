@@ -7,8 +7,8 @@ import com.github.odaridavid.weatherapp.core.api.WeatherRepository
 import com.github.odaridavid.weatherapp.core.model.DefaultLocation
 import com.github.odaridavid.weatherapp.core.Result
 import com.github.odaridavid.weatherapp.data.weather.DefaultWeatherRepository
-import com.github.odaridavid.weatherapp.data.weather.OpenWeatherService
-import com.github.odaridavid.weatherapp.data.weather.WeatherResponse
+import com.github.odaridavid.weatherapp.data.weather.remote.OpenWeatherService
+import com.github.odaridavid.weatherapp.data.weather.remote.WeatherResponse
 import com.google.common.truth.Truth
 import io.mockk.coEvery
 import io.mockk.impl.annotations.MockK

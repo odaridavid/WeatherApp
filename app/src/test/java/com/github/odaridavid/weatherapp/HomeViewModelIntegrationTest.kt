@@ -5,8 +5,8 @@ import com.github.odaridavid.weatherapp.core.api.Logger
 import com.github.odaridavid.weatherapp.core.api.WeatherRepository
 import com.github.odaridavid.weatherapp.core.model.DefaultLocation
 import com.github.odaridavid.weatherapp.data.weather.DefaultWeatherRepository
-import com.github.odaridavid.weatherapp.data.weather.OpenWeatherService
-import com.github.odaridavid.weatherapp.data.weather.WeatherResponse
+import com.github.odaridavid.weatherapp.data.weather.remote.OpenWeatherService
+import com.github.odaridavid.weatherapp.data.weather.remote.WeatherResponse
 import com.github.odaridavid.weatherapp.ui.home.HomeScreenIntent
 import com.github.odaridavid.weatherapp.ui.home.HomeScreenViewState
 import com.github.odaridavid.weatherapp.ui.home.HomeViewModel

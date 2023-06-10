@@ -48,13 +48,12 @@ class HomeViewModel @Inject constructor(
         when (homeScreenIntent) {
             is HomeScreenIntent.LoadWeatherData -> {
                 viewModelScope.launch {
-                    weatherRepository.fetchWeatherData(
+                    val result = weatherRepository.fetchWeatherData(
                         language = state.value.language,
                         defaultLocation = state.value.defaultLocation,
                         units = state.value.units
-                    ).collect { result ->
-                        processResult(result)
-                    }
+                    )
+                    processResult(result)
                 }
             }
 

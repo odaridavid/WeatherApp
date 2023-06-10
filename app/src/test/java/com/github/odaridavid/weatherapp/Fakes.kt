@@ -2,8 +2,8 @@ package com.github.odaridavid.weatherapp
 
 import com.github.odaridavid.weatherapp.core.model.CurrentWeather
 import com.github.odaridavid.weatherapp.core.model.Weather
-import com.github.odaridavid.weatherapp.data.weather.CurrentWeatherResponse
-import com.github.odaridavid.weatherapp.data.weather.WeatherResponse
+import com.github.odaridavid.weatherapp.data.weather.remote.CurrentWeatherResponse
+import com.github.odaridavid.weatherapp.data.weather.remote.WeatherResponse
 
 val fakeSuccessWeatherResponse = WeatherResponse(
     current = CurrentWeatherResponse(

@@ -1,11 +1,15 @@
-package com.github.odaridavid.weatherapp.data.weather
+package com.github.odaridavid.weatherapp.data.weather.remote
 
 import com.github.odaridavid.weatherapp.BuildConfig
 import com.github.odaridavid.weatherapp.core.ErrorType
+import com.github.odaridavid.weatherapp.core.model.ClientException
 import com.github.odaridavid.weatherapp.core.model.CurrentWeather
 import com.github.odaridavid.weatherapp.core.model.DailyWeather
+import com.github.odaridavid.weatherapp.core.model.GenericException
 import com.github.odaridavid.weatherapp.core.model.HourlyWeather
+import com.github.odaridavid.weatherapp.core.model.ServerException
 import com.github.odaridavid.weatherapp.core.model.Temperature
+import com.github.odaridavid.weatherapp.core.model.UnauthorizedException
 import com.github.odaridavid.weatherapp.core.model.Units
 import com.github.odaridavid.weatherapp.core.model.Weather
 import com.github.odaridavid.weatherapp.core.model.WeatherInfo
@@ -72,17 +76,20 @@ private fun getDate(utcInMillis: Long, formatPattern: String): String {
     return sdf.format(dateFormat)
 }
 
+fun mapResponseCodeToThrowable(code: Int): Throwable = when (code) {
+    HttpURLConnection.HTTP_UNAUTHORIZED -> UnauthorizedException("Unauthorized access : $code")
+    in 400..499 -> ClientException("Client error : $code")
+    in 500..600 -> ServerException("Server error : $code")
+    else -> GenericException("Generic error : $code")
+}
+
 fun mapThrowableToErrorType(throwable: Throwable): ErrorType {
     val errorType = when (throwable) {
         is IOException -> ErrorType.IO_CONNECTION
+        is ClientException -> ErrorType.CLIENT
+        is ServerException -> ErrorType.SERVER
+        is UnauthorizedException -> ErrorType.UNAUTHORIZED
         else -> ErrorType.GENERIC
     }
     return errorType
-}
-
-fun mapResponseCodeToErrorType(code: Int): ErrorType = when (code) {
-    HttpURLConnection.HTTP_UNAUTHORIZED -> ErrorType.UNAUTHORIZED
-    in 400..499 -> ErrorType.CLIENT
-    in 500..600 -> ErrorType.SERVER
-    else -> ErrorType.GENERIC
 }
