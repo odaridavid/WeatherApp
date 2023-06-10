@@ -4,7 +4,7 @@ import android.content.Context
 import com.chuckerteam.chucker.api.ChuckerCollector
 import com.chuckerteam.chucker.api.ChuckerInterceptor
 import com.github.odaridavid.weatherapp.BuildConfig
-import com.github.odaridavid.weatherapp.data.weather.OpenWeatherService
+import com.github.odaridavid.weatherapp.data.weather.remote.OpenWeatherService
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import dagger.Module
 import dagger.Provides

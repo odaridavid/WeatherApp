@@ -22,7 +22,7 @@ fun setupAndroidReporting() {
     val buildTypes = listOf("debug")
 
     buildTypes.forEach { buildTypeName ->
-        var sourceName = buildTypeName
+        val sourceName = buildTypeName
         val testTaskName = "test${sourceName.capitalize()}UnitTest"
         println("Task -> $testTaskName")
 
