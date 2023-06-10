@@ -30,4 +30,6 @@
     <string name="error_server">Oops! Something is wrong on our end :(</string>
     <string name="error_generic">Something is happening that\'s disturbing the force :(</string>
     <string name="error_connection">Check your internet connection and try again</string>
+    <string name="weather_notification">Weather Notification</string>
+    <string name="weather_updates">Weather Updates</string>
 </resources>

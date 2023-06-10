@@ -182,6 +182,21 @@ dependencies {
     testImplementation(libs.coroutines.test)
     debugImplementation(libs.compose.ui.tooling)
     debugImplementation(libs.compose.ui.test.manifest)
+    implementation(libs.androidx.work.testing)
+    implementation(libs.core.ktx)
+    testImplementation(libs.roboelectric)
+    testImplementation(libs.androidx.arch.core)
+    implementation(libs.core.ktx.test)
+
+    //Room
+    implementation(libs.room.ktx)
+    implementation(libs.room.runtime)
+    kapt(libs.room.compiler)
+
+    //WorkManager
+    implementation(libs.androidx.work.ktx)
+    implementation(libs.hilt.ext.work)
+    kapt(libs.hilt.compiler)
     
     // Chucker
     debugImplementation(libs.chucker.debug)

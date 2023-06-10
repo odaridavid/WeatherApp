@@ -5,10 +5,10 @@ import com.github.odaridavid.weatherapp.core.model.DefaultLocation
 import com.github.odaridavid.weatherapp.core.model.Weather
 import kotlinx.coroutines.flow.Flow
 
-interface WeatherRepository {
-    fun fetchWeatherData(
+interface RefreshWeatherUseCase {
+    operator fun invoke(
         defaultLocation: DefaultLocation,
         language: String,
         units: String
-    ) : Flow<Result<Weather>>
+    ): Flow<Result<Weather>>
 }
