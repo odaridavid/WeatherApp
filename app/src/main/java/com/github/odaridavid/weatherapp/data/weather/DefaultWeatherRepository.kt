@@ -21,13 +21,12 @@ class DefaultWeatherRepository @Inject constructor(
         language: String,
         units: String
     ): Result<Weather> =
-        try{
-            val weather = remoteWeatherDataSource.fetchWeatherData(
+        try {
+            remoteWeatherDataSource.fetchWeatherData(
                 defaultLocation = defaultLocation,
                 units = units,
                 language = language
             )
-            Success(weather) as Result<Weather>
         } catch (throwable: Throwable) {
             val errorType = mapThrowableToErrorType(throwable)
             logger.logException(throwable)
