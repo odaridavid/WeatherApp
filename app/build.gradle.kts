@@ -149,10 +149,11 @@ dependencies {
 
     // Jetpack Core
     implementation(libs.bundles.androidx)
+    implementation(platform(libs.compose.bom))
+    implementation(libs.bundles.compose)
 
     // Google Play Services
     implementation(libs.playservices.location)
-
 
     // Data & Async
     implementation(libs.retrofit)
@@ -197,7 +198,7 @@ dependencies {
     implementation(libs.hilt.ext.work)
     kapt(libs.hilt.compiler)
     
-    // chucker
+    // Chucker
     debugImplementation(libs.chucker.debug)
     releaseImplementation(libs.chucker.release)
 }
