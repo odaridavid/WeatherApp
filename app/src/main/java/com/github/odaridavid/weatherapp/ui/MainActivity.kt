@@ -18,7 +18,12 @@ import androidx.navigation.compose.rememberNavController
 import com.github.odaridavid.weatherapp.MainViewIntent
 import com.github.odaridavid.weatherapp.MainViewModel
 import com.github.odaridavid.weatherapp.MainViewState
-import com.github.odaridavid.weatherapp.ui.theme.WeatherAppTheme
+import com.github.odaridavid.weatherapp.common.createLocationRequest
+import com.github.odaridavid.weatherapp.designsystem.CheckForPermissions
+import com.github.odaridavid.weatherapp.designsystem.EnableLocationSettingScreen
+import com.github.odaridavid.weatherapp.designsystem.OnPermissionDenied
+import com.github.odaridavid.weatherapp.designsystem.RequiresPermissionsScreen
+import com.github.odaridavid.weatherapp.designsystem.theme.WeatherAppTheme
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import dagger.hilt.android.AndroidEntryPoint
@@ -91,11 +96,7 @@ class MainActivity : ComponentActivity() {
                             )
                         )
                     }
-                WeatherAppScreensConfig(
-                    navController = rememberNavController(),
-                    homeViewModel = viewModel(),
-                    settingsViewModel = viewModel()
-                )
+                WeatherAppScreensConfig(navController = rememberNavController())
             }
             state.isLocationSettingEnabled && !state.isPermissionGranted -> {
                 RequiresPermissionsScreen()

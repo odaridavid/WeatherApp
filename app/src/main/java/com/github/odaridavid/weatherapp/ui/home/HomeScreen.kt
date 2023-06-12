@@ -31,7 +31,7 @@ import com.github.odaridavid.weatherapp.R
 import com.github.odaridavid.weatherapp.core.model.CurrentWeather
 import com.github.odaridavid.weatherapp.core.model.DailyWeather
 import com.github.odaridavid.weatherapp.core.model.HourlyWeather
-import com.github.odaridavid.weatherapp.ui.getCityName
+import com.github.odaridavid.weatherapp.common.getCityName
 
 @Composable
 fun HomeScreen(
