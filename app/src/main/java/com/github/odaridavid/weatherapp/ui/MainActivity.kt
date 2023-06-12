@@ -2,6 +2,7 @@ package com.github.odaridavid.weatherapp.ui
 
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.location.Location
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -88,22 +89,27 @@ class MainActivity : ComponentActivity() {
         when {
             state.isLocationSettingEnabled && state.isPermissionGranted -> {
                 fusedLocationProviderClient.lastLocation
-                    .addOnSuccessListener { location ->
-                        mainViewModel.processIntent(
-                            MainViewIntent.ReceiveLocation(
-                                longitude = location.longitude,
-                                latitude = location.latitude
+                    .addOnSuccessListener { location: Location? ->
+                        location?.run {
+                            mainViewModel.processIntent(
+                                MainViewIntent.ReceiveLocation(
+                                    longitude = location.longitude,
+                                    latitude = location.latitude
+                                )
                             )
-                        )
+                        }
                     }
                 WeatherAppScreensConfig(navController = rememberNavController())
             }
+
             state.isLocationSettingEnabled && !state.isPermissionGranted -> {
                 RequiresPermissionsScreen()
             }
+
             !state.isLocationSettingEnabled && !state.isPermissionGranted -> {
                 EnableLocationSettingScreen()
             }
+
             else -> RequiresPermissionsScreen()
         }
     }
