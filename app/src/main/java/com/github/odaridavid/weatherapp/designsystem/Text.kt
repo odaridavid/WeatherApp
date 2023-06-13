@@ -44,6 +44,25 @@ fun ErrorTextWithAction(
 }
 
 @Composable
+fun Headline(text: String, modifier: Modifier = Modifier, color: Color = Color.Unspecified) {
+    Text(
+        text = text,
+        modifier = modifier,
+        style = MaterialTheme.typography.h2
+    )
+}
+
+@Composable
+fun TemperatureHeadline(temperature: String, modifier: Modifier = Modifier) {
+    Headline(
+        text = temperature,
+        modifier = modifier
+            .padding(horizontal = 16.dp)
+            .padding(vertical = 8.dp)
+    )
+}
+
+@Composable
 fun Subtitle(text: String, modifier: Modifier = Modifier, color: Color = Color.Unspecified) {
     Text(
         text = text,
@@ -64,9 +83,17 @@ fun Body(text: String, modifier: Modifier = Modifier, color: Color = Color.Unspe
 }
 
 @Composable
-fun TemperatureText(@StringRes stringRes: Int, value: String) {
+fun Temperature(text: String) {
     Body(
-        text = stringResource(stringRes, value),
+        text = text,
         modifier = Modifier.padding(4.dp)
+    )
+}
+
+@Composable
+fun ForecastedTime(text: String, modifier: Modifier = Modifier) {
+    Body(
+        text = text,
+        modifier = modifier.padding(4.dp)
     )
 }
