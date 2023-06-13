@@ -30,7 +30,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import com.github.odaridavid.weatherapp.R
 
-// TODO Improve dialog ui/solution
 @Composable
 fun SettingsScreen(
     state: SettingsScreenViewState,
@@ -83,7 +82,7 @@ fun SettingsScreen(
             Dialog(onDismissRequest = { openLanguageSelectionDialog.value = false }) {
                 Card(modifier = Modifier.padding(16.dp)) {
                     Column(modifier = Modifier.verticalScroll(rememberScrollState())) {
-                        Column() {
+                        Column {
                             availableLanguages.forEach { text ->
                                 Row(
                                     Modifier

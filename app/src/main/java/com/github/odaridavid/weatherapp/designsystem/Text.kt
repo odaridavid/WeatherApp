@@ -1,0 +1,72 @@
+package com.github.odaridavid.weatherapp.designsystem
+
+import androidx.annotation.StringRes
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material.Button
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.dp
+import com.github.odaridavid.weatherapp.R
+import com.github.odaridavid.weatherapp.core.model.Temperature
+
+@Composable
+fun ErrorTextWithAction(
+    @StringRes errorMessageId: Int, modifier: Modifier, onTryAgainClicked: () -> Unit
+) {
+    Column(modifier = Modifier.fillMaxWidth()) {
+        Text(
+            text = stringResource(id = errorMessageId),
+            textAlign = TextAlign.Center,
+            modifier = modifier.align(Alignment.CenterHorizontally),
+            style = MaterialTheme.typography.body1
+        )
+        Button(
+            onClick = { onTryAgainClicked() },
+            modifier = Modifier
+                .padding(16.dp)
+                .align(Alignment.CenterHorizontally)
+        ) {
+            Text(
+                text = stringResource(R.string.home_error_try_again),
+                style = MaterialTheme.typography.body1,
+                textAlign = TextAlign.Center
+            )
+        }
+    }
+}
+
+@Composable
+fun Subtitle(text: String, modifier: Modifier = Modifier, color: Color = Color.Unspecified) {
+    Text(
+        text = text,
+        style = MaterialTheme.typography.subtitle1,
+        modifier = modifier.padding(horizontal = 16.dp, vertical = 8.dp),
+        color = color
+    )
+}
+
+@Composable
+fun Body(text: String, modifier: Modifier = Modifier, color: Color = Color.Unspecified) {
+    Text(
+        text = text,
+        style = MaterialTheme.typography.body2,
+        color = color,
+        modifier = modifier
+    )
+}
+
+@Composable
+fun TemperatureText(@StringRes stringRes: Int, value: String) {
+    Body(
+        text = stringResource(stringRes, value),
+        modifier = Modifier.padding(4.dp)
+    )
+}

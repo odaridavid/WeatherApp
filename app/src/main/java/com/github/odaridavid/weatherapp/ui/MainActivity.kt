@@ -18,11 +18,11 @@ import androidx.navigation.compose.rememberNavController
 import com.github.odaridavid.weatherapp.MainViewIntent
 import com.github.odaridavid.weatherapp.MainViewModel
 import com.github.odaridavid.weatherapp.MainViewState
+import com.github.odaridavid.weatherapp.common.CheckForPermissions
+import com.github.odaridavid.weatherapp.common.OnPermissionDenied
 import com.github.odaridavid.weatherapp.common.createLocationRequest
-import com.github.odaridavid.weatherapp.designsystem.CheckForPermissions
 import com.github.odaridavid.weatherapp.designsystem.EnableLocationSettingScreen
 import com.github.odaridavid.weatherapp.designsystem.LoadingScreen
-import com.github.odaridavid.weatherapp.designsystem.OnPermissionDenied
 import com.github.odaridavid.weatherapp.designsystem.RequiresPermissionsScreen
 import com.github.odaridavid.weatherapp.designsystem.theme.WeatherAppTheme
 import com.google.android.gms.location.FusedLocationProviderClient
