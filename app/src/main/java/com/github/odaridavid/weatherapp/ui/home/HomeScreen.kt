@@ -1,5 +1,6 @@
 package com.github.odaridavid.weatherapp.ui.home
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
@@ -105,20 +106,21 @@ private fun CurrentWeatherWidget(currentWeather: CurrentWeather) {
     }
 }
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 private fun HourlyWeatherWidget(hourlyWeatherList: List<HourlyWeather>) {
     Subtitle(text = stringResource(id = R.string.home_today_forecast_title))
 
     LazyRow(modifier = Modifier.padding(16.dp)) {
         items(hourlyWeatherList) { hourlyWeather ->
-            HourlyWeatherRow(hourlyWeather = hourlyWeather)
+            HourlyWeatherRow(hourlyWeather = hourlyWeather,modifier = Modifier.animateItemPlacement())
         }
     }
 }
 
 @Composable
-private fun HourlyWeatherRow(hourlyWeather: HourlyWeather) {
-    Row {
+private fun HourlyWeatherRow(hourlyWeather: HourlyWeather,modifier: Modifier) {
+    Row(modifier = modifier) {
         WeatherIcon(
             iconUrl = hourlyWeather.weather.first().icon,
             contentDescription = hourlyWeather.weather.first().description,
@@ -143,21 +145,22 @@ private fun HourlyWeatherRow(hourlyWeather: HourlyWeather) {
     }
 }
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 private fun DailyWeatherWidget(dailyWeatherList: List<DailyWeather>) {
     Subtitle(text = stringResource(id = R.string.home_weekly_forecast_title))
 
     LazyColumn(modifier = Modifier.padding(16.dp)) {
         items(dailyWeatherList) { dailyWeather ->
-            DailyWeatherRow(dailyWeather = dailyWeather)
+            DailyWeatherRow(dailyWeather = dailyWeather,modifier = Modifier.animateItemPlacement())
         }
     }
 }
 
 @Composable
-private fun DailyWeatherRow(dailyWeather: DailyWeather) {
+private fun DailyWeatherRow(dailyWeather: DailyWeather,modifier: Modifier) {
     Row(
-        modifier = Modifier
+        modifier = modifier
             .padding(8.dp)
             .fillMaxWidth()
     ) {
