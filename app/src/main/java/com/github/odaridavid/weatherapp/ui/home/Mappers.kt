@@ -5,7 +5,7 @@ import com.github.odaridavid.weatherapp.R
 import com.github.odaridavid.weatherapp.core.ErrorType
 
 @StringRes
-fun mapErrorTypeToResourceId(errorType: ErrorType): Int = when (errorType) {
+fun ErrorType.toResourceId(): Int = when (this) {
     ErrorType.SERVER -> R.string.error_server
     ErrorType.GENERIC -> R.string.error_generic
     ErrorType.IO_CONNECTION -> R.string.error_connection
