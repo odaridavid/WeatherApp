@@ -1,4 +1,4 @@
-package com.github.odaridavid.weatherapp.ui
+package com.github.odaridavid.weatherapp.common
 
 import android.content.Context
 import android.location.Address

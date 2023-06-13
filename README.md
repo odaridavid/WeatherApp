@@ -31,6 +31,11 @@ OPEN_WEATHER_ICONS_URL= http://openweathermap.org/img/wn/
 
 Check for one under  [`Api Keys`](https://home.openweathermap.org/api_keys)
 
+
+*Environment*
+- Built on A.S Hedgehog
+- JDK 17
+
 # Design/Architectural decisions 📐
 
 The project makes use of common android patterns in modern android codebases.

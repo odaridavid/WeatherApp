@@ -1,4 +1,4 @@
-package com.github.odaridavid.weatherapp.ui
+package com.github.odaridavid.weatherapp.designsystem
 
 import android.Manifest
 import android.app.Activity

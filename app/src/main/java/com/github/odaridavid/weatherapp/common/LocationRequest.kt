@@ -1,9 +1,8 @@
-package com.github.odaridavid.weatherapp.ui
+package com.github.odaridavid.weatherapp.common
 
 import android.app.Activity
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.IntentSenderRequest
-import com.github.odaridavid.weatherapp.MainViewIntent
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.common.api.ResolvableApiException
 import com.google.android.gms.location.*

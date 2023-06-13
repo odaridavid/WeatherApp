@@ -17,6 +17,7 @@ lifecycle-viewmodel-compose = "2.6.1"
 play-services-location = "21.0.1"
 # DI
 hilt = "2.45"
+hilt-nav-compose = "1.0.0"
 # Async
 retrofit = "2.9.0"
 coil-compose = "2.2.2"
@@ -46,11 +47,14 @@ compose-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
 compose-material = { group = "androidx.compose.material", name = "material" }
 compose-navigation = { group = "androidx.navigation", name = "navigation-compose", version.ref = "compose-navigation" }
 datastore = { group = "androidx.datastore", name = "datastore-preferences", version.ref = "datastore" }
+hilt-nav-compose = {group="androidx.hilt", name="hilt-navigation-compose", version.ref="hilt-nav-compose"}
+
 #DI
 hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt" }
 hilt-compiler = { group = "com.google.dagger", name = "hilt-compiler", version.ref = "hilt" }
 compose-viewmodel-lifecycle = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-compose", version.ref = "lifecycle-viewmodel-compose" }
 playservices-location = { group = "com.google.android.gms", name = "play-services-location", version.ref = "play-services-location" }
+
 # Async
 retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
 coil = { group = "io.coil-kt", name = "coil-compose", version.ref = "coil-compose" }
@@ -60,6 +64,7 @@ kotlinx-coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-
 okhttp-bom = { group = "com.squareup.okhttp3", name = "okhttp-bom", version.ref = "okhttp" }
 okhttp = { group = "com.squareup.okhttp3", name = "okhttp" }
 okhttp-logging-interceptor = { group = "com.squareup.okhttp3", name = "logging-interceptor" }
+
 # Testing
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 turbine = { group = "app.cash.turbine", name = "turbine", version.ref = "turbine" }
@@ -96,6 +101,7 @@ androidx = [
     "lifecycle-runtime-ktx",
     "activity-compose",
     "datastore",
+    "hilt-nav-compose"
 ]
 
 compose = [
