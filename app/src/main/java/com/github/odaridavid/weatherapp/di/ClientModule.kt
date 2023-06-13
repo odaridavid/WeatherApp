@@ -26,7 +26,7 @@ object ClientModule {
 
     @Provides
     @Singleton
-    internal fun providesJson(): Json = Json { ignoreUnknownKeys = true }
+    fun providesJson(): Json = Json { ignoreUnknownKeys = true }
 
     @OptIn(ExperimentalSerializationApi::class)
     @Provides

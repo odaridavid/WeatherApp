@@ -14,7 +14,6 @@ import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.rememberNavController
 import com.github.odaridavid.weatherapp.MainViewIntent
 import com.github.odaridavid.weatherapp.MainViewModel
@@ -22,6 +21,7 @@ import com.github.odaridavid.weatherapp.MainViewState
 import com.github.odaridavid.weatherapp.common.createLocationRequest
 import com.github.odaridavid.weatherapp.designsystem.CheckForPermissions
 import com.github.odaridavid.weatherapp.designsystem.EnableLocationSettingScreen
+import com.github.odaridavid.weatherapp.designsystem.LoadingScreen
 import com.github.odaridavid.weatherapp.designsystem.OnPermissionDenied
 import com.github.odaridavid.weatherapp.designsystem.RequiresPermissionsScreen
 import com.github.odaridavid.weatherapp.designsystem.theme.WeatherAppTheme
@@ -110,7 +110,7 @@ class MainActivity : ComponentActivity() {
                 EnableLocationSettingScreen()
             }
 
-            else -> RequiresPermissionsScreen()
+            else -> LoadingScreen()
         }
     }
 }
