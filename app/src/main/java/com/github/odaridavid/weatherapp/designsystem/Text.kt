@@ -73,6 +73,22 @@ fun Subtitle(text: String, modifier: Modifier = Modifier, color: Color = Color.U
 }
 
 @Composable
+fun Subtitle2(
+    text: String,
+    modifier: Modifier = Modifier,
+    color: Color = Color.Unspecified,
+    textAlign: TextAlign = TextAlign.Start
+) {
+    Text(
+        text = text,
+        style = MaterialTheme.typography.subtitle2,
+        modifier = modifier,
+        color = color,
+        textAlign = textAlign
+    )
+}
+
+@Composable
 fun Body(text: String, modifier: Modifier = Modifier, color: Color = Color.Unspecified) {
     Text(
         text = text,
@@ -95,5 +111,27 @@ fun ForecastedTime(text: String, modifier: Modifier = Modifier) {
     Body(
         text = text,
         modifier = modifier.padding(4.dp)
+    )
+}
+
+@Composable
+fun MenuHeadline(text: String, modifier: Modifier = Modifier, color: Color = Color.Unspecified) {
+    Text(
+        text = text,
+        modifier = modifier,
+        style = MaterialTheme.typography.h5,
+        textAlign = TextAlign.Center,
+        color = color
+    )
+}
+
+@Composable
+fun VersionInfoText(versionInfo: String, modifier: Modifier) {
+    Subtitle2(
+        text = versionInfo,
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(16.dp),
+        textAlign = TextAlign.Center
     )
 }
