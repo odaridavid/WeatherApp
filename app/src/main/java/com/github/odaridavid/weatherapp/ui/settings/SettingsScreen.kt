@@ -27,6 +27,7 @@ import com.github.odaridavid.weatherapp.designsystem.ConfirmButton
 import com.github.odaridavid.weatherapp.designsystem.IconWithAction
 import com.github.odaridavid.weatherapp.designsystem.MenuHeadline
 import com.github.odaridavid.weatherapp.designsystem.SettingOptions
+import com.github.odaridavid.weatherapp.designsystem.SettingOptionsDialog
 import com.github.odaridavid.weatherapp.designsystem.VersionInfoText
 
 @Composable
@@ -75,54 +76,32 @@ fun SettingsScreen(
         if (openLanguageSelectionDialog.value) {
             val availableLanguages = state.availableLanguages
             val (selectedOption, onOptionSelected) = remember { mutableStateOf(state.selectedLanguage) }
-            Dialog(onDismissRequest = { openLanguageSelectionDialog.value = false }) {
-                Column(
-                    modifier = Modifier
-                        .background(color = MaterialTheme.colors.surface)
-                        .verticalScroll(rememberScrollState())
-                ) {
-                    Column {
-                        availableLanguages.forEach { language ->
-                            SettingOptions(
-                                text = language,
-                                selectedOption = selectedOption,
-                                onOptionSelected = onOptionSelected
-                            )
-                        }
-                    }
-                    ConfirmButton(
-                        modifier = Modifier
-                            .align(Alignment.CenterHorizontally)
-                            .padding(16.dp),
-                        onClick = { onLanguageChanged(selectedOption) }
-                    )
-                }
+            SettingOptionsDialog(
+                onDismiss = { openLanguageSelectionDialog.value = false },
+                onConfirm = { onLanguageChanged(selectedOption) },
+                items = availableLanguages,
+            ) { language ->
+                SettingOptions(
+                    text = language,
+                    selectedOption = selectedOption,
+                    onOptionSelected = onOptionSelected
+                )
             }
         }
 
         if (openUnitSelectionDialog.value) {
             val availableUnits = state.availableUnits
             val (selectedOption, onOptionSelected) = remember { mutableStateOf(state.selectedUnit) }
-            Dialog(onDismissRequest = { openUnitSelectionDialog.value = false }) {
-                Column(
-                    modifier = Modifier
-                        .background(color = MaterialTheme.colors.surface)
-                        .verticalScroll(rememberScrollState())
-                ) {
-                    Column {
-                        availableUnits.forEach { unitText ->
-                            SettingOptions(unitText, selectedOption, onOptionSelected)
-                        }
-                    }
-                    ConfirmButton(
-                        modifier = Modifier
-                            .align(Alignment.CenterHorizontally)
-                            .padding(16.dp),
-                        onClick = {
-                            onUnitChanged(selectedOption)
-                        },
-                    )
-                }
+            SettingOptionsDialog(
+                onDismiss = { openUnitSelectionDialog.value = false },
+                onConfirm = { onUnitChanged(selectedOption) },
+                items = availableUnits,
+            ) { units ->
+                SettingOptions(
+                    text = units,
+                    selectedOption = selectedOption,
+                    onOptionSelected = onOptionSelected
+                )
             }
         }
 
