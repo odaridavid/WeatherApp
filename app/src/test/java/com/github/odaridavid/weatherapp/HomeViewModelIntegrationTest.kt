@@ -58,7 +58,7 @@ class HomeViewModelIntegrationTest {
         } returns Response.success<WeatherResponse>(
             fakeSuccessWeatherResponse
         )
-        coEvery { mockWeatherDao.getWeather() } returns fakePopulatedResponse
+        coEvery { mockWeatherDao.getWeather(any(), any()) } returns fakePopulatedResponse
 
         val weatherRepository =
             DefaultWeatherRepository(
