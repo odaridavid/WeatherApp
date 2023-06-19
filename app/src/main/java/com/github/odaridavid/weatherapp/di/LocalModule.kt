@@ -2,8 +2,8 @@ package com.github.odaridavid.weatherapp.di
 
 import android.content.Context
 import androidx.room.Room
+import androidx.work.WorkManager
 import com.github.odaridavid.weatherapp.data.weather.local.WeatherDatabase
-import com.github.odaridavid.weatherapp.data.weather.local.converters.Converters
 import com.github.odaridavid.weatherapp.data.weather.local.dao.WeatherDao
 import com.github.odaridavid.weatherapp.util.NotificationUtil
 import com.github.odaridavid.weatherapp.worker.WeatherUpdateScheduler
@@ -22,7 +22,6 @@ object LocalModule {
     fun provideWeatherDatabase(@ApplicationContext app: Context): WeatherDatabase {
         return Room
             .databaseBuilder(app, WeatherDatabase::class.java, "weather_database")
-            .addTypeConverter(Converters())
             .build()
     }
 
@@ -34,8 +33,14 @@ object LocalModule {
 
     @Singleton
     @Provides
-    fun provideWeatherUpdateScheduler(@ApplicationContext context: Context): WeatherUpdateScheduler {
-        return WeatherUpdateScheduler(context)
+    fun provideWeatherUpdateScheduler(workManager: WorkManager): WeatherUpdateScheduler {
+        return WeatherUpdateScheduler(workManager)
+    }
+
+    @Singleton
+    @Provides
+    fun provideWorkManager(@ApplicationContext context: Context): WorkManager {
+        return WorkManager.getInstance(context)
     }
 
     @Provides
