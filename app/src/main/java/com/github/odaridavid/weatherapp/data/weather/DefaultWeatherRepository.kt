@@ -1,7 +1,6 @@
 package com.github.odaridavid.weatherapp.data.weather
 
 import com.github.odaridavid.weatherapp.BuildConfig
-import com.github.odaridavid.weatherapp.R
 import com.github.odaridavid.weatherapp.core.Result
 import com.github.odaridavid.weatherapp.core.api.Logger
 import com.github.odaridavid.weatherapp.core.api.WeatherRepository
@@ -13,8 +12,6 @@ import com.github.odaridavid.weatherapp.data.weather.local.dao.WeatherDao
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
-import java.io.IOException
-import java.net.HttpURLConnection.HTTP_UNAUTHORIZED
 import javax.inject.Inject
 
 class DefaultWeatherRepository @Inject constructor(
@@ -27,7 +24,10 @@ class DefaultWeatherRepository @Inject constructor(
         language: String,
         units: String
     ): Flow<Result<Weather>> = flow {
-        val cachedWeather = weatherDao.getWeather()
+        val cachedWeather = weatherDao.getWeather(
+            latitude = defaultLocation.latitude,
+            longitude = defaultLocation.longitude
+        )
         if (cachedWeather != null && cachedWeather.isDataValid()) {
             val weatherData = cachedWeather.toCoreEntity(unit = units)
             emit(Result.Success(data = weatherData))
@@ -45,15 +45,17 @@ class DefaultWeatherRepository @Inject constructor(
         )
         val response = apiResponse.body()
         if (apiResponse.isSuccessful && response != null) {
-            val currentWeather = apiResponse.body()!!.toCurrentWeatherEntity()
-            val hourlyEntity = apiResponse.body()!!.toHourlyEntity()
-            val dailyEntity = apiResponse.body()!!.toDailyEntity()
+            val currentWeather = apiResponse.body()!!.toCurrentWeather()
+            val hourlyWeather = apiResponse.body()!!.toHourlyEntity()
+            val dailyWeather = apiResponse.body()!!.toDailyEntity()
+            val weatherInfo = apiResponse.body()!!.toWeatherInfoResponse()
+            val weatherEntity = apiResponse.body()!!.asCoreEntity()
             weatherDao.insertCurrentWeather(currentWeather)
-            weatherDao.insertHourlyWeather(hourlyEntity)
-            weatherDao.insertDailyWeather(dailyEntity)
-            val getWeather = weatherDao.getWeather()
-            val data = getWeather!!.toCoreEntity(unit = units)
-            emit(Result.Success(data =data))
+            weatherDao.insertHourlyWeather(hourlyWeather)
+            weatherDao.insertDailyWeather(dailyWeather)
+            weatherDao.insertWeatherInfo(weatherInfo)
+            val result = weatherEntity.toCoreEntity(unit = units)
+            emit(Result.Success(data = result))
         } else {
             val errorType = mapResponseCodeToErrorType(apiResponse.code())
             emit(Result.Error(errorType = errorType))
