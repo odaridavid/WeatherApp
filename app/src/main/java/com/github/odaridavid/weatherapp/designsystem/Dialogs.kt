@@ -64,7 +64,6 @@ fun <T> SettingOptionsDialog(
         Column(
             modifier = Modifier
                 .background(color = MaterialTheme.colors.surface)
-                .verticalScroll(rememberScrollState())
         ) {
             Column {
                 LazyColumn {
