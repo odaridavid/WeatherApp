@@ -111,7 +111,7 @@ fun WeatherInfoResponseEntity.asCoreModel(): WeatherInfo =
         id = id,
         main = main,
         description = description,
-        icon = "${BuildConfig.OPEN_WEATHER_ICONS_URL}$icon@2x.png"
+        icon = BuildConfig.OPEN_WEATHER_ICONS_URL
     )
 fun TemperatureEntity.asCoreModel(unit: String): Temperature =
     Temperature(
