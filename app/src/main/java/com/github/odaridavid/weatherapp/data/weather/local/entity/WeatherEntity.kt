@@ -1,103 +1,115 @@
 package com.github.odaridavid.weatherapp.data.weather.local.entity
 
-import androidx.room.ColumnInfo
 import androidx.room.Embedded
 import androidx.room.Entity
-import androidx.room.ForeignKey
-import androidx.room.Index
 import androidx.room.PrimaryKey
 import androidx.room.Relation
-import androidx.room.TypeConverters
-import com.github.odaridavid.weatherapp.data.weather.local.converters.Converters
 
 data class PopulatedWeather(
-    @Embedded
-    val current: WeatherEntity,
-
-    @Relation(parentColumn = "identity", entityColumn ="dt_column", entity = HourlyWeatherEntity::class)
-    val hourly: List<HourlyWeatherEntity>,
-
-    @Relation(parentColumn = "identity", entityColumn ="dt", entity = DailyWeatherEntity::class)
-    val daily: List<DailyWeatherEntity>
+    @Embedded val weather: WeatherEntity,
+    @Relation(
+        entity = CurrentWeatherEntity::class,
+        parentColumn = "weatherId",
+        entityColumn = "currentId"
+    )
+    val current: CurrentWithWeatherInfo,
+    @Relation(
+        entity = HourlyWeatherEntity::class,
+        parentColumn = "weatherId",
+        entityColumn = "dt"
+    )
+    val hourly: List<HourlyWithWeatherInfo >,
+    @Relation(
+        entity = DailyWeatherEntity::class,
+        parentColumn = "weatherId",
+        entityColumn = "dt"
+    )
+    val daily: List<DailyWithWeatherInfo >
 ){
     fun isDataValid(): Boolean {
-        val currentTime = current.dt
+        val currentTime = System.currentTimeMillis()
         val fifteenMinutesAgo = currentTime - 15 * 60 * 1000
 
-        val isCurrentValid = current.lastRefreshed >= fifteenMinutesAgo && current.isValid
-        val areHourlyValid = hourly.all { it.lastRefreshed >= fifteenMinutesAgo && it.isValid }
-        val areDailyValid = daily.all { it.lastRefreshed >= fifteenMinutesAgo && it.isValid }
+        val isCurrentValid = current.currentWeather.lastRefreshed >= fifteenMinutesAgo && current.currentWeather.isValid
+        val areHourlyValid = hourly.all { it.hourlyWeatherEntity.lastRefreshed >= fifteenMinutesAgo && it.hourlyWeatherEntity.isValid }
+        val areDailyValid = daily.all { it.dailyWeatherEntity.lastRefreshed >= fifteenMinutesAgo && it.dailyWeatherEntity.isValid }
 
         return isCurrentValid && areHourlyValid && areDailyValid
     }
 }
 
-@Entity(tableName = "weather_entity")
+@Entity
 data class WeatherEntity(
-    @PrimaryKey @ColumnInfo(name = "identity")
-    val id: Int,
-    val dt: Long,
-    val feels_like: Float,
+    @PrimaryKey val weatherId: Int = 0,
+    val lat: Double,
+    val lon: Double,
+)
+@Entity
+data class CurrentWeatherEntity(
+    @PrimaryKey(autoGenerate = true)
+    val currentId: Long = 0L,
+    val feelsLike: Float,
     val temp: Float,
-    val temp_max: Float,
-    val temp_min: Float,
-    val description: String,
-    val icon: String,
-    val main: String,
     val lastRefreshed: Long = 0,
-    val isValid: Boolean = false
+    val isValid: Boolean = false,
 )
 
-@Entity(
-    tableName = "hourly_weather",
-    foreignKeys = [
-        ForeignKey(entity = WeatherEntity::class,
-            parentColumns = ["identity"],
-            childColumns = ["dt_column"],
-            onDelete = ForeignKey.CASCADE
-        )],
-    indices = [Index("dt_column")]
+data class CurrentWithWeatherInfo(
+    @Embedded val currentWeather: CurrentWeatherEntity,
+    @Relation(
+        parentColumn = "currentId",
+        entityColumn = "id",
+    )
+    val weather: List<WeatherInfoResponseEntity>
 )
+
+@Entity
 data class HourlyWeatherEntity(
-    @PrimaryKey
-    val id: Int= 0,
-    @ColumnInfo(name = "dt_column")
+    @PrimaryKey(autoGenerate = true)
+    val hourlyId: Long = 0,
     val dt: Long,
     val temperature: Float,
-    @TypeConverters(Converters::class)
-    val weather: List<WeatherInfoResponseEntity>,
     val lastRefreshed: Long = 0,
-    val isValid: Boolean = false
+    val isValid: Boolean = false,
 )
 
-@Entity(
-    tableName = "daily_weather",
-    foreignKeys = [
-        ForeignKey(entity = WeatherEntity::class,
-            parentColumns = ["identity"],
-            childColumns = ["dt"],
-            onDelete = ForeignKey.CASCADE
-        )],
-    indices = [Index("dt")]
-)
+@Entity
 data class DailyWeatherEntity(
-    @PrimaryKey
-    val id: Int= 0,
-    @ColumnInfo(name = "dt")
+    @PrimaryKey(autoGenerate = true)
+    val dailyId: Long = 0,
     val dt: Long,
     @Embedded
     val temperature: TemperatureEntity,
-    @TypeConverters(Converters::class)
-    val weather: List<WeatherInfoResponseEntity>,
     val lastRefreshed: Long = 0,
-    val isValid: Boolean = false
+    val isValid: Boolean = false,
 )
 
 data class TemperatureEntity(
     val min: Float,
     val max: Float
 )
+
+data class HourlyWithWeatherInfo(
+    @Embedded val hourlyWeatherEntity: HourlyWeatherEntity,
+    @Relation(
+        parentColumn = "hourlyId",
+        entityColumn = "id",
+    )
+    val weather: List<WeatherInfoResponseEntity>
+)
+
+data class DailyWithWeatherInfo(
+    @Embedded val dailyWeatherEntity: DailyWeatherEntity,
+    @Relation(
+        parentColumn = "dailyId",
+        entityColumn = "id",
+    )
+    val weather: List<WeatherInfoResponseEntity>
+)
+
+@Entity
 data class WeatherInfoResponseEntity(
+    @PrimaryKey
     val id: Int,
     val main: String,
     val description: String,
