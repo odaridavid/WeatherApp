@@ -1,6 +1,8 @@
 package com.github.odaridavid.weatherapp.core.model
 
 data class Weather(
+    val lat: Double,
+    val long: Double,
     val current: CurrentWeather,
     val hourly: List<HourlyWeather>,
     val daily: List<DailyWeather>

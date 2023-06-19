@@ -5,6 +5,8 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class WeatherResponse(
+    @SerialName("lat") val lat: Double,
+    @SerialName("lon") val long: Double,
     @SerialName("current") val current: CurrentWeatherResponse,
     @SerialName("hourly") val hourly: List<HourlyWeatherResponse>,
     @SerialName("daily") val daily: List<DailyWeatherResponse>
