@@ -8,6 +8,7 @@ import com.github.odaridavid.weatherapp.core.api.WeatherRepository
 import com.github.odaridavid.weatherapp.core.model.DefaultLocation
 import com.github.odaridavid.weatherapp.core.model.Weather
 import com.github.odaridavid.weatherapp.util.NotificationUtil
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
@@ -15,7 +16,7 @@ import javax.inject.Inject
 class DefaultRefreshWeatherUseCase @Inject constructor(
     private val weatherRepository: WeatherRepository,
     private val notificationUtil: NotificationUtil,
-    private val context: Context
+    @ApplicationContext private val context: Context
 ) :RefreshWeatherUseCase {
     override operator fun invoke(
         defaultLocation: DefaultLocation,
