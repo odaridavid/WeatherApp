@@ -1,21 +1,14 @@
 package com.github.odaridavid.weatherapp
 
 import com.github.odaridavid.weatherapp.core.model.CurrentWeather
-import com.github.odaridavid.weatherapp.core.model.DailyWeather
-import com.github.odaridavid.weatherapp.core.model.HourlyWeather
-import com.github.odaridavid.weatherapp.core.model.Temperature
 import com.github.odaridavid.weatherapp.core.model.Weather
 import com.github.odaridavid.weatherapp.core.model.WeatherInfo
 import com.github.odaridavid.weatherapp.data.weather.CurrentWeatherResponse
-import com.github.odaridavid.weatherapp.data.weather.DailyWeatherResponse
-import com.github.odaridavid.weatherapp.data.weather.HourlyWeatherResponse
-import com.github.odaridavid.weatherapp.data.weather.TemperatureResponse
 import com.github.odaridavid.weatherapp.data.weather.WeatherInfoResponse
 import com.github.odaridavid.weatherapp.data.weather.WeatherResponse
-import com.github.odaridavid.weatherapp.data.weather.local.entity.DailyWeatherEntity
-import com.github.odaridavid.weatherapp.data.weather.local.entity.HourlyWeatherEntity
+import com.github.odaridavid.weatherapp.data.weather.local.entity.CurrentWeatherEntity
+import com.github.odaridavid.weatherapp.data.weather.local.entity.CurrentWithWeatherInfo
 import com.github.odaridavid.weatherapp.data.weather.local.entity.PopulatedWeather
-import com.github.odaridavid.weatherapp.data.weather.local.entity.TemperatureEntity
 import com.github.odaridavid.weatherapp.data.weather.local.entity.WeatherEntity
 import com.github.odaridavid.weatherapp.data.weather.local.entity.WeatherInfoResponseEntity
 
@@ -25,15 +18,17 @@ val fakeSuccessWeatherResponse = WeatherResponse(
         feelsLike = 2.0f,
         weather = listOf(
             WeatherInfoResponse(
-            id = 1,
-            main = "main",
-            description = "desc",
-            icon = "icon"
-        )
+                id = 1,
+                main = "main",
+                description = "desc",
+                icon = "icon"
+            )
         )
     ),
     hourly = listOf(),
-    daily = listOf()
+    daily = listOf(),
+    lat = 0.00,
+    long = 0.00
 )
 
 val fakeSuccessMappedWeatherResponse = Weather(
@@ -45,12 +40,14 @@ val fakeSuccessMappedWeatherResponse = Weather(
                 id = 1,
                 main = "main",
                 description = "desc",
-                icon = "icon"
+                icon = BuildConfig.OPEN_WEATHER_ICONS_URL
             )
         )
     ),
     hourly = listOf(),
-    daily = listOf()
+    daily = listOf(),
+    lat = 0.00,
+    long = 0.00
 )
 val fakeSuccessResponse = Weather(
     current = CurrentWeather(
@@ -61,25 +58,36 @@ val fakeSuccessResponse = Weather(
                 id = 1,
                 main = "main",
                 description = "desc",
-                icon = "icon"
+                icon = BuildConfig.OPEN_WEATHER_ICONS_URL
             )
         )
     ),
     hourly = listOf(),
-    daily = listOf()
+    daily = listOf(),
+    lat = 0.00,
+    long = 0.00
 )
 
 val fakePopulatedResponse = PopulatedWeather(
-    current = WeatherEntity(
-        dt = 1L,
-        main = "main",
-        temp = 3.0F,
-        temp_max = 0.0F,
-        temp_min = 0.0F,
-        description ="desc",
-        icon = "icon",
-        id = 1,
-        feels_like = 2.0f,
+    weather = WeatherEntity(
+        weatherId = 0,
+        lat = 0.00,
+        lon = 0.00
+    ),
+    current = CurrentWithWeatherInfo(
+        currentWeather = CurrentWeatherEntity(
+            currentId = 0,
+            feelsLike = 1f,
+            temp = 1f,
+        ),
+        weather = listOf(
+            WeatherInfoResponseEntity(
+                id = 1,
+                main = "main",
+                description = "desc",
+                icon = "icon"
+            )
+        )
     ),
     hourly = listOf(),
     daily = listOf()
