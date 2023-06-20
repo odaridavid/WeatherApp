@@ -13,7 +13,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.github.odaridavid.weatherapp.R
 import com.github.odaridavid.weatherapp.designsystem.SettingOptionRow
-import com.github.odaridavid.weatherapp.designsystem.SettingOptions
+import com.github.odaridavid.weatherapp.designsystem.SettingOptionRadioButton
 import com.github.odaridavid.weatherapp.designsystem.SettingOptionsDialog
 import com.github.odaridavid.weatherapp.designsystem.SettingsTopBar
 import com.github.odaridavid.weatherapp.designsystem.VersionInfoText
@@ -53,10 +53,13 @@ fun SettingsScreen(
             val (selectedOption, onOptionSelected) = remember { mutableStateOf(state.selectedLanguage) }
             SettingOptionsDialog(
                 onDismiss = { openLanguageSelectionDialog.value = false },
-                onConfirm = { onLanguageChanged(selectedOption) },
+                onConfirm = {
+                    onLanguageChanged(selectedOption)
+                    openLanguageSelectionDialog.value = false
+                },
                 items = availableLanguages,
             ) { language ->
-                SettingOptions(
+                SettingOptionRadioButton(
                     text = language,
                     selectedOption = selectedOption,
                     onOptionSelected = onOptionSelected
@@ -69,10 +72,13 @@ fun SettingsScreen(
             val (selectedOption, onOptionSelected) = remember { mutableStateOf(state.selectedUnit) }
             SettingOptionsDialog(
                 onDismiss = { openUnitSelectionDialog.value = false },
-                onConfirm = { onUnitChanged(selectedOption) },
+                onConfirm = {
+                    onUnitChanged(selectedOption)
+                    openUnitSelectionDialog.value = false
+                },
                 items = availableUnits,
             ) { unit ->
-                SettingOptions(
+                SettingOptionRadioButton(
                     text = unit,
                     selectedOption = selectedOption,
                     onOptionSelected = onOptionSelected

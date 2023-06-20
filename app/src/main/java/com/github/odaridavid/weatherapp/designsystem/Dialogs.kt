@@ -16,6 +16,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
@@ -60,7 +61,11 @@ fun <T> SettingOptionsDialog(
     content: @Composable (T) -> Unit
 ) {
     Dialog(onDismissRequest = { onDismiss() }) {
-        LazyColumn(modifier = Modifier.background(color = MaterialTheme.colors.surface)) {
+        LazyColumn(
+            modifier = Modifier
+                .background(color = MaterialTheme.colors.surface)
+                .padding(16.dp)
+        ) {
             items(items) { item ->
                 content(item)
             }
@@ -70,7 +75,9 @@ fun <T> SettingOptionsDialog(
                     ConfirmButton(
                         modifier = Modifier
                             .padding(16.dp),
-                        onClick = { onConfirm() }
+                        onClick = {
+                            onConfirm()
+                        }
                     )
                     Spacer(modifier = Modifier.weight(1f))
                 }
