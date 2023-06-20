@@ -78,7 +78,7 @@ class HomeViewModel @Inject constructor(
                 setState {
                     copy(
                         isLoading = false,
-                        errorMessageId = mapErrorTypeToResourceId(result.errorType)
+                        errorMessageId = result.errorType.toResourceId()
                     )
                 }
             }

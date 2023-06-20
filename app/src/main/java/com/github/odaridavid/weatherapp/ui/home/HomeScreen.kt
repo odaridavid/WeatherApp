@@ -1,37 +1,36 @@
 package com.github.odaridavid.weatherapp.ui.home
 
-import androidx.annotation.StringRes
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.horizontalScroll
-import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.Button
-import androidx.compose.material.CircularProgressIndicator
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import coil.compose.AsyncImage
 import com.github.odaridavid.weatherapp.R
+import com.github.odaridavid.weatherapp.common.getCityName
 import com.github.odaridavid.weatherapp.core.model.CurrentWeather
 import com.github.odaridavid.weatherapp.core.model.DailyWeather
 import com.github.odaridavid.weatherapp.core.model.HourlyWeather
-import com.github.odaridavid.weatherapp.common.getCityName
+import com.github.odaridavid.weatherapp.designsystem.ErrorTextWithAction
+import com.github.odaridavid.weatherapp.designsystem.ForecastedTime
+import com.github.odaridavid.weatherapp.designsystem.LoadingScreen
+import com.github.odaridavid.weatherapp.designsystem.Subtitle
+import com.github.odaridavid.weatherapp.designsystem.Temperature
+import com.github.odaridavid.weatherapp.designsystem.TemperatureHeadline
+import com.github.odaridavid.weatherapp.designsystem.HomeTopBar
+import com.github.odaridavid.weatherapp.designsystem.WeatherIcon
 
 @Composable
 fun HomeScreen(
@@ -40,11 +39,7 @@ fun HomeScreen(
     onTryAgainClicked: () -> Unit,
     onCityNameReceived: (String) -> Unit
 ) {
-    Column(
-        modifier = Modifier
-            .verticalScroll(rememberScrollState())
-            .fillMaxSize()
-    ) {
+    Column(modifier = Modifier.fillMaxSize()) {
 
         LocalContext.current.getCityName(
             latitude = state.defaultLocation.latitude,
@@ -57,24 +52,11 @@ fun HomeScreen(
         HomeTopBar(cityName = state.locationName, onSettingClicked)
 
         if (state.isLoading) {
-            Spacer(modifier = Modifier.weight(0.5f))
-            CircularProgressIndicator(
-                modifier = Modifier
-                    .padding(16.dp)
-                    .align(Alignment.CenterHorizontally)
-            )
-            Spacer(modifier = Modifier.weight(0.5f))
+            LoadingScreen()
         }
 
         if (state.errorMessageId != null) {
-            Spacer(modifier = Modifier.weight(0.5f))
-            ErrorText(
-                errorMessageId = state.errorMessageId,
-                modifier = Modifier.padding(16.dp)
-            ) {
-                onTryAgainClicked()
-            }
-            Spacer(modifier = Modifier.weight(0.5f))
+            ErrorScreen(state.errorMessageId, onTryAgainClicked)
         }
 
         state.weather?.current?.let { currentWeather ->
@@ -90,86 +72,54 @@ fun HomeScreen(
 }
 
 @Composable
-private fun HomeTopBar(cityName: String, onSettingClicked: () -> Unit) {
-    Row(
-        modifier = Modifier
-            .padding(16.dp)
-            .fillMaxWidth()
+private fun ColumnScope.ErrorScreen(errorMsgId: Int, onTryAgainClicked: () -> Unit) {
+    Spacer(modifier = Modifier.weight(0.5f))
+    ErrorTextWithAction(
+        errorMessageId = errorMsgId,
+        modifier = Modifier.padding(16.dp)
     ) {
-        Text(
-            text = cityName,
-            style = MaterialTheme.typography.h5
-        )
-        Spacer(modifier = Modifier.weight(1.0f))
-        Image(
-            painter = painterResource(id = if (isSystemInDarkTheme()) R.drawable.ic_settings_dark else R.drawable.ic_settings),
-            contentDescription = stringResource(R.string.home_content_description_setting_icon),
-            modifier = Modifier
-                .defaultMinSize(40.dp)
-                .clickable { onSettingClicked() }
-                .padding(8.dp)
-        )
+        onTryAgainClicked()
     }
+    Spacer(modifier = Modifier.Companion.weight(0.5f))
 }
 
 @Composable
 private fun CurrentWeatherWidget(currentWeather: CurrentWeather) {
     Column {
-        Text(
-            text = stringResource(R.string.home_title_currently),
-            modifier = Modifier
-                .padding(horizontal = 16.dp)
-                .padding(vertical = 8.dp),
-            style = MaterialTheme.typography.subtitle1
-        )
-        Text(
-            text = currentWeather.temperature,
-            modifier = Modifier
-                .padding(horizontal = 16.dp)
-                .padding(vertical = 8.dp),
-            style = MaterialTheme.typography.h2
-        )
-        Text(
+        Subtitle(text = stringResource(id = R.string.home_title_currently))
+
+        TemperatureHeadline(temperature = currentWeather.temperature)
+
+        Subtitle(
             text = stringResource(
                 id = R.string.home_feels_like_description,
                 currentWeather.feelsLike
             ),
-            modifier = Modifier
-                .padding(horizontal = 16.dp)
-                .padding(vertical = 8.dp),
-            style = MaterialTheme.typography.subtitle1,
             color = MaterialTheme.colors.secondary
         )
     }
 }
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 private fun HourlyWeatherWidget(hourlyWeatherList: List<HourlyWeather>) {
-    Text(
-        text = stringResource(R.string.home_today_forecast_title),
-        style = MaterialTheme.typography.subtitle1,
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(16.dp)
-    )
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(16.dp)
-            .horizontalScroll(rememberScrollState())
-    ) {
+    Subtitle(text = stringResource(id = R.string.home_today_forecast_title))
 
-        for (hourlyWeather in hourlyWeatherList) {
-            HourlyWeatherRow(hourlyWeather = hourlyWeather)
+    LazyRow(modifier = Modifier.padding(16.dp)) {
+        items(hourlyWeatherList) { hourlyWeather ->
+            HourlyWeatherRow(
+                hourlyWeather = hourlyWeather,
+                modifier = Modifier.animateItemPlacement()
+            )
         }
     }
 }
 
 @Composable
-private fun HourlyWeatherRow(hourlyWeather: HourlyWeather) {
-    Row {
-        AsyncImage(
-            model = hourlyWeather.weather.first().icon,
+private fun HourlyWeatherRow(hourlyWeather: HourlyWeather, modifier: Modifier) {
+    Row(modifier = modifier) {
+        WeatherIcon(
+            iconUrl = hourlyWeather.weather.first().icon,
             contentDescription = hourlyWeather.weather.first().description,
             modifier = Modifier
                 .padding(4.dp)
@@ -180,98 +130,56 @@ private fun HourlyWeatherRow(hourlyWeather: HourlyWeather) {
                 .padding(4.dp)
                 .align(Alignment.CenterVertically)
         ) {
-            Text(
-                text = hourlyWeather.temperature,
-                modifier = Modifier.padding(4.dp),
-                style = MaterialTheme.typography.body2
-            )
-            Text(
-                text = hourlyWeather.forecastedTime,
-                modifier = Modifier.padding(4.dp),
-                style = MaterialTheme.typography.body2
-            )
+            Temperature(text = hourlyWeather.temperature)
+            ForecastedTime(text = hourlyWeather.forecastedTime)
         }
     }
 }
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 private fun DailyWeatherWidget(dailyWeatherList: List<DailyWeather>) {
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(16.dp)
-    ) {
-        Text(
-            text = stringResource(R.string.home_weekly_forecast_title),
-            style = MaterialTheme.typography.subtitle1
-        )
-        for (dailyWeather in dailyWeatherList) {
-            DailyWeatherRow(dailyWeather = dailyWeather)
+    Subtitle(text = stringResource(id = R.string.home_weekly_forecast_title))
+
+    LazyColumn(modifier = Modifier.padding(16.dp)) {
+        items(dailyWeatherList) { dailyWeather ->
+            DailyWeatherRow(dailyWeather = dailyWeather, modifier = Modifier.animateItemPlacement())
         }
     }
 }
 
 @Composable
-private fun DailyWeatherRow(dailyWeather: DailyWeather) {
+private fun DailyWeatherRow(dailyWeather: DailyWeather, modifier: Modifier) {
     Row(
-        modifier = Modifier
+        modifier = modifier
             .padding(8.dp)
             .fillMaxWidth()
     ) {
-        // TODO Flatten the data, ui model
-        AsyncImage(
-            model = dailyWeather.weather.first().icon,
+        WeatherIcon(
+            iconUrl = dailyWeather.weather.first().icon,
             contentDescription = dailyWeather.weather.first().description,
             modifier = Modifier
                 .padding(4.dp)
                 .align(Alignment.CenterVertically),
         )
-        Text(
+        ForecastedTime(
             text = dailyWeather.forecastedTime,
             modifier = Modifier
-                .padding(4.dp)
-                .align(Alignment.CenterVertically),
-            style = MaterialTheme.typography.body2
+                .align(Alignment.CenterVertically)
         )
         Spacer(modifier = Modifier.weight(1.0f))
         Column(modifier = Modifier.align(Alignment.CenterVertically)) {
-            Text(
-                text = stringResource(R.string.home_max_temp, dailyWeather.temperature.max),
-                modifier = Modifier.padding(4.dp),
-                style = MaterialTheme.typography.body2
+            Temperature(
+                text = stringResource(
+                    id = R.string.home_max_temp,
+                    dailyWeather.temperature.max
+                )
             )
-            Text(
-                text = stringResource(R.string.home_min_temp, dailyWeather.temperature.min),
-                modifier = Modifier.padding(4.dp),
-                style = MaterialTheme.typography.body2
-            )
-        }
-    }
-}
-
-@Composable
-private fun ErrorText(
-    @StringRes errorMessageId: Int,
-    modifier: Modifier,
-    onTryAgainClicked: () -> Unit
-) {
-    Column(modifier = Modifier.fillMaxWidth()) {
-        Text(
-            text = stringResource(id = errorMessageId),
-            textAlign = TextAlign.Center,
-            modifier = modifier.align(Alignment.CenterHorizontally),
-            style = MaterialTheme.typography.body1
-        )
-        Button(
-            onClick = { onTryAgainClicked() },
-            modifier = Modifier
-                .padding(16.dp)
-                .align(Alignment.CenterHorizontally)
-        ) {
-            Text(
-                text = stringResource(R.string.home_error_try_again),
-                style = MaterialTheme.typography.body1,
-                textAlign = TextAlign.Center
+            Temperature(
+                text = stringResource(
+                    id = R.string.home_min_temp,
+                    dailyWeather.temperature.min
+                )
             )
         }
     }
