@@ -1,7 +1,6 @@
 package com.github.odaridavid.weatherapp.ui.settings
 
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -10,15 +9,13 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.github.odaridavid.weatherapp.R
-import com.github.odaridavid.weatherapp.designsystem.IconWithAction
-import com.github.odaridavid.weatherapp.designsystem.MenuHeadline
 import com.github.odaridavid.weatherapp.designsystem.SettingOptionRow
 import com.github.odaridavid.weatherapp.designsystem.SettingOptions
 import com.github.odaridavid.weatherapp.designsystem.SettingOptionsDialog
+import com.github.odaridavid.weatherapp.designsystem.SettingsTopBar
 import com.github.odaridavid.weatherapp.designsystem.VersionInfoText
 
 @Composable
@@ -94,22 +91,3 @@ fun SettingsScreen(
         )
     }
 }
-
-@Composable
-private fun SettingsTopBar(onBackButtonClicked: () -> Unit) {
-    Row(modifier = Modifier.padding(16.dp)) {
-        IconWithAction(
-            painter = painterResource(id = R.drawable.ic_arrow_back),
-            contentDescription = stringResource(R.string.settings_content_description_icon),
-            modifier = Modifier
-                .padding(8.dp),
-            onClicked = { onBackButtonClicked() }
-        )
-
-        MenuHeadline(
-            text = stringResource(R.string.settings_screen_title),
-            modifier = Modifier.align(Alignment.CenterVertically)
-        )
-    }
-}
-

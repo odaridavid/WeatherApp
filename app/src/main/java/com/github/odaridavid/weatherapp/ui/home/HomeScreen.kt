@@ -29,7 +29,7 @@ import com.github.odaridavid.weatherapp.designsystem.LoadingScreen
 import com.github.odaridavid.weatherapp.designsystem.Subtitle
 import com.github.odaridavid.weatherapp.designsystem.Temperature
 import com.github.odaridavid.weatherapp.designsystem.TemperatureHeadline
-import com.github.odaridavid.weatherapp.designsystem.TopBar
+import com.github.odaridavid.weatherapp.designsystem.HomeTopBar
 import com.github.odaridavid.weatherapp.designsystem.WeatherIcon
 
 @Composable
@@ -49,7 +49,7 @@ fun HomeScreen(
             onCityNameReceived(cityName)
         }
 
-        TopBar(cityName = state.locationName, onSettingClicked)
+        HomeTopBar(cityName = state.locationName, onSettingClicked)
 
         if (state.isLoading) {
             LoadingScreen()

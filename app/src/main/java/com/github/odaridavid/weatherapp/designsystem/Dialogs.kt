@@ -62,8 +62,7 @@ fun <T> SettingOptionsDialog(
 ) {
     Dialog(onDismissRequest = { onDismiss() }) {
         Column(
-            modifier = Modifier
-                .background(color = MaterialTheme.colors.surface)
+            modifier = Modifier.background(color = MaterialTheme.colors.surface)
         ) {
             Column {
                 LazyColumn {
