@@ -71,9 +71,9 @@ fun SettingsScreen(
                 onDismiss = { openUnitSelectionDialog.value = false },
                 onConfirm = { onUnitChanged(selectedOption) },
                 items = availableUnits,
-            ) { units ->
+            ) { unit ->
                 SettingOptions(
-                    text = units,
+                    text = unit,
                     selectedOption = selectedOption,
                     onOptionSelected = onOptionSelected
                 )
