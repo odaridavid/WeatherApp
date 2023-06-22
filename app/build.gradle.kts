@@ -131,6 +131,7 @@ android {
         jvmTarget = JavaVersion.VERSION_17.toString()
         freeCompilerArgs = freeCompilerArgs + "-opt-in=kotlin.RequiresOptIn" + listOf(
             "-P",
+            // See https://github.com/androidx/androidx/blob/androidx-main/compose/compiler/design/compiler-metrics.md
             "plugin:androidx.compose.compiler.plugins.kotlin:reportsDestination=${project.buildDir}/reports/kotlin-compile/compose"
         )
     }
