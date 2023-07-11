@@ -2,6 +2,7 @@ package com.github.odaridavid.weatherapp
 
 import app.cash.turbine.test
 import com.github.odaridavid.weatherapp.core.api.Logger
+import com.github.odaridavid.weatherapp.core.api.SettingsRepository
 import com.github.odaridavid.weatherapp.core.api.WeatherRepository
 import com.github.odaridavid.weatherapp.core.model.DefaultLocation
 import com.github.odaridavid.weatherapp.data.weather.DefaultWeatherRepository
@@ -16,6 +17,7 @@ import io.mockk.coEvery
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.runTest
 import okhttp3.ResponseBody.Companion.toResponseBody
@@ -25,8 +27,6 @@ import retrofit2.Response
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class HomeViewModelIntegrationTest {
-
-    private val settingsRepository = FakeSettingsRepository()
 
     @MockK
     val mockOpenWeatherService = mockk<OpenWeatherService>(relaxed = true)
@@ -49,7 +49,9 @@ class HomeViewModelIntegrationTest {
 
         val weatherRepository = createWeatherRepository()
 
-        val viewModel = createViewModel(weatherRepository = weatherRepository)
+        val viewModel = createViewModel(
+            weatherRepository = weatherRepository
+        )
 
         viewModel.processIntent(HomeScreenIntent.LoadWeatherData)
 
@@ -137,7 +139,9 @@ class HomeViewModelIntegrationTest {
     fun `when we receive a city name, the state is updated with it`() = runTest {
         val weatherRepository = mockk<WeatherRepository>()
 
-        val viewModel = createViewModel(weatherRepository)
+        val viewModel = createViewModel(
+            weatherRepository = weatherRepository
+        )
 
         val expectedState = HomeScreenViewState(
             units = "metric",
@@ -160,9 +164,24 @@ class HomeViewModelIntegrationTest {
         }
     }
 
-    private fun createViewModel(weatherRepository: WeatherRepository): HomeViewModel =
+    private fun createViewModel(
+        weatherRepository: WeatherRepository,
+        settingsRepository: SettingsRepository = mockk<SettingsRepository>() {
+            coEvery { getUnits() } returns flowOf("metric")
+            coEvery { getDefaultLocation() } returns flowOf(
+                DefaultLocation(
+                    longitude = 0.0, latitude = 0.0
+                )
+            )
+            coEvery { getLanguage() } returns flowOf("English")
+            coEvery { getAppVersion() } returns "1.0.0"
+            coEvery { getAvailableLanguages() } returns listOf("English")
+            coEvery { getAvailableUnits() } returns listOf("metric")
+        }
+    ): HomeViewModel =
         HomeViewModel(
-            weatherRepository = weatherRepository, settingsRepository = settingsRepository
+            weatherRepository = weatherRepository,
+            settingsRepository = settingsRepository
         )
 
     private fun createWeatherRepository() = DefaultWeatherRepository(

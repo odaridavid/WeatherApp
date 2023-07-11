@@ -12,6 +12,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -26,18 +27,20 @@ class HomeViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            settingsRepository.getLanguage().collect { language ->
-                setState { copy(language = language) }
-            }
-        }
-        viewModelScope.launch {
-            settingsRepository.getUnits().collect { units ->
-                setState { copy(units = units) }
-            }
-        }
-        viewModelScope.launch {
-            settingsRepository.getDefaultLocation().collect { defaultLocation ->
-                setState { copy(defaultLocation = defaultLocation) }
+            combine(
+                settingsRepository.getLanguage(),
+                settingsRepository.getUnits(),
+                settingsRepository.getDefaultLocation()
+            ) { language, units, defaultLocation ->
+                Triple(language, units, defaultLocation)
+            }.collect { (language, units, defaultLocation) ->
+                setState {
+                    copy(
+                        language = language,
+                        units = units,
+                        defaultLocation = defaultLocation
+                    )
+                }
             }
         }
     }

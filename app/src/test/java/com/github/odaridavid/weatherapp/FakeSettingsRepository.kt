@@ -40,5 +40,5 @@ class FakeSettingsRepository : SettingsRepository {
         DefaultLocation(latitude = latLngList[0].toDouble(), longitude = latLngList[1].toDouble())
     }
 
-    override fun getAvailableMetrics(): List<String> = Units.values().map { it.value }
+    override fun getAvailableUnits(): List<String> = Units.values().map { it.value }
 }
