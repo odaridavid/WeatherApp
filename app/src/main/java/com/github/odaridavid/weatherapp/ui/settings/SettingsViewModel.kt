@@ -7,6 +7,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -22,23 +23,22 @@ class SettingsViewModel @Inject constructor(
         when (settingsScreenIntent) {
             SettingsScreenIntent.LoadSettingScreenData -> {
                 viewModelScope.launch {
-                    setState { copy(versionInfo = settingsRepository.getAppVersion()) }
-                }
-                viewModelScope.launch {
-                    settingsRepository.getLanguage().collect { language ->
-                        setState { copy(selectedLanguage = language) }
+                    combine(
+                        settingsRepository.getLanguage(),
+                        settingsRepository.getUnits()
+                    ) { language, units ->
+                        Pair(language, units)
+                    }.collect { (language, units) ->
+                        setState {
+                            copy(
+                                selectedLanguage = language,
+                                selectedUnit = units,
+                                versionInfo = settingsRepository.getAppVersion(),
+                                availableLanguages = settingsRepository.getAvailableLanguages(),
+                                availableUnits = settingsRepository.getAvailableMetrics()
+                            )
+                        }
                     }
-                }
-                viewModelScope.launch {
-                    settingsRepository.getUnits().collect { units ->
-                        setState { copy(selectedUnit = units) }
-                    }
-                }
-                viewModelScope.launch {
-                    setState { copy(availableLanguages = settingsRepository.getAvailableLanguages()) }
-                }
-                viewModelScope.launch {
-                    setState { copy(availableUnits = settingsRepository.getAvailableMetrics()) }
                 }
             }
 
