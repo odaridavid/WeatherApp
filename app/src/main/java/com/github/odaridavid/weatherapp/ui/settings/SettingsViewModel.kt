@@ -35,7 +35,7 @@ class SettingsViewModel @Inject constructor(
                                 selectedUnit = units,
                                 versionInfo = settingsRepository.getAppVersion(),
                                 availableLanguages = settingsRepository.getAvailableLanguages(),
-                                availableUnits = settingsRepository.getAvailableMetrics()
+                                availableUnits = settingsRepository.getAvailableUnits()
                             )
                         }
                     }
