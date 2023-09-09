@@ -24,14 +24,14 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object ClientModule {
 
-    @Provides
-    @Singleton
-    fun providesJson(): Json = Json { ignoreUnknownKeys = true }
-
     @OptIn(ExperimentalSerializationApi::class)
     @Provides
     @Singleton
-    fun provideRetrofit(okHttpClient: OkHttpClient,json: Json): Retrofit {
+    fun provideRetrofit(
+        @ApplicationContext context: Context,
+    ): Retrofit {
+        val okHttpClient = provideOkhttpClient(context = context)
+        val json = providesJson()
         val contentType = "application/json".toMediaType()
         return Retrofit.Builder()
             .baseUrl(BuildConfig.OPEN_WEATHER_BASE_URL)
@@ -42,19 +42,24 @@ object ClientModule {
 
     @Provides
     @Singleton
-    fun provideOkhttpClient(
-        loggingInterceptor: HttpLoggingInterceptor,
-        chuckerInterceptor: ChuckerInterceptor,
-    ): OkHttpClient =
-        OkHttpClient.Builder()
+    fun provideOpenWeatherService(retrofit: Retrofit): OpenWeatherService =
+        retrofit.create(OpenWeatherService::class.java)
+
+    private fun providesJson(): Json = Json { ignoreUnknownKeys = true }
+
+    private fun provideOkhttpClient(
+        context: Context
+    ): OkHttpClient {
+        val loggingInterceptor = provideLoggingInterceptor()
+        val chuckerInterceptor = provideChuckerInterceptor(context)
+        return OkHttpClient.Builder()
             .connectTimeout(60L, TimeUnit.SECONDS)
             .addInterceptor(loggingInterceptor)
             .addInterceptor(chuckerInterceptor)
             .build()
+    }
 
-    @Provides
-    @Singleton
-    fun provideLoggingInterceptor(): HttpLoggingInterceptor {
+    private fun provideLoggingInterceptor(): HttpLoggingInterceptor {
         val level = if (BuildConfig.DEBUG) {
             HttpLoggingInterceptor.Level.BODY
         } else HttpLoggingInterceptor.Level.NONE
@@ -63,22 +68,14 @@ object ClientModule {
         }
     }
 
-    @Provides
-    @Singleton
-    fun provideChuckerInterceptor(
-        @ApplicationContext context:Context,
-        ): ChuckerInterceptor {
-        return ChuckerInterceptor.Builder(context = context)
+    private fun provideChuckerInterceptor(
+        context: Context
+    ): ChuckerInterceptor =
+        ChuckerInterceptor.Builder(context = context)
             .collector(ChuckerCollector(context = context))
             .maxContentLength(length = 250000L)
             .redactHeaders(headerNames = emptySet())
             .alwaysReadResponseBody(enable = false)
             .build()
-    }
-
-    @Provides
-    @Singleton
-    fun provideOpenWeatherService(retrofit: Retrofit): OpenWeatherService =
-        retrofit.create(OpenWeatherService::class.java)
 
 }
