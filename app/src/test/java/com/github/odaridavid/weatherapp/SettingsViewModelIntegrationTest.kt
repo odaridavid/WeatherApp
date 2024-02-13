@@ -4,6 +4,7 @@ import app.cash.turbine.test
 import com.github.odaridavid.weatherapp.core.api.SettingsRepository
 import com.github.odaridavid.weatherapp.core.api.WeatherRepository
 import com.github.odaridavid.weatherapp.core.model.SupportedLanguage
+import com.github.odaridavid.weatherapp.core.model.TimeFormat
 import com.github.odaridavid.weatherapp.core.model.Units
 import com.github.odaridavid.weatherapp.ui.settings.SettingsScreenIntent
 import com.github.odaridavid.weatherapp.ui.settings.SettingsScreenViewState
@@ -23,7 +24,7 @@ class SettingsViewModelIntegrationTest {
     val coroutineRule = MainCoroutineRule()
 
     @Test
-    fun `when we load screen data, then the state is updated as expected`() = runBlocking{
+    fun `when we load screen data, then the state is updated as expected`() = runBlocking {
         val settingsViewModel = createSettingsScreenViewModel()
 
         settingsViewModel.processIntent(SettingsScreenIntent.LoadSettingScreenData)
@@ -33,6 +34,8 @@ class SettingsViewModelIntegrationTest {
             selectedLanguage = SupportedLanguage.ENGLISH.languageName,
             availableLanguages = SupportedLanguage.values().map { it.languageName },
             availableUnits = Units.values().map { it.value },
+            selectedTimeFormat = TimeFormat.TWENTY_FOUR_HOUR,
+            availableFormats = TimeFormat.values().toList(),
             versionInfo = "1.0.0"
         )
 
@@ -45,7 +48,7 @@ class SettingsViewModelIntegrationTest {
     }
 
     @Test
-    fun `when we change units, then the units are updated`() = runBlocking{
+    fun `when we change units, then the units are updated`() = runBlocking {
         val settingsViewModel = createSettingsScreenViewModel()
 
         settingsViewModel.processIntent(SettingsScreenIntent.ChangeUnits(selectedUnits = "standard"))
@@ -59,7 +62,7 @@ class SettingsViewModelIntegrationTest {
     }
 
     @Test
-    fun `when we change language, then the language is updated `() = runBlocking{
+    fun `when we change language, then the language is updated `() = runBlocking {
         val settingsViewModel = createSettingsScreenViewModel()
 
         settingsViewModel.processIntent(SettingsScreenIntent.ChangeLanguage(selectedLanguage = "French"))
@@ -68,6 +71,20 @@ class SettingsViewModelIntegrationTest {
             awaitItem().also { state ->
                 assert(state.error == null)
                 assert(state.selectedLanguage == "French")
+            }
+        }
+    }
+
+    @Test
+    fun `when we change time format, then the format is updated `() = runBlocking {
+        val settingsViewModel = createSettingsScreenViewModel()
+
+        settingsViewModel.processIntent(SettingsScreenIntent.ChangeTimeFormat(selectedTimeFormat = TimeFormat.TWENTY_FOUR_HOUR))
+
+        settingsViewModel.state.test {
+            awaitItem().also { state ->
+                assert(state.error == null)
+                assert(state.selectedTimeFormat == TimeFormat.TWENTY_FOUR_HOUR)
             }
         }
     }

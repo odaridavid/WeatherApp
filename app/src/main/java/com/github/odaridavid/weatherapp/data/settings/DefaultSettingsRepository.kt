@@ -20,14 +20,10 @@ class DefaultSettingsRepository @Inject constructor(
     @ApplicationContext private val context: Context
 ) : SettingsRepository {
 
-    private val PREF_LANGUAGE by lazy { stringPreferencesKey("language") }
-    private val PREF_UNITS by lazy { stringPreferencesKey("units") }
-    private val TIME_FORMAT by lazy { stringPreferencesKey("time_formats") }
-    private val PREF_LAT_LNG by lazy { stringPreferencesKey("lat_lng") }
-
-    //Düsseldorf
-    private val DEFAULT_LONGITUDE = 6.773456
-    private val DEFAULT_LATITUDE = 51.227741
+    private val PREF_LANGUAGE by lazy { stringPreferencesKey(KEY_LANGUAGE) }
+    private val PREF_UNITS by lazy { stringPreferencesKey(KEY_UNITS) }
+    private val TIME_FORMAT by lazy { stringPreferencesKey(KEY_TIME_FORMAT) }
+    private val PREF_LAT_LNG by lazy { stringPreferencesKey(KEY_LAT_LNG) }
 
     override suspend fun setLanguage(language: String) {
         set(key = PREF_LANGUAGE, value = language)
@@ -87,5 +83,16 @@ class DefaultSettingsRepository @Inject constructor(
         return context.dataStore.data.map { settings ->
             settings[key] ?: default
         }
+    }
+
+    companion object {
+        //Düsseldorf
+        const val DEFAULT_LONGITUDE = 6.773456
+        const val DEFAULT_LATITUDE = 51.227741
+
+        const val KEY_LANGUAGE = "language"
+        const val KEY_UNITS = "units"
+        const val KEY_LAT_LNG = "lat_lng"
+        const val KEY_TIME_FORMAT = "time_formats"
     }
 }

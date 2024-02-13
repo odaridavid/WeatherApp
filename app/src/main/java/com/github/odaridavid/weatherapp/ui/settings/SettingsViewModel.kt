@@ -9,7 +9,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import java.sql.Time
 import javax.inject.Inject
 
 @HiltViewModel
@@ -23,12 +22,10 @@ class SettingsViewModel @Inject constructor(
     fun processIntent(settingsScreenIntent: SettingsScreenIntent) {
         when (settingsScreenIntent) {
             SettingsScreenIntent.LoadSettingScreenData -> {
-                // app version
                 viewModelScope.launch {
                     setState { copy(versionInfo = settingsRepository.getAppVersion()) }
                 }
 
-                // language
                 viewModelScope.launch {
                     settingsRepository.getLanguage().collect { language ->
                         setState { copy(selectedLanguage = language) }
@@ -38,7 +35,6 @@ class SettingsViewModel @Inject constructor(
                     setState { copy(availableLanguages = settingsRepository.getAvailableLanguages()) }
                 }
 
-                // units
                 viewModelScope.launch {
                     settingsRepository.getUnits().collect { units ->
                         setState { copy(selectedUnit = units) }
@@ -47,8 +43,6 @@ class SettingsViewModel @Inject constructor(
                 viewModelScope.launch {
                     setState { copy(availableUnits = settingsRepository.getAvailableMetrics()) }
                 }
-
-                // time format
                 viewModelScope.launch {
                     settingsRepository.getFormat().collect { format ->
                         setState { copy(selectedTimeFormat = TimeFormat.valueOf(format)) }
@@ -94,7 +88,7 @@ data class SettingsScreenViewState(
     val selectedLanguage: String = "",
     val availableLanguages: List<String> = emptyList(),
     val availableUnits: List<String> = emptyList(),
-    val selectedTimeFormat: TimeFormat = TimeFormat.TWELVE_HOUR,
+    val selectedTimeFormat: TimeFormat = TimeFormat.TWENTY_FOUR_HOUR,
     val availableFormats: List<TimeFormat> = emptyList(),
     val versionInfo: String = "",
     val error: Throwable? = null
