@@ -5,6 +5,7 @@ import com.github.odaridavid.weatherapp.core.model.Weather
 import com.github.odaridavid.weatherapp.data.weather.remote.CurrentWeatherResponse
 import com.github.odaridavid.weatherapp.data.weather.remote.WeatherResponse
 
+// TODO Populate the responses with more data to test the mappers
 val fakeSuccessWeatherResponse = WeatherResponse(
     current = CurrentWeatherResponse(
         temperature = 3.0f,

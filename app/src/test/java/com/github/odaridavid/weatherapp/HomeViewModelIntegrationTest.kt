@@ -34,6 +34,9 @@ class HomeViewModelIntegrationTest {
     @MockK
     val mockLogger = mockk<Logger>(relaxed = true)
 
+    @MockK
+    val mockSettingsRepository = mockk<SettingsRepository>(relaxed = true)
+
     @get:Rule
     val coroutineRule = MainCoroutineRule()
 
@@ -188,6 +191,7 @@ class HomeViewModelIntegrationTest {
         remoteWeatherDataSource = DefaultRemoteWeatherDataSource(
             mockOpenWeatherService
         ),
-        logger = mockLogger
+        logger = mockLogger,
+        settingsRepository = mockSettingsRepository,
     )
 }

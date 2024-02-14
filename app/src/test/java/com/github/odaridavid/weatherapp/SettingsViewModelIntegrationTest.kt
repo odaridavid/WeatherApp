@@ -35,7 +35,7 @@ class SettingsViewModelIntegrationTest {
             availableLanguages = SupportedLanguage.values().map { it.languageName },
             availableUnits = Units.values().map { it.value },
             selectedTimeFormat = TimeFormat.TWENTY_FOUR_HOUR.name,
-            availableFormats = TimeFormat.values().toList(),
+            availableFormats = TimeFormat.values().map { it.value },
             versionInfo = "1.0.0"
         )
 

@@ -53,8 +53,8 @@ class FakeSettingsRepository : SettingsRepository {
         settingsMap[KEY_TIME_FORMAT] = format
     }
 
-    override fun getFormats(): List<TimeFormat> {
-        return TimeFormat.values().toList()
+    override fun getFormats(): List<String> {
+        return TimeFormat.values().map { it.value }
     }
 
     override fun getAvailableUnits(): List<String> = Units.values().map { it.value }

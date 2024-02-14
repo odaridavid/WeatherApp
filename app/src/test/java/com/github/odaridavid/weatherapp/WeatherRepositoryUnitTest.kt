@@ -3,6 +3,7 @@ package com.github.odaridavid.weatherapp
 import com.github.odaridavid.weatherapp.core.ErrorType
 import com.github.odaridavid.weatherapp.core.Result
 import com.github.odaridavid.weatherapp.core.api.Logger
+import com.github.odaridavid.weatherapp.core.api.SettingsRepository
 import com.github.odaridavid.weatherapp.core.api.WeatherRepository
 import com.github.odaridavid.weatherapp.core.model.DefaultLocation
 import com.github.odaridavid.weatherapp.data.weather.DefaultWeatherRepository
@@ -24,6 +25,9 @@ class WeatherRepositoryUnitTest {
 
     @MockK
     val mockOpenWeatherService = mockk<OpenWeatherService>(relaxed = true)
+
+    @MockK
+    val mockSettingsRepository = mockk<SettingsRepository>(relaxed = true)
 
     @MockK
     val mockLogger = mockk<Logger>(relaxed = true)
@@ -253,9 +257,11 @@ class WeatherRepositoryUnitTest {
         logger: Logger = mockLogger,
         remoteWeatherDataSource: RemoteWeatherDataSource = DefaultRemoteWeatherDataSource(
             openWeatherService = mockOpenWeatherService
-        )
+        ),
+        settingsRepository: SettingsRepository = mockSettingsRepository,
     ): WeatherRepository = DefaultWeatherRepository(
         remoteWeatherDataSource = remoteWeatherDataSource,
-        logger = logger
+        logger = logger,
+        settingsRepository = settingsRepository,
     )
 }
