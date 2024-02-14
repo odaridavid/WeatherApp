@@ -1,15 +1,18 @@
 package com.github.odaridavid.weatherapp.ui.home
 
+import androidx.annotation.StringRes
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.github.odaridavid.weatherapp.core.model.Weather
+import com.github.odaridavid.weatherapp.core.Result
 import com.github.odaridavid.weatherapp.core.api.SettingsRepository
 import com.github.odaridavid.weatherapp.core.api.WeatherRepository
 import com.github.odaridavid.weatherapp.core.model.DefaultLocation
+import com.github.odaridavid.weatherapp.core.model.Weather
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -24,18 +27,20 @@ class HomeViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            settingsRepository.getLanguage().collect { language ->
-                setState { copy(language = language) }
-            }
-        }
-        viewModelScope.launch {
-            settingsRepository.getUnits().collect { units ->
-                setState { copy(units = units) }
-            }
-        }
-        viewModelScope.launch {
-            settingsRepository.getDefaultLocation().collect { defaultLocation ->
-                setState { copy(defaultLocation = defaultLocation) }
+            combine(
+                settingsRepository.getLanguage(),
+                settingsRepository.getUnits(),
+                settingsRepository.getDefaultLocation()
+            ) { language, units, defaultLocation ->
+                Triple(language, units, defaultLocation)
+            }.collect { (language, units, defaultLocation) ->
+                setState {
+                    copy(
+                        language = language,
+                        units = units,
+                        defaultLocation = defaultLocation
+                    )
+                }
             }
         }
     }
@@ -44,37 +49,39 @@ class HomeViewModel @Inject constructor(
         when (homeScreenIntent) {
             is HomeScreenIntent.LoadWeatherData -> {
                 viewModelScope.launch {
-                    weatherRepository.fetchWeatherData(
+                    val result = weatherRepository.fetchWeatherData(
                         language = state.value.language,
                         defaultLocation = state.value.defaultLocation,
                         units = state.value.units
-                    ).collect { result ->
-                        processResult(result)
-                    }
+                    )
+                    processResult(result)
                 }
+            }
+
+            is HomeScreenIntent.DisplayCityName -> {
+                setState { copy(locationName = homeScreenIntent.cityName) }
             }
         }
     }
 
     private fun processResult(result: Result<Weather>) {
-        when {
-            result.isSuccess -> {
-                val weatherData = result.getOrThrow()
+        when (result) {
+            is Result.Success -> {
+                val weatherData = result.data
                 setState {
                     copy(
                         weather = weatherData,
                         isLoading = false,
-                        error = null
+                        errorMessageId = null
                     )
                 }
             }
 
-            result.isFailure -> {
+            is Result.Error -> {
                 setState {
                     copy(
                         isLoading = false,
-                        error = result.exceptionOrNull()
-                            ?: Throwable("Unknown error occurred")
+                        errorMessageId = result.errorType.toResourceId()
                     )
                 }
             }
@@ -86,15 +93,14 @@ class HomeViewModel @Inject constructor(
             _state.emit(stateReducer(state.value))
         }
     }
-
 }
 
 data class HomeScreenViewState(
     val units: String = "",
     val defaultLocation: DefaultLocation = DefaultLocation(0.0, 0.0),
-    val locationName:String = "-",
+    val locationName: String = "-",
     val language: String = "",
     val weather: Weather? = null,
     val isLoading: Boolean = false,
-    val error: Throwable? = null
+    @StringRes val errorMessageId: Int? = null
 )

@@ -1,5 +1,8 @@
 ### Weather App
 
+[![Build Status](https://app.bitrise.io/app/80f9b4627fc90757/status.svg?token=3KnRQl0WRfDT5UTzPDiRgA&branch=develop)](https://app.bitrise.io/app/80f9b4627fc90757)
+[![codecov](https://codecov.io/gh/odaridavid/WeatherApp/branch/develop/graph/badge.svg?token=eZcGjGhF83)](https://codecov.io/gh/odaridavid/WeatherApp)
+
 *Summary*
 
 A simple weather app that gets your location and displays the forecast for the current day and a few days after that.
@@ -27,6 +30,11 @@ OPEN_WEATHER_ICONS_URL= http://openweathermap.org/img/wn/
 ```
 
 Check for one under  [`Api Keys`](https://home.openweathermap.org/api_keys)
+
+
+*Environment*
+- Built on A.S Hedgehog
+- JDK 17
 
 # Design/Architectural decisions 📐
 
@@ -91,11 +99,42 @@ is written that makes use of fake,so as to mimic the real scenario as much as po
    *Tooling/Project setup*
 - [Gradle secrets plugin](https://github.com/google/secrets-gradle-plugin)
 - [Hilt(DI)](https://developer.android.com/training/dependency-injection/hilt-android)
+- [Firebase - Crashlytics](https://firebase.google.com/docs/crashlytics)
+
+
+# LICENSE
+
+```
+   Copyright 2023 David Odari
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+   
+```
 
 
 # Screenshots 📱
 
-<img src="/docs/screenshots/home.jpeg" width="300px"> <img src="/docs/screenshots/settings.jpeg" width="300px">
+|               Home       (Light Theme)                |                  Home  (Dark Theme)                   |
+|:-----------------------------------------------------:|:-----------------------------------------------------:|
+| <img src="/docs/screenshots/white.png" width="300px"> | <img src="/docs/screenshots/black.png" width="300px"> |
+
+|                         Settings                          |
+|:---------------------------------------------------------:|
+| <img src="/docs/screenshots/settings.jpeg" width="300px"> |
+
+|                        Error                        |
+|:---------------------------------------------------:|
+| <img src="/docs/screenshots/drk.png" width="300px"> |
 
 
 ![](https://media.giphy.com/media/hWvk9iUU4uBBeyBq0k/giphy.gif)

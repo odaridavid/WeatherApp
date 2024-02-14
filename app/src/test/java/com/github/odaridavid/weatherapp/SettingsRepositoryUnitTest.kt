@@ -1,5 +1,6 @@
 package com.github.odaridavid.weatherapp
 
+
 import com.github.odaridavid.weatherapp.core.api.SettingsRepository
 import com.github.odaridavid.weatherapp.core.model.DefaultLocation
 import com.github.odaridavid.weatherapp.core.model.SupportedLanguage

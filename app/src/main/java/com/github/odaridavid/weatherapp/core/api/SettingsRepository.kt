@@ -17,7 +17,7 @@ interface SettingsRepository {
 
     fun getAvailableLanguages(): List<String>
 
-    fun getAvailableMetrics(): List<String>
+    fun getAvailableUnits(): List<String>
 
     suspend fun setDefaultLocation(defaultLocation: DefaultLocation)
 

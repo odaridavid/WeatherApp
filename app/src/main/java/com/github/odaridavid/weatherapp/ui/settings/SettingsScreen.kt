@@ -1,31 +1,24 @@
 package com.github.odaridavid.weatherapp.ui.settings
 
-import androidx.annotation.DrawableRes
-import androidx.compose.foundation.*
-import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.selection.selectable
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Button
-import androidx.compose.material.Card
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.RadioButton
-import androidx.compose.material.Text
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.Dialog
-import androidx.compose.ui.window.DialogProperties
 import com.github.odaridavid.weatherapp.R
+import com.github.odaridavid.weatherapp.designsystem.SettingOptionRow
+import com.github.odaridavid.weatherapp.designsystem.SettingOptionRadioButton
+import com.github.odaridavid.weatherapp.designsystem.SettingOptionsDialog
+import com.github.odaridavid.weatherapp.designsystem.SettingsTopBar
+import com.github.odaridavid.weatherapp.designsystem.VersionInfoText
 import com.github.odaridavid.weatherapp.core.model.TimeFormat
 
-// TODO Improve dialog ui/solution
 @Composable
 fun SettingsScreen(
     state: SettingsScreenViewState,
@@ -35,22 +28,7 @@ fun SettingsScreen(
     onTimeFormatChanged: (TimeFormat) -> Unit,
 ) {
     Column {
-
-        Row(modifier = Modifier.padding(16.dp)) {
-            Image(painter = painterResource(id = R.drawable.ic_arrow_back),
-                contentDescription = stringResource(R.string.settings_content_description_icon),
-                modifier = Modifier
-                    .defaultMinSize(40.dp)
-                    .clickable { onBackButtonClicked() }
-                    .padding(8.dp))
-
-            Text(
-                text = stringResource(R.string.settings_screen_title),
-                style = MaterialTheme.typography.h5,
-                textAlign = TextAlign.Center,
-                modifier = Modifier.align(Alignment.CenterVertically)
-            )
-        }
+        SettingsTopBar(onBackButtonClicked)
 
         val openLanguageSelectionDialog = remember { mutableStateOf(false) }
         SettingOptionRow(
@@ -85,195 +63,68 @@ fun SettingsScreen(
         if (openLanguageSelectionDialog.value) {
             val availableLanguages = state.availableLanguages
             val (selectedOption, onOptionSelected) = remember { mutableStateOf(state.selectedLanguage) }
-            Dialog(onDismissRequest = { openLanguageSelectionDialog.value = false }) {
-                Card(modifier = Modifier.padding(16.dp)) {
-                    Column(modifier = Modifier.verticalScroll(rememberScrollState())) {
-                        Column() {
-                            availableLanguages.forEach { text ->
-                                Row(
-                                    Modifier
-                                        .fillMaxWidth()
-                                        .selectable(selected = (text == selectedOption),
-                                            onClick = { onOptionSelected(text) })
-                                ) {
-                                    RadioButton(selected = (text == selectedOption),
-                                        onClick = { onOptionSelected(text) })
-                                    Text(
-                                        text = text,
-                                        style = MaterialTheme.typography.body1.merge(),
-                                        modifier = Modifier.padding(8.dp)
-                                    )
-                                }
-                            }
-                        }
-                        Button(modifier = Modifier
-                            .align(Alignment.CenterHorizontally)
-                            .padding(16.dp),
-                            onClick = { onLanguageChanged(selectedOption) }) {
-                            Text(text = stringResource(R.string.settings_confirm))
-                        }
-                    }
-                }
+            SettingOptionsDialog(
+                onDismiss = { openLanguageSelectionDialog.value = false },
+                onConfirm = {
+                    onLanguageChanged(selectedOption)
+                    openLanguageSelectionDialog.value = false
+                },
+                items = availableLanguages,
+            ) { language ->
+                SettingOptionRadioButton(
+                    text = language,
+                    selectedOption = selectedOption,
+                    onOptionSelected = onOptionSelected
+                )
             }
         }
 
         if (openUnitSelectionDialog.value) {
             val availableUnits = state.availableUnits
             val (selectedOption, onOptionSelected) = remember { mutableStateOf(state.selectedUnit) }
-
-            Dialog(onDismissRequest = { openUnitSelectionDialog.value = false }) {
-                Card(modifier = Modifier.padding(16.dp)) {
-                    Column(modifier = Modifier.verticalScroll(rememberScrollState())) {
-                        Column() {
-                            availableUnits.forEach { text ->
-                                Row(
-                                    Modifier
-                                        .fillMaxWidth()
-                                        .selectable(
-                                            selected = (text == selectedOption),
-                                            onClick = { onOptionSelected(text) }
-                                        )
-                                ) {
-                                    RadioButton(
-                                        selected = (text == selectedOption),
-                                        onClick = { onOptionSelected(text) }
-                                    )
-                                    Text(
-                                        text = text,
-                                        style = MaterialTheme.typography.body1.merge(),
-                                        modifier = Modifier.padding(start = 16.dp)
-                                    )
-                                }
-                            }
-                        }
-                        Button(
-                            modifier = Modifier
-                                .align(Alignment.CenterHorizontally)
-                                .padding(16.dp),
-                            onClick = { onUnitChanged(selectedOption) }) {
-                            Text(text = stringResource(R.string.settings_confirm))
-                        }
-                    }
-                }
-
+            SettingOptionsDialog(
+                onDismiss = { openUnitSelectionDialog.value = false },
+                onConfirm = {
+                    onUnitChanged(selectedOption)
+                    openUnitSelectionDialog.value = false
+                },
+                items = availableUnits,
+            ) { unit ->
+                SettingOptionRadioButton(
+                    text = unit,
+                    selectedOption = selectedOption,
+                    onOptionSelected = onOptionSelected
+                )
             }
         }
 
         if (openTimeFormatSelectionDialog.value) {
             val availableFormats = state.availableFormats
             val (selectedOption, onOptionSelected) = remember { mutableStateOf(state.selectedTimeFormat) }
-
-            Dialog(
-                onDismissRequest = { openTimeFormatSelectionDialog.value = false }
-            ) {
-                Column(modifier = Modifier.fillMaxWidth(1f)) {
-                    Card(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(16.dp),
-                        shape = RoundedCornerShape(10.dp)
-                    ) {
-                        Column(
-                            modifier = Modifier.fillMaxWidth(),
-                            verticalArrangement = Arrangement.Center,
-                            horizontalAlignment = Alignment.CenterHorizontally
-                        ) {
-
-                            Row(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(vertical = 16.dp)
-                                    .padding(start = 16.dp)
-                                    .background(color = MaterialTheme.colors.surface),
-                            ) {
-                                Text(
-                                    text = "Select Time Format",
-                                    style = MaterialTheme.typography.h5
-                                )
-                            }
-
-                            availableFormats.forEach { text ->
-                                Row(
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .selectable(
-                                            selected = (text == selectedOption),
-                                            onClick = { onOptionSelected(text) }
-                                        ),
-                                    verticalAlignment = Alignment.CenterVertically
-                                ) {
-                                    RadioButton(
-                                        selected = (text == selectedOption),
-                                        onClick = { onOptionSelected(text) }
-                                    )
-                                    Text(
-                                        text = stringResource(text.displayName),
-                                        style = MaterialTheme.typography.body1.merge(),
-                                        modifier = Modifier.padding(start = 16.dp)
-                                    )
-                                }
-                            }
-
-                            Button(
-                                modifier = Modifier
-                                    .align(Alignment.CenterHorizontally)
-                                    .padding(16.dp),
-                                onClick = {
-                                    openTimeFormatSelectionDialog.value =
-                                        openTimeFormatSelectionDialog.value.not()
-                                    onTimeFormatChanged(selectedOption)
-                                }
-                            ) {
-                                Text(text = stringResource(R.string.settings_confirm))
-                            }
-                        }
-                    }
-                }
+            SettingOptionsDialog(
+                onDismiss = { openTimeFormatSelectionDialog.value = false },
+                onConfirm = {
+                    onTimeFormatChanged(selectedOption)
+                    openUnitSelectionDialog.value = false
+                },
+                items = availableFormats,
+            ) { unit ->
+                SettingOptionRadioButton(
+                    text = unit,
+                    selectedOption = selectedOption,
+                    onOptionSelected = onOptionSelected
+                )
             }
         }
 
         Spacer(modifier = Modifier.weight(1.0f))
 
-        Text(
-            text = state.versionInfo,
-            style = MaterialTheme.typography.subtitle1,
+        VersionInfoText(
+            versionInfo = state.versionInfo,
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(16.dp)
                 .align(Alignment.CenterHorizontally),
-            textAlign = TextAlign.Center
-        )
-    }
-}
-
-@Composable
-private fun SettingOptionRow(
-    optionLabel: String,
-    optionValue: String,
-    @DrawableRes optionIcon: Int,
-    optionIconContentDescription: String,
-    modifier: Modifier = Modifier,
-    onOptionClicked: () -> Unit
-) {
-    Row(modifier = modifier
-        .fillMaxWidth()
-        .clickable { onOptionClicked() }
-        .padding(16.dp)) {
-        Image(
-            painter = painterResource(id = optionIcon),
-            contentDescription = optionIconContentDescription,
-            modifier = Modifier.padding(8.dp)
-        )
-        Text(
-            text = optionLabel,
-            style = MaterialTheme.typography.subtitle1,
-            modifier = Modifier.padding(8.dp)
-        )
-        Spacer(modifier = Modifier.weight(1.0f))
-        Text(
-            text = optionValue,
-            style = MaterialTheme.typography.body1,
-            modifier = Modifier.padding(8.dp)
         )
     }
 }

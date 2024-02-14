@@ -1,4 +1,4 @@
-package com.github.odaridavid.weatherapp.data.weather
+package com.github.odaridavid.weatherapp.data.weather.remote
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
