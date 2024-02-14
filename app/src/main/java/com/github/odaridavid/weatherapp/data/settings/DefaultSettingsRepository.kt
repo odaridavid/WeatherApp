@@ -61,8 +61,6 @@ class DefaultSettingsRepository @Inject constructor(
         }
     }
 
-    // TODO FIx time functionality
-
     override suspend fun getFormat(): Flow<String> =
         get(key = TIME_FORMAT, default = TimeFormat.TWENTY_FOUR_HOUR.value)
 
