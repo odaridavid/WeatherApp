@@ -19,9 +19,11 @@ import io.mockk.mockk
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.runBlocking
 import okhttp3.ResponseBody.Companion.toResponseBody
+import org.junit.Before
 import org.junit.Test
 import retrofit2.Response
 import java.io.IOException
+import java.util.TimeZone
 
 class WeatherRepositoryUnitTest {
 
@@ -35,6 +37,12 @@ class WeatherRepositoryUnitTest {
     val mockLogger = mockk<Logger>(relaxed = true)
 
     // TODO Look into parameterized testing to cover different mapper scenarios
+    // TODO Set default timezone to UTC
+
+    @Before
+    fun setup() {
+        TimeZone.setDefault(TimeZone.getTimeZone("UTC"))
+    }
 
     @Test
     fun `when we fetch weather data successfully, then a successfully mapped result is emitted`() =

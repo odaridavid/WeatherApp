@@ -22,9 +22,11 @@ import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.runTest
 import okhttp3.ResponseBody.Companion.toResponseBody
+import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import retrofit2.Response
+import java.util.TimeZone
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class HomeViewModelIntegrationTest {
@@ -40,6 +42,11 @@ class HomeViewModelIntegrationTest {
 
     @get:Rule
     val coroutineRule = MainCoroutineRule()
+
+    @Before
+    fun setup() {
+        TimeZone.setDefault(TimeZone.getTimeZone("UTC"))
+    }
 
     @Test
     fun `when fetching weather data is successful, then display correct data`() = runBlocking {
