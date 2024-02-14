@@ -18,6 +18,7 @@ import java.io.IOException
 import java.net.HttpURLConnection
 import java.text.SimpleDateFormat
 import java.util.Date
+import java.util.Locale
 import kotlin.math.roundToInt
 
 fun WeatherResponse.toCoreModel(unit: String, format: String): Weather = Weather(
@@ -78,7 +79,8 @@ private fun getUnitSymbols(unit: String) = when (unit) {
 }
 
 private fun getDate(utcInMillis: Long, formatPattern: String): String {
-    val sdf = SimpleDateFormat(formatPattern)
+    // TODO use locale from supported languages
+    val sdf = SimpleDateFormat(formatPattern, Locale.ENGLISH)
     val dateFormat = Date(utcInMillis * 1000)
     return sdf.format(dateFormat)
 }

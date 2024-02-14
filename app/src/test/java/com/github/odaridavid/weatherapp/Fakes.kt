@@ -43,7 +43,7 @@ val fakeSuccessMappedWeatherResponse = Weather(
     ),
     hourly = listOf(
         HourlyWeather(
-            forecastedTime = "12:40 pm",
+            forecastedTime = "12:40 PM",
             temperature = "3°C",
             weather = listOf()
         )
