@@ -3,8 +3,10 @@ package com.github.odaridavid.weatherapp
 import com.github.odaridavid.weatherapp.core.ErrorType
 import com.github.odaridavid.weatherapp.core.Result
 import com.github.odaridavid.weatherapp.core.api.Logger
+import com.github.odaridavid.weatherapp.core.api.SettingsRepository
 import com.github.odaridavid.weatherapp.core.api.WeatherRepository
 import com.github.odaridavid.weatherapp.core.model.DefaultLocation
+import com.github.odaridavid.weatherapp.core.model.TimeFormat
 import com.github.odaridavid.weatherapp.data.weather.DefaultWeatherRepository
 import com.github.odaridavid.weatherapp.data.weather.remote.DefaultRemoteWeatherDataSource
 import com.github.odaridavid.weatherapp.data.weather.remote.OpenWeatherService
@@ -14,11 +16,14 @@ import com.google.common.truth.Truth
 import io.mockk.coEvery
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.runBlocking
 import okhttp3.ResponseBody.Companion.toResponseBody
+import org.junit.Before
 import org.junit.Test
 import retrofit2.Response
 import java.io.IOException
+import java.util.TimeZone
 
 class WeatherRepositoryUnitTest {
 
@@ -26,7 +31,18 @@ class WeatherRepositoryUnitTest {
     val mockOpenWeatherService = mockk<OpenWeatherService>(relaxed = true)
 
     @MockK
+    val mockSettingsRepository = mockk<SettingsRepository>(relaxed = true)
+
+    @MockK
     val mockLogger = mockk<Logger>(relaxed = true)
+
+    // TODO Look into parameterized testing to cover different mapper scenarios
+    // TODO Set default timezone to UTC
+
+    @Before
+    fun setup() {
+        TimeZone.setDefault(TimeZone.getTimeZone("UTC"))
+    }
 
     @Test
     fun `when we fetch weather data successfully, then a successfully mapped result is emitted`() =
@@ -43,6 +59,7 @@ class WeatherRepositoryUnitTest {
             } returns Response.success<WeatherResponse>(
                 fakeSuccessWeatherResponse
             )
+            coEvery { mockSettingsRepository.getFormat() } returns flowOf(TimeFormat.TWELVE_HOUR.value)
 
             val weatherRepository = createWeatherRepository()
 
@@ -253,9 +270,11 @@ class WeatherRepositoryUnitTest {
         logger: Logger = mockLogger,
         remoteWeatherDataSource: RemoteWeatherDataSource = DefaultRemoteWeatherDataSource(
             openWeatherService = mockOpenWeatherService
-        )
+        ),
+        settingsRepository: SettingsRepository = mockSettingsRepository,
     ): WeatherRepository = DefaultWeatherRepository(
         remoteWeatherDataSource = remoteWeatherDataSource,
-        logger = logger
+        logger = logger,
+        settingsRepository = settingsRepository,
     )
 }

@@ -8,6 +8,7 @@ import com.github.odaridavid.weatherapp.BuildConfig
 import com.github.odaridavid.weatherapp.core.api.SettingsRepository
 import com.github.odaridavid.weatherapp.core.model.DefaultLocation
 import com.github.odaridavid.weatherapp.core.model.SupportedLanguage
+import com.github.odaridavid.weatherapp.core.model.TimeFormat
 import com.github.odaridavid.weatherapp.core.model.Units
 import com.github.odaridavid.weatherapp.data.dataStore
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -19,13 +20,10 @@ class DefaultSettingsRepository @Inject constructor(
     @ApplicationContext private val context: Context
 ) : SettingsRepository {
 
-    private val PREF_LANGUAGE by lazy { stringPreferencesKey("language") }
-    private val PREF_UNITS by lazy { stringPreferencesKey("units") }
-    private val PREF_LAT_LNG by lazy { stringPreferencesKey("lat_lng") }
-
-    //Düsseldorf
-    private val DEFAULT_LONGITUDE = 6.773456
-    private val DEFAULT_LATITUDE = 51.227741
+    private val PREF_LANGUAGE by lazy { stringPreferencesKey(KEY_LANGUAGE) }
+    private val PREF_UNITS by lazy { stringPreferencesKey(KEY_UNITS) }
+    private val TIME_FORMAT by lazy { stringPreferencesKey(KEY_TIME_FORMAT) }
+    private val PREF_LAT_LNG by lazy { stringPreferencesKey(KEY_LAT_LNG) }
 
     override suspend fun setLanguage(language: String) {
         set(key = PREF_LANGUAGE, value = language)
@@ -41,7 +39,8 @@ class DefaultSettingsRepository @Inject constructor(
     override suspend fun getUnits(): Flow<String> =
         get(key = PREF_UNITS, default = Units.METRIC.value)
 
-    override fun getAppVersion(): String = "Version : ${BuildConfig.VERSION_NAME}-${BuildConfig.BUILD_TYPE}"
+    override fun getAppVersion(): String =
+        "Version : ${BuildConfig.VERSION_NAME}-${BuildConfig.BUILD_TYPE}"
 
     override fun getAvailableLanguages(): List<String> =
         SupportedLanguage.values().map { it.languageName }
@@ -62,6 +61,18 @@ class DefaultSettingsRepository @Inject constructor(
         }
     }
 
+    override suspend fun getFormat(): Flow<String> =
+        get(key = TIME_FORMAT, default = TimeFormat.TWENTY_FOUR_HOUR.value)
+
+
+    override suspend fun setFormat(format: String) {
+        set(key = TIME_FORMAT, value = format)
+    }
+
+    override fun getFormats(): List<String> {
+       return TimeFormat.values().map { it.value }
+    }
+
     private suspend fun <T> set(key: Preferences.Key<T>, value: T) {
         context.dataStore.edit { settings ->
             settings[key] = value
@@ -72,5 +83,16 @@ class DefaultSettingsRepository @Inject constructor(
         return context.dataStore.data.map { settings ->
             settings[key] ?: default
         }
+    }
+
+    companion object {
+        //Düsseldorf
+        const val DEFAULT_LONGITUDE = 6.773456
+        const val DEFAULT_LATITUDE = 51.227741
+
+        const val KEY_LANGUAGE = "language"
+        const val KEY_UNITS = "units"
+        const val KEY_LAT_LNG = "lat_lng"
+        const val KEY_TIME_FORMAT = "time_formats"
     }
 }

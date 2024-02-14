@@ -17,13 +17,15 @@ import com.github.odaridavid.weatherapp.designsystem.SettingOptionRadioButton
 import com.github.odaridavid.weatherapp.designsystem.SettingOptionsDialog
 import com.github.odaridavid.weatherapp.designsystem.SettingsTopBar
 import com.github.odaridavid.weatherapp.designsystem.VersionInfoText
+import com.github.odaridavid.weatherapp.core.model.TimeFormat
 
 @Composable
 fun SettingsScreen(
     state: SettingsScreenViewState,
     onBackButtonClicked: () -> Unit,
     onLanguageChanged: (String) -> Unit,
-    onUnitChanged: (String) -> Unit
+    onUnitChanged: (String) -> Unit,
+    onTimeFormatChanged: (String) -> Unit,
 ) {
     Column {
         SettingsTopBar(onBackButtonClicked)
@@ -46,6 +48,16 @@ fun SettingsScreen(
             optionIconContentDescription = stringResource(R.string.settings_content_description_unit_icon)
         ) {
             openUnitSelectionDialog.value = openUnitSelectionDialog.value.not()
+        }
+
+        val openTimeFormatSelectionDialog = remember { mutableStateOf(false) }
+        SettingOptionRow(
+            optionLabel = stringResource(R.string.settings_time_format),
+            optionValue = state.selectedTimeFormat,
+            optionIcon = R.drawable.baseline_access_time_24,
+            optionIconContentDescription = stringResource(R.string.settings_content_description_time_icon)
+        ) {
+            openTimeFormatSelectionDialog.value = openTimeFormatSelectionDialog.value.not()
         }
 
         if (openLanguageSelectionDialog.value) {
@@ -77,6 +89,25 @@ fun SettingsScreen(
                     openUnitSelectionDialog.value = false
                 },
                 items = availableUnits,
+            ) { unit ->
+                SettingOptionRadioButton(
+                    text = unit,
+                    selectedOption = selectedOption,
+                    onOptionSelected = onOptionSelected
+                )
+            }
+        }
+
+        if (openTimeFormatSelectionDialog.value) {
+            val availableFormats = state.availableFormats
+            val (selectedOption, onOptionSelected) = remember { mutableStateOf(state.selectedTimeFormat) }
+            SettingOptionsDialog(
+                onDismiss = { openTimeFormatSelectionDialog.value = false },
+                onConfirm = {
+                    onTimeFormatChanged(selectedOption)
+                    openUnitSelectionDialog.value = false
+                },
+                items = availableFormats,
             ) { unit ->
                 SettingOptionRadioButton(
                     text = unit,

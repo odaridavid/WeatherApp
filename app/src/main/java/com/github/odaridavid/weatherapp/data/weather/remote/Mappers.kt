@@ -9,6 +9,7 @@ import com.github.odaridavid.weatherapp.core.model.GenericException
 import com.github.odaridavid.weatherapp.core.model.HourlyWeather
 import com.github.odaridavid.weatherapp.core.model.ServerException
 import com.github.odaridavid.weatherapp.core.model.Temperature
+import com.github.odaridavid.weatherapp.core.model.TimeFormat
 import com.github.odaridavid.weatherapp.core.model.UnauthorizedException
 import com.github.odaridavid.weatherapp.core.model.Units
 import com.github.odaridavid.weatherapp.core.model.Weather
@@ -17,12 +18,13 @@ import java.io.IOException
 import java.net.HttpURLConnection
 import java.text.SimpleDateFormat
 import java.util.Date
+import java.util.Locale
 import kotlin.math.roundToInt
 
-fun WeatherResponse.toCoreModel(unit: String): Weather = Weather(
+fun WeatherResponse.toCoreModel(unit: String, format: String): Weather = Weather(
     current = current.toCoreModel(unit = unit),
     daily = daily.map { it.toCoreModel(unit = unit) },
-    hourly = hourly.map { it.toCoreModel(unit = unit) }
+    hourly = hourly.map { it.toCoreModel(unit = unit, format = format) }
 )
 
 fun CurrentWeatherResponse.toCoreModel(unit: String): CurrentWeather =
@@ -34,17 +36,23 @@ fun CurrentWeatherResponse.toCoreModel(unit: String): CurrentWeather =
 
 fun DailyWeatherResponse.toCoreModel(unit: String): DailyWeather =
     DailyWeather(
-        forecastedTime = getDate(forecastedTime,"EEEE dd/M"),
+        forecastedTime = getDate(forecastedTime, "EEEE dd/M"),
         temperature = temperature.toCoreModel(unit = unit),
         weather = weather.map { it.toCoreModel() }
     )
 
-fun HourlyWeatherResponse.toCoreModel(unit: String): HourlyWeather =
-    HourlyWeather(
-        forecastedTime = getDate(forecastedTime,"HH:SS"),
+fun HourlyWeatherResponse.toCoreModel(unit: String, format: String): HourlyWeather {
+    val formatPattern = when (format) {
+        TimeFormat.TWELVE_HOUR.value -> "h:mm a"
+        TimeFormat.TWENTY_FOUR_HOUR.value -> "HH:SS"
+        else -> "HH:SS"
+    }
+    return HourlyWeather(
+        forecastedTime = getDate(forecastedTime, formatPattern),
         temperature = formatTemperatureValue(temperature, unit),
         weather = weather.map { it.toCoreModel() }
     )
+}
 
 fun WeatherInfoResponse.toCoreModel(): WeatherInfo =
     WeatherInfo(
@@ -71,7 +79,8 @@ private fun getUnitSymbols(unit: String) = when (unit) {
 }
 
 private fun getDate(utcInMillis: Long, formatPattern: String): String {
-    val sdf = SimpleDateFormat(formatPattern)
+    // TODO use locale from supported languages
+    val sdf = SimpleDateFormat(formatPattern, Locale.ENGLISH)
     val dateFormat = Date(utcInMillis * 1000)
     return sdf.format(dateFormat)
 }

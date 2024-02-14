@@ -5,6 +5,7 @@ import com.github.odaridavid.weatherapp.core.api.Logger
 import com.github.odaridavid.weatherapp.core.api.SettingsRepository
 import com.github.odaridavid.weatherapp.core.api.WeatherRepository
 import com.github.odaridavid.weatherapp.core.model.DefaultLocation
+import com.github.odaridavid.weatherapp.core.model.TimeFormat
 import com.github.odaridavid.weatherapp.data.weather.DefaultWeatherRepository
 import com.github.odaridavid.weatherapp.data.weather.remote.DefaultRemoteWeatherDataSource
 import com.github.odaridavid.weatherapp.data.weather.remote.OpenWeatherService
@@ -21,9 +22,11 @@ import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.runTest
 import okhttp3.ResponseBody.Companion.toResponseBody
+import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import retrofit2.Response
+import java.util.TimeZone
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class HomeViewModelIntegrationTest {
@@ -34,8 +37,16 @@ class HomeViewModelIntegrationTest {
     @MockK
     val mockLogger = mockk<Logger>(relaxed = true)
 
+    @MockK
+    val mockSettingsRepository = mockk<SettingsRepository>(relaxed = true)
+
     @get:Rule
     val coroutineRule = MainCoroutineRule()
+
+    @Before
+    fun setup() {
+        TimeZone.setDefault(TimeZone.getTimeZone("UTC"))
+    }
 
     @Test
     fun `when fetching weather data is successful, then display correct data`() = runBlocking {
@@ -46,6 +57,8 @@ class HomeViewModelIntegrationTest {
         } returns Response.success<WeatherResponse>(
             fakeSuccessWeatherResponse
         )
+
+        coEvery { mockSettingsRepository.getFormat() } returns flowOf(TimeFormat.TWELVE_HOUR.value)
 
         val weatherRepository = createWeatherRepository()
 
@@ -188,6 +201,7 @@ class HomeViewModelIntegrationTest {
         remoteWeatherDataSource = DefaultRemoteWeatherDataSource(
             mockOpenWeatherService
         ),
-        logger = mockLogger
+        logger = mockLogger,
+        settingsRepository = mockSettingsRepository,
     )
 }
