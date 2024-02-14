@@ -25,7 +25,7 @@ fun SettingsScreen(
     onBackButtonClicked: () -> Unit,
     onLanguageChanged: (String) -> Unit,
     onUnitChanged: (String) -> Unit,
-    onTimeFormatChanged: (TimeFormat) -> Unit,
+    onTimeFormatChanged: (String) -> Unit,
 ) {
     Column {
         SettingsTopBar(onBackButtonClicked)
@@ -53,7 +53,7 @@ fun SettingsScreen(
         val openTimeFormatSelectionDialog = remember { mutableStateOf(false) }
         SettingOptionRow(
             optionLabel = stringResource(R.string.settings_time_format),
-            optionValue = stringResource(state.selectedTimeFormat.displayName),
+            optionValue = state.selectedTimeFormat,
             optionIcon = R.drawable.baseline_access_time_24,
             optionIconContentDescription = stringResource(R.string.settings_content_description_time_icon)
         ) {

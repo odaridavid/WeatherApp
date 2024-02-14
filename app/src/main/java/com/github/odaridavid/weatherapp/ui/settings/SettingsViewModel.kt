@@ -10,7 +10,6 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
-import okhttp3.internal.format
 import javax.inject.Inject
 
 @HiltViewModel
@@ -32,7 +31,6 @@ class SettingsViewModel @Inject constructor(
                     ) { language, units, format ->
                         Triple(language, units, format)
                     }.collect { (language, units, format) ->
-                        // TODO Fix time format mapping
                         setState {
                             copy(
                                 selectedLanguage = language,
@@ -40,7 +38,7 @@ class SettingsViewModel @Inject constructor(
                                 selectedTimeFormat = format,
                                 versionInfo = settingsRepository.getAppVersion(),
                                 availableLanguages = settingsRepository.getAvailableLanguages(),
-                                availableUnits = settingsRepository.getAvailableMetrics(),
+                                availableUnits = settingsRepository.getAvailableUnits(),
                                 availableFormats = settingsRepository.getFormats()
                             )
                         }
@@ -82,10 +80,10 @@ class SettingsViewModel @Inject constructor(
 data class SettingsScreenViewState(
     val selectedUnit: String = "",
     val selectedLanguage: String = "",
+    val selectedTimeFormat: String = "",
     val availableLanguages: List<String> = emptyList(),
     val availableUnits: List<String> = emptyList(),
-    val selectedTimeFormat: TimeFormat = TimeFormat.TWENTY_FOUR_HOUR,
-    val availableFormats: List<TimeFormat> = emptyList(),
+    val availableFormats: List<String> = emptyList(),
     val versionInfo: String = "",
     val error: Throwable? = null
 )

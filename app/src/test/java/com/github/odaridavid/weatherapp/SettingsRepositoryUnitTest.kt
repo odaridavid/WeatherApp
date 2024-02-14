@@ -64,14 +64,14 @@ class SettingsRepositoryUnitTest {
     @Test
     fun `when we fetch available units, then we get all available units`() {
         val settingsRepo = createSettingsRepository()
-        assert(settingsRepo.getAvailableMetrics().size == Units.values().size)
+        assert(settingsRepo.getAvailableUnits().size == Units.values().size)
     }
 
     @Test
     fun `when we update time format, then we get the updated time format`() {
         val settingsRepo = createSettingsRepository()
         runBlocking {
-            settingsRepo.setFormat(TimeFormat.TWELVE_HOUR)
+            settingsRepo.setFormat(TimeFormat.TWELVE_HOUR.name)
             settingsRepo.getFormat().map { format ->
                 assert(format == TimeFormat.TWELVE_HOUR.name)
             }

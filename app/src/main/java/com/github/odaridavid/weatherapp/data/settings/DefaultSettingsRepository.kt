@@ -61,16 +61,18 @@ class DefaultSettingsRepository @Inject constructor(
         }
     }
 
+    // TODO FIx time functionality
+
     override suspend fun getFormat(): Flow<String> =
-        get(key = TIME_FORMAT, default = TimeFormat.TWENTY_FOUR_HOUR.name)
+        get(key = TIME_FORMAT, default = TimeFormat.TWENTY_FOUR_HOUR.value)
 
 
-    override suspend fun setFormat(format: TimeFormat) {
-        set(key = TIME_FORMAT, value = format.name)
+    override suspend fun setFormat(format: String) {
+        set(key = TIME_FORMAT, value = format)
     }
 
-    override fun getFormats(): List<TimeFormat> {
-       return TimeFormat.values().toList()
+    override fun getFormats(): List<String> {
+       return TimeFormat.values().map { it.value }
     }
 
     private suspend fun <T> set(key: Preferences.Key<T>, value: T) {

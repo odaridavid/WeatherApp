@@ -25,8 +25,8 @@ interface SettingsRepository {
 
     suspend fun getFormat(): Flow<String>
 
-    suspend fun setFormat(format: TimeFormat)
+    suspend fun setFormat(format: String)
 
-    fun getFormats() : List<TimeFormat>
+    fun getFormats() : List<String>
 
 }

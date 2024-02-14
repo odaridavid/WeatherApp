@@ -49,13 +49,13 @@ class FakeSettingsRepository : SettingsRepository {
         emit(settingsMap[KEY_TIME_FORMAT] ?: TimeFormat.TWENTY_FOUR_HOUR.name)
     }
 
-    override suspend fun setFormat(format: TimeFormat) {
-        settingsMap[KEY_TIME_FORMAT] = format.name
+    override suspend fun setFormat(format: String) {
+        settingsMap[KEY_TIME_FORMAT] = format
     }
 
     override fun getFormats(): List<TimeFormat> {
         return TimeFormat.values().toList()
     }
 
-    override fun getAvailableMetrics(): List<String> = Units.values().map { it.value }
+    override fun getAvailableUnits(): List<String> = Units.values().map { it.value }
 }

@@ -34,7 +34,7 @@ class SettingsViewModelIntegrationTest {
             selectedLanguage = SupportedLanguage.ENGLISH.languageName,
             availableLanguages = SupportedLanguage.values().map { it.languageName },
             availableUnits = Units.values().map { it.value },
-            selectedTimeFormat = TimeFormat.TWENTY_FOUR_HOUR,
+            selectedTimeFormat = TimeFormat.TWENTY_FOUR_HOUR.name,
             availableFormats = TimeFormat.values().toList(),
             versionInfo = "1.0.0"
         )
@@ -79,12 +79,12 @@ class SettingsViewModelIntegrationTest {
     fun `when we change time format, then the format is updated `() = runBlocking {
         val settingsViewModel = createSettingsScreenViewModel()
 
-        settingsViewModel.processIntent(SettingsScreenIntent.ChangeTimeFormat(selectedTimeFormat = TimeFormat.TWENTY_FOUR_HOUR))
+        settingsViewModel.processIntent(SettingsScreenIntent.ChangeTimeFormat(selectedTimeFormat = TimeFormat.TWENTY_FOUR_HOUR.name))
 
         settingsViewModel.state.test {
             awaitItem().also { state ->
                 assert(state.error == null)
-                assert(state.selectedTimeFormat == TimeFormat.TWENTY_FOUR_HOUR)
+                assert(state.selectedTimeFormat == TimeFormat.TWENTY_FOUR_HOUR.name)
             }
         }
     }

@@ -9,6 +9,7 @@ interface RemoteWeatherDataSource {
     suspend fun fetchWeatherData(
         defaultLocation: DefaultLocation,
         language: String,
-        units: String
+        units: String,
+        format: String,
     ): Result<Weather>
 }
