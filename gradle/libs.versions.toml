@@ -1,23 +1,23 @@
 [versions]
 # Plugins
-android-gradle-plugin = "8.0.1"
-kotlin-android = "1.8.20"
+android-gradle-plugin = "8.2.2"
+kotlin-android = "1.9.20"
 mapsplatform-secrets = "2.0.1"
 hilt-plugin = "2.44"
 kotlin-serialization = "1.6.10"
 # Android X
-core-ktx-version = "1.10.1"
-lifecycle-runtime-ktx = "2.6.1"
-activity-compose = "1.7.2"
-compose-bom="2023.05.01"
-compose-navigation = "2.5.3"
+core-ktx-version = "1.12.0"
+lifecycle-runtime-ktx = "2.7.0"
+activity-compose = "1.8.2"
+compose-bom="2024.02.00"
+compose-navigation = "2.7.7"
 datastore = "1.0.0"
-lifecycle-viewmodel-compose = "2.6.1"
+lifecycle-viewmodel-compose = "2.7.0"
 # Play Services
-play-services-location = "21.0.1"
+play-services-location = "21.1.0"
 # DI
 hilt = "2.45"
-hilt-nav-compose = "1.0.0"
+hilt-nav-compose = "1.1.0"
 # Async
 retrofit = "2.9.0"
 coil-compose = "2.2.2"
@@ -32,9 +32,9 @@ mockk = "1.13.3"
 truth = "1.1.3"
 coroutines-test = "1.6.4"
 # Firebase
-com-google-services = "4.3.15"
-firebase-bom = "32.1.0"
-crashlytics-plugin = "2.9.5"
+com-google-services = "4.4.1"
+firebase-bom = "32.7.2"
+crashlytics-plugin = "2.9.9"
 
 [libraries]
 #AndroidX
