@@ -1,23 +1,22 @@
 [versions]
 # Plugins
 android-gradle-plugin = "8.2.2"
-kotlin-android = "1.9.20"
+kotlin-android = "1.9.22"
 mapsplatform-secrets = "2.0.1"
-hilt-plugin = "2.44"
 kotlin-serialization = "1.6.10"
 # Android X
 core-ktx-version = "1.12.0"
 lifecycle-runtime-ktx = "2.7.0"
 activity-compose = "1.8.2"
-compose-bom="2024.02.00"
+compose-bom="2024.02.01"
 compose-navigation = "2.7.7"
 datastore = "1.0.0"
 lifecycle-viewmodel-compose = "2.7.0"
 # Play Services
 play-services-location = "21.1.0"
 # DI
-hilt = "2.48"
-hilt-nav-compose = "1.1.0"
+hilt = "2.50"
+hilt-nav-compose = "1.2.0"
 # Async
 retrofit = "2.9.0"
 coil-compose = "2.2.2"
@@ -91,7 +90,7 @@ com-android-application = { id = "com.android.application", version.ref = "andro
 com-android-library = { id = "com.android.library", version.ref = "android-gradle-plugin" }
 org-jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin-android" }
 mapsplatform-secrets-gradle-plugin = { id = "com.google.android.libraries.mapsplatform.secrets-gradle-plugin", version.ref = "mapsplatform-secrets" }
-dagger-hilt-android = { id = "com.google.dagger.hilt.android", version.ref = "hilt-plugin" }
+dagger-hilt-android = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
 org-jetbrains-kotlin-plugin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin-serialization" }
 
 [bundles]

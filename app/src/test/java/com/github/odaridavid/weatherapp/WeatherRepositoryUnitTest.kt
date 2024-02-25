@@ -37,7 +37,6 @@ class WeatherRepositoryUnitTest {
     val mockLogger = mockk<Logger>(relaxed = true)
 
     // TODO Look into parameterized testing to cover different mapper scenarios
-    // TODO Set default timezone to UTC
 
     @Before
     fun setup() {
