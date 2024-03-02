@@ -1,0 +1,9 @@
+name: Update Dependencies
+on:
+  schedule:
+    - cron: '30 14 * * 1'
+jobs:
+  run:
+    runs-on: macos-latest
+    steps:
+      - run: ./gradlew versionCatalogUpdates
