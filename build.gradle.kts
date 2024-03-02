@@ -5,8 +5,8 @@ plugins {
     alias(libs.plugins.mapsplatform.secrets.gradle.plugin) apply false
     alias(libs.plugins.dagger.hilt.android) apply false
     alias(libs.plugins.org.jetbrains.kotlin.plugin.serialization) apply false
-    alias(libs.plugins.nl.littlerobots.versioning) apply false
-    alias(libs.plugins.com.github.ben.manes.gradle.versions.plugin) apply false
+    id("com.github.ben-manes.versions") version "0.41.0"
+    id("nl.littlerobots.version-catalog-update") version "0.8.4"
 }
 
 buildscript {
