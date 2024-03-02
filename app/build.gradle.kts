@@ -73,7 +73,7 @@ fun setupAndroidReporting() {
                 "**/di/**",
                 "**/hilt*/**",
                 "**/entrypoint/**",
-                "**/theme/**",
+                "**/designsystem/**",
                 "**/*Screen*.*"
             )
 
