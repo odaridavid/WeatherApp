@@ -1,0 +1,27 @@
+name: Code Analysis
+on:
+  pull_request:
+    branches:
+      - develop
+
+jobs:
+  code-analysis:
+    runs-on: macos-latest
+    steps:
+      #       TODO Re-use the checkout and setup-java steps from the update-dependencies-action.yml file
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'oracle'
+          java-version: '17'
+      - name: Run Ktlint
+        run: ./gradlew ktlintCheck
+        continue-on-error: true
+      - name: Run Detekt
+        run: ./gradlew detekt
+        continue-on-error: true
+
+
