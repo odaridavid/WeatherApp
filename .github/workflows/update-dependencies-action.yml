@@ -1,0 +1,36 @@
+name: Update Dependencies
+on:
+  schedule:
+    - cron: '30 14 * * 1'
+jobs:
+  version-update:
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'oracle'
+          java-version: '17'
+
+      - name: Version Update
+        run: |
+          ./gradlew versionCatalogUpdate
+          git config --global user.email "davidkibzodari@gmail.com"
+          git config --global user.name "odaridavid"
+          git checkout -b update-dependency
+          git add .
+          git commit -m "Update version catalog"
+          git push origin update-dependency
+
+      - name: Open Pull Request
+        uses: peter-evans/create-pull-request@v6
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          branch: update-dependency
+          base: develop
+          title: "Update Version Catalog"
+          body: "Automated version update using GitHub Actions."
