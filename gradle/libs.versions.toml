@@ -15,7 +15,6 @@ coroutines-test = "1.8.0"
 crashlytics-plugin = "2.9.9"
 datastore = "1.1.0-beta01"
 firebase-bom = "32.7.3"
-compose-bom="2024.02.01"
 compose-constraint ="1.0.1"
 
 # DI
@@ -63,7 +62,6 @@ compose-constraint = { group = "androidx.constraintlayout", name = "constraintla
 #AndroidX
 core-ktx = { module = "androidx.core:core-ktx", version.ref = "core-ktx-version" }
 coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "coroutines-test" }
-datastore = { module = "androidx.datastore:datastore-preferences", version.ref = "datastore" }
 firebase-analytics = { module = "com.google.firebase:firebase-analytics-ktx" }
 firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebase-bom" }
 firebase-crashlytics = { module = "com.google.firebase:firebase-crashlytics-ktx" }
