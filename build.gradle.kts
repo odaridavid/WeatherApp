@@ -17,3 +17,9 @@ buildscript {
         classpath("nl.littlerobots.vcu:plugin:0.8.4")
     }
 }
+
+versionCatalogUpdate {
+    pin {
+        versions.addAll("kotlin-android","kotlin-serialization")
+    }
+}
