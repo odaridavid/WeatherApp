@@ -1,7 +1,7 @@
 [versions]
 activity-compose = "1.9.0-alpha03"
 # Plugins
-android-gradle-plugin = "8.4.0-alpha12"
+android-gradle-plugin = "8.3.0"
 ben-manes-gradle = "0.51.0"
 chucker = "4.0.0"
 coil-compose = "2.6.0"
