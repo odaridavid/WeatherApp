@@ -3,9 +3,21 @@ on:
   schedule:
     - cron: '30 14 * * 1'
 jobs:
+  setup-properties:
+    runs-on: macos-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Download & Copy local.properties
+        env:
+          FILE_URL: ${{ secrets.LOCAL_PROPERTIES_URL }}
+        run: |
+          curl -o local.properties "$FILE_URL"
+          mv local.properties ./local.properties
+
   version-update:
     runs-on: macos-latest
-
+    needs: setup-properties
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
