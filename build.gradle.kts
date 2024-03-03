@@ -7,6 +7,7 @@ plugins {
     alias(libs.plugins.org.jetbrains.kotlin.plugin.serialization) apply false
     id("com.github.ben-manes.versions") version "0.41.0"
     id("nl.littlerobots.version-catalog-update") version "0.8.4"
+    id("io.gitlab.arturbosch.detekt") version "1.23.3"
 }
 
 buildscript {
@@ -15,6 +16,8 @@ buildscript {
         classpath(libs.com.firebase.crashlytics.plugin)
         classpath("com.github.ben-manes:gradle-versions-plugin:0.51.0")
         classpath("nl.littlerobots.vcu:plugin:0.8.4")
+        classpath("io.gitlab.arturbosch.detekt:detekt-gradle-plugin:1.23.3")
+        classpath("com.android.tools.build:gradle:8.3.0")
     }
 }
 

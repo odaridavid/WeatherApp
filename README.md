@@ -33,7 +33,7 @@ Check for one under  [`Api Keys`](https://home.openweathermap.org/api_keys)
 
 
 *Environment*
-- Built on A.S Hedgehog
+- Built on A.S Hedgehog+
 - JDK 17
 
 # Design/Architectural decisions 📐
@@ -73,6 +73,17 @@ The folders are split into 4 boundaries:
 
 The data layer is unit tested by mocking out external dependencies and the ui layer on the viewmodels, an integration test
 is written that makes use of fake,so as to mimic the real scenario as much as possible over using mocks, which would also turn it to a unit test.
+
+# Other Stuff 📦
+
+*Dependency Updates*
+They are scheduled to run every week based on the update dependencies action in the workflow.
+
+*Code style*
+For now there is no strict adherence to a code style, but the project is formatted using the default android studio formatter.
+You can run `./gradlew detekt` to check for any code smells and `./gradlew ktlint` to check for any linting issues.
+Alternatively for ktlint the [IDE plugin](https://pinterest.github.io/ktlint/latest/install/setup/#recommended-setup) might be a much better option :)
+Or setting up a [pre-commit/pre-push hook](https://pinterest.github.io/ktlint/latest/install/cli/#git-hooks) to run the checks before a commit is made or pushed.
 
 # Technologies 🔨
 

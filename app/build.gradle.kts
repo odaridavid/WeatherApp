@@ -7,6 +7,7 @@ plugins {
     alias(libs.plugins.org.jetbrains.kotlin.plugin.serialization)
     id("com.google.gms.google-services")
     id("com.google.firebase.crashlytics")
+    id ("io.gitlab.arturbosch.detekt")
     jacoco
 }
 
