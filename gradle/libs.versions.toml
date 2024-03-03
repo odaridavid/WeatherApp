@@ -15,7 +15,7 @@ coroutines-test = "1.8.0"
 crashlytics-plugin = "2.9.9"
 datastore = "1.1.0-beta01"
 firebase-bom = "32.7.3"
-compose-constraint ="1.0.1"
+compose-constraint = "1.0.1"
 
 # DI
 hilt = "2.51"
@@ -64,12 +64,13 @@ coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", ve
 firebase-analytics = { module = "com.google.firebase:firebase-analytics-ktx" }
 firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebase-bom" }
 firebase-crashlytics = { module = "com.google.firebase:firebase-crashlytics-ktx" }
+firebase-perfomance-monitoring = { module = "com.google.firebase:firebase-perf" }
 datastore = { group = "androidx.datastore", name = "datastore-preferences", version.ref = "datastore" }
 
 #DI
 hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hilt" }
 hilt-compiler = { module = "com.google.dagger:hilt-compiler", version.ref = "hilt" }
-hilt-nav-compose = {group="androidx.hilt", name="hilt-navigation-compose", version.ref="hilt-nav-compose"}
+hilt-nav-compose = { group = "androidx.hilt", name = "hilt-navigation-compose", version.ref = "hilt-nav-compose" }
 
 # Testing
 junit = { module = "junit:junit", version.ref = "junit" }
@@ -115,4 +116,5 @@ compose = [
 firebase = [
     "firebase-analytics",
     "firebase-crashlytics",
+    "firebase-perfomance-monitoring",
 ]
