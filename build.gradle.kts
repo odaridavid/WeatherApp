@@ -8,6 +8,7 @@ plugins {
     id("com.github.ben-manes.versions") version "0.41.0"
     id("nl.littlerobots.version-catalog-update") version "0.8.4"
     id("io.gitlab.arturbosch.detekt") version "1.23.3"
+    id("org.jlleitschuh.gradle.ktlint") version "12.1.0"
 }
 
 buildscript {
@@ -23,6 +24,6 @@ buildscript {
 
 versionCatalogUpdate {
     pin {
-        versions.addAll("kotlin-android","kotlin-serialization")
+        versions.addAll("kotlin-android", "kotlin-serialization")
     }
 }

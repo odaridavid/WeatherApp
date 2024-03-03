@@ -5,11 +5,14 @@ on:
 jobs:
   version-update:
     runs-on: macos-latest
-
+    environment: Dev
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-
+      - name: Download & Copy local.properties
+        run: |
+          curl -o local.properties "${{ secrets.LOCAL_PROPERTIES_URL }}"
+          mv local.properties ./local.properties
       - name: Set up JDK
         uses: actions/setup-java@v4
         with:
