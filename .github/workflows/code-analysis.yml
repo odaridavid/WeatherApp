@@ -3,9 +3,8 @@ on:
   pull_request:
     branches:
       - develop
-  #       TODO Re-use this bit
 jobs:
-  setup-properties:
+  code-analysis:
     runs-on: macos-latest
     environment: Dev
     steps:
@@ -15,15 +14,6 @@ jobs:
         run: |
           curl -o local.properties "${{ secrets.LOCAL_PROPERTIES_URL }}"
           mv local.properties ./local.properties
-
-  code-analysis:
-    runs-on: macos-latest
-    needs: setup-properties
-    steps:
-      #       TODO Re-use the checkout and setup-java steps from the update-dependencies-action.yml file
-      - name: Checkout code
-        uses: actions/checkout@v4
-
       - name: Set up JDK
         uses: actions/setup-java@v4
         with:
