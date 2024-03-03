@@ -5,10 +5,12 @@ plugins {
     alias(libs.plugins.mapsplatform.secrets.gradle.plugin) apply false
     alias(libs.plugins.dagger.hilt.android) apply false
     alias(libs.plugins.org.jetbrains.kotlin.plugin.serialization) apply false
+//    TODO Move some of these to toml file
     id("com.github.ben-manes.versions") version "0.41.0"
     id("nl.littlerobots.version-catalog-update") version "0.8.4"
     id("io.gitlab.arturbosch.detekt") version "1.23.3"
     id("org.jlleitschuh.gradle.ktlint") version "12.1.0"
+    id("com.google.firebase.firebase-perf") version "1.4.2" apply false
 }
 
 buildscript {
