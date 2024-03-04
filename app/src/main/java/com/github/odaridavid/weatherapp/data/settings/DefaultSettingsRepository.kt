@@ -43,9 +43,9 @@ class DefaultSettingsRepository @Inject constructor(
         "Version : ${BuildConfig.VERSION_NAME}-${BuildConfig.BUILD_TYPE}"
 
     override fun getAvailableLanguages(): List<String> =
-        SupportedLanguage.values().map { it.languageName }
+        SupportedLanguage.entries.map { it.languageName }
 
-    override fun getAvailableUnits(): List<String> = Units.values().map { it.value }
+    override fun getAvailableUnits(): List<String> = Units.entries.map { it.value }
 
     override suspend fun setDefaultLocation(defaultLocation: DefaultLocation) {
         set(key = PREF_LAT_LNG, value = "${defaultLocation.latitude}/${defaultLocation.longitude}")

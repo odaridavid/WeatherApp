@@ -51,7 +51,7 @@ class MainViewModel @Inject constructor(
 data class MainViewState(
     val isPermissionGranted: Boolean = false,
     val isLocationSettingEnabled: Boolean = false,
-    val defaultLocation: DefaultLocation? = null
+    val defaultLocation: DefaultLocation? = DefaultLocation(longitude = 0.0, latitude = 0.0)
 )
 
 sealed class MainViewIntent {

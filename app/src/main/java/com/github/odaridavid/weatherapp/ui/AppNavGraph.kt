@@ -26,8 +26,6 @@ fun WeatherAppScreensConfig(
                 .collectAsState()
                 .value
 
-            homeViewModel.processIntent(HomeScreenIntent.LoadWeatherData)
-
             HomeScreen(
                 state = state,
                 onSettingClicked = { navController.navigate(Destinations.SETTINGS.route) },
