@@ -128,7 +128,9 @@ class HomeViewModelIntegrationTest {
 
     @Test
     fun `when we init the screen, then update the state`() = runBlocking {
-        val weatherRepository = createWeatherRepository()
+        val weatherRepository = mockk<WeatherRepository>(){
+            coEvery { fetchWeatherData(any(), any(), any()) } returns Result.Success(fakeSuccessMappedWeatherResponse)
+        }
 
         val viewModel = createViewModel(weatherRepository = weatherRepository)
 
@@ -139,8 +141,8 @@ class HomeViewModelIntegrationTest {
             ),
             locationName = "-",
             language = "English",
-            weather = null,
-            isLoading = true,
+            weather = fakeSuccessMappedWeatherResponse,
+            isLoading = false,
             errorMessageId = null
         )
 
