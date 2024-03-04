@@ -118,5 +118,5 @@ compose = [
 firebase = [
     "firebase-analytics",
     "firebase-crashlytics",
-#    "firebase-perfomance-monitoring",
+    "firebase-perfomance-monitoring",
 ]
