@@ -26,7 +26,7 @@ In your `local.properties` you will need to add your Open Weather API key and co
 ```properties
 OPEN_WEATHER_API_KEY = YOUR KEY
 OPEN_WEATHER_BASE_URL=https://api.openweathermap.org
-OPEN_WEATHER_ICONS_URL= http://openweathermap.org/img/wn/
+OPEN_WEATHER_ICONS_URL= https://openweathermap.org/img/wn/
 ```
 
 Check for one under  [`Api Keys`](https://home.openweathermap.org/api_keys)

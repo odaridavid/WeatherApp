@@ -1,6 +1,7 @@
 package com.github.odaridavid.weatherapp
 
 import app.cash.turbine.test
+import com.github.odaridavid.weatherapp.core.Result
 import com.github.odaridavid.weatherapp.core.api.Logger
 import com.github.odaridavid.weatherapp.core.api.SettingsRepository
 import com.github.odaridavid.weatherapp.core.api.WeatherRepository
@@ -125,7 +126,11 @@ class HomeViewModelIntegrationTest {
 
     @Test
     fun `when we init the screen, then update the state`() = runBlocking {
-        val weatherRepository = createWeatherRepository()
+        val weatherRepository = mockk<WeatherRepository>() {
+            coEvery { fetchWeatherData(any(), any(), any()) } returns Result.Success(
+                fakeSuccessMappedWeatherResponse
+            )
+        }
 
         val viewModel = createViewModel(weatherRepository = weatherRepository)
 
@@ -136,8 +141,8 @@ class HomeViewModelIntegrationTest {
             ),
             locationName = "-",
             language = "English",
-            weather = null,
-            isLoading = true,
+            weather = fakeSuccessMappedWeatherResponse,
+            isLoading = false,
             errorMessageId = null
         )
 
@@ -150,7 +155,11 @@ class HomeViewModelIntegrationTest {
 
     @Test
     fun `when we receive a city name, the state is updated with it`() = runTest {
-        val weatherRepository = mockk<WeatherRepository>()
+        val weatherRepository = mockk<WeatherRepository>() {
+            coEvery { fetchWeatherData(any(), any(), any()) } returns Result.Success(
+                fakeSuccessMappedWeatherResponse
+            )
+        }
 
         val viewModel = createViewModel(
             weatherRepository = weatherRepository
@@ -163,8 +172,8 @@ class HomeViewModelIntegrationTest {
             ),
             locationName = "Paradise",
             language = "English",
-            weather = null,
-            isLoading = true,
+            weather = fakeSuccessMappedWeatherResponse,
+            isLoading = false,
             errorMessageId = null
         )
 

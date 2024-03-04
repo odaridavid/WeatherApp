@@ -87,8 +87,8 @@ private fun getDate(utcInMillis: Long, formatPattern: String): String {
 
 fun mapResponseCodeToThrowable(code: Int): Throwable = when (code) {
     HttpURLConnection.HTTP_UNAUTHORIZED -> UnauthorizedException("Unauthorized access : $code")
-    in 400..499 -> ClientException("Client error : $code")
-    in 500..600 -> ServerException("Server error : $code")
+    in CLIENT_ERRORS -> ClientException("Client error : $code")
+    in SERVER_ERRORS -> ServerException("Server error : $code")
     else -> GenericException("Generic error : $code")
 }
 
@@ -102,3 +102,6 @@ fun mapThrowableToErrorType(throwable: Throwable): ErrorType {
     }
     return errorType
 }
+
+private val SERVER_ERRORS = 500..600
+private val CLIENT_ERRORS = 400..499
