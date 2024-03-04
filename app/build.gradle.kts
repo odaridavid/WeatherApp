@@ -7,8 +7,9 @@ plugins {
     alias(libs.plugins.org.jetbrains.kotlin.plugin.serialization)
     id("com.google.gms.google-services")
     id("com.google.firebase.crashlytics")
-    id ("io.gitlab.arturbosch.detekt")
+    id("io.gitlab.arturbosch.detekt")
     id("com.google.firebase.firebase-perf")
+
     jacoco
 }
 
@@ -32,7 +33,8 @@ fun setupAndroidReporting() {
             dependsOn(tasks.findByName(testTaskName))
 
             group = "Reporting"
-            description = "Generate Jacoco coverage reports on the ${sourceName.capitalize()} build."
+            description =
+                "Generate Jacoco coverage reports on the ${sourceName.capitalize()} build."
 
             reports {
                 xml.required.set(true)
@@ -79,10 +81,10 @@ fun setupAndroidReporting() {
                 "**/*Screen*.*"
             )
 
-            val javaTree = fileTree("${project.buildDir}/intermediates/javac/$sourceName/classes"){
+            val javaTree = fileTree("${project.buildDir}/intermediates/javac/$sourceName/classes") {
                 exclude(fileFilter)
             }
-            val kotlinTree = fileTree("${project.buildDir}/tmp/kotlin-classes/$sourceName"){
+            val kotlinTree = fileTree("${project.buildDir}/tmp/kotlin-classes/$sourceName") {
                 exclude(fileFilter)
             }
             classDirectories.setFrom(files(javaTree, kotlinTree))
@@ -118,7 +120,7 @@ android {
 
     buildTypes {
         debug {
-           applicationIdSuffix = ".debug"
+            applicationIdSuffix = ".debug"
         }
         release {
             isMinifyEnabled = false
@@ -191,7 +193,7 @@ dependencies {
     testImplementation(libs.coroutines.test)
     debugImplementation(libs.compose.ui.tooling)
     debugImplementation(libs.compose.ui.test.manifest)
-    
+
     // Chucker
     debugImplementation(libs.chucker.debug)
     releaseImplementation(libs.chucker.release)
