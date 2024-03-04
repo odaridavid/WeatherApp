@@ -195,6 +195,9 @@ dependencies {
     // Chucker
     debugImplementation(libs.chucker.debug)
     releaseImplementation(libs.chucker.release)
+
+    // Memory Leak Detection
+    debugImplementation(libs.leakcanary)
 }
 
 kapt {

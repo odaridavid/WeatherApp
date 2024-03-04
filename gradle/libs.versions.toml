@@ -39,6 +39,7 @@ play-services-location = "21.1.0"
 retrofit = "2.9.0"
 truth = "1.4.2"
 turbine = "1.0.0"
+leakcanary = "3.0-alpha-1"
 
 [libraries]
 activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "activity-compose" }
@@ -88,6 +89,7 @@ playservices-location = { module = "com.google.android.gms:play-services-locatio
 retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
 truth = { module = "com.google.truth:truth", version.ref = "truth" }
 turbine = { module = "app.cash.turbine:turbine", version.ref = "turbine" }
+leakcanary = { module = "com.squareup.leakcanary:leakcanary-android", version.ref = "leakcanary" }
 
 [plugins]
 com-android-application = { id = "com.android.application", version.ref = "android-gradle-plugin" }
