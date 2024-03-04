@@ -10,7 +10,7 @@ plugins {
     id("nl.littlerobots.version-catalog-update") version "0.8.4"
     id("io.gitlab.arturbosch.detekt") version "1.23.3"
     id("org.jlleitschuh.gradle.ktlint") version "12.1.0"
-    id("com.google.firebase.firebase-perf") version "1.4.2" apply false
+//    id("com.google.firebase.firebase-perf") version "1.4.2" apply false
 }
 
 buildscript {
