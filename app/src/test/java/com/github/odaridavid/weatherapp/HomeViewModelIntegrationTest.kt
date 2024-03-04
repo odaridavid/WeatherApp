@@ -1,11 +1,14 @@
 package com.github.odaridavid.weatherapp
 
 import app.cash.turbine.test
+import com.github.odaridavid.weatherapp.core.Result
 import com.github.odaridavid.weatherapp.core.api.Logger
 import com.github.odaridavid.weatherapp.core.api.SettingsRepository
 import com.github.odaridavid.weatherapp.core.api.WeatherRepository
+import com.github.odaridavid.weatherapp.core.model.CurrentWeather
 import com.github.odaridavid.weatherapp.core.model.DefaultLocation
 import com.github.odaridavid.weatherapp.core.model.TimeFormat
+import com.github.odaridavid.weatherapp.core.model.Weather
 import com.github.odaridavid.weatherapp.data.weather.DefaultWeatherRepository
 import com.github.odaridavid.weatherapp.data.weather.remote.DefaultRemoteWeatherDataSource
 import com.github.odaridavid.weatherapp.data.weather.remote.OpenWeatherService
@@ -150,7 +153,9 @@ class HomeViewModelIntegrationTest {
 
     @Test
     fun `when we receive a city name, the state is updated with it`() = runTest {
-        val weatherRepository = mockk<WeatherRepository>()
+        val weatherRepository = mockk<WeatherRepository>(){
+            coEvery { fetchWeatherData(any(), any(), any()) } returns Result.Success(fakeSuccessMappedWeatherResponse)
+        }
 
         val viewModel = createViewModel(
             weatherRepository = weatherRepository
@@ -163,8 +168,8 @@ class HomeViewModelIntegrationTest {
             ),
             locationName = "Paradise",
             language = "English",
-            weather = null,
-            isLoading = true,
+            weather = fakeSuccessMappedWeatherResponse,
+            isLoading = false,
             errorMessageId = null
         )
 
