@@ -126,8 +126,10 @@ class HomeViewModelIntegrationTest {
 
     @Test
     fun `when we init the screen, then update the state`() = runBlocking {
-        val weatherRepository = mockk<WeatherRepository>(){
-            coEvery { fetchWeatherData(any(), any(), any()) } returns Result.Success(fakeSuccessMappedWeatherResponse)
+        val weatherRepository = mockk<WeatherRepository>() {
+            coEvery { fetchWeatherData(any(), any(), any()) } returns Result.Success(
+                fakeSuccessMappedWeatherResponse
+            )
         }
 
         val viewModel = createViewModel(weatherRepository = weatherRepository)
@@ -153,8 +155,10 @@ class HomeViewModelIntegrationTest {
 
     @Test
     fun `when we receive a city name, the state is updated with it`() = runTest {
-        val weatherRepository = mockk<WeatherRepository>(){
-            coEvery { fetchWeatherData(any(), any(), any()) } returns Result.Success(fakeSuccessMappedWeatherResponse)
+        val weatherRepository = mockk<WeatherRepository>() {
+            coEvery { fetchWeatherData(any(), any(), any()) } returns Result.Success(
+                fakeSuccessMappedWeatherResponse
+            )
         }
 
         val viewModel = createViewModel(
