@@ -89,7 +89,7 @@ fun setupAndroidReporting() {
             }
             classDirectories.setFrom(files(javaTree, kotlinTree))
 
-            executionData.setFrom(files("${project.buildDir}/jacoco/${testTaskName}.exec"))
+            executionData.setFrom(files("${project.buildDir}/jacoco/$testTaskName.exec"))
             val coverageSourceDirs = listOf(
                 "${project.projectDir}/src/main/java",
                 "${project.projectDir}/src/$buildTypeName/java"
