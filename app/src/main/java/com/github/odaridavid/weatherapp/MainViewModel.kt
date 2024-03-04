@@ -2,6 +2,7 @@ package com.github.odaridavid.weatherapp
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.github.odaridavid.weatherapp.core.api.Logger
 import com.github.odaridavid.weatherapp.core.api.SettingsRepository
 import com.github.odaridavid.weatherapp.core.model.DefaultLocation
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -13,7 +14,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
-    private val settingsRepository: SettingsRepository
+    private val settingsRepository: SettingsRepository,
+    private val logger: Logger
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(MainViewState())
@@ -36,6 +38,9 @@ class MainViewModel @Inject constructor(
                     settingsRepository.setDefaultLocation(defaultLocation)
                 }
                 setState { copy(defaultLocation = defaultLocation) }
+            }
+            is MainViewIntent.LogException -> {
+               logger.logException(mainViewIntent.throwable)
             }
         }
     }
@@ -61,5 +66,7 @@ sealed class MainViewIntent {
     data class CheckLocationSettings(val isEnabled: Boolean) : MainViewIntent()
 
     data class ReceiveLocation(val latitude: Double, val longitude: Double) : MainViewIntent()
+
+    data class LogException(val throwable: Throwable) : MainViewIntent()
 
 }

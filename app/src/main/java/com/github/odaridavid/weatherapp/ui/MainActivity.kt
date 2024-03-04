@@ -98,6 +98,8 @@ class MainActivity : ComponentActivity() {
                                 )
                             )
                         }
+                    }.addOnFailureListener { exception ->
+                        mainViewModel.processIntent(MainViewIntent.LogException(throwable = exception))
                     }
                 WeatherAppScreensConfig(navController = rememberNavController())
             }
