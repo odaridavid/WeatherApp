@@ -1,3 +1,5 @@
+import com.google.firebase.perf.plugin.FirebasePerfExtension
+
 plugins {
     alias(libs.plugins.com.android.application)
     alias(libs.plugins.org.jetbrains.kotlin.android)
@@ -7,13 +9,13 @@ plugins {
     alias(libs.plugins.org.jetbrains.kotlin.plugin.serialization)
     id("com.google.gms.google-services")
     id("com.google.firebase.crashlytics")
-    id ("io.gitlab.arturbosch.detekt")
-    id("com.google.firebase.firebase-perf")
+    id("io.gitlab.arturbosch.detekt")
     jacoco
+    id("com.google.firebase.firebase-perf")
 }
 
 jacoco {
-    toolVersion = "0.8.8"
+    toolVersion = "0.8.11"
 }
 
 project.afterEvaluate {
@@ -32,7 +34,8 @@ fun setupAndroidReporting() {
             dependsOn(tasks.findByName(testTaskName))
 
             group = "Reporting"
-            description = "Generate Jacoco coverage reports on the ${sourceName.capitalize()} build."
+            description =
+                "Generate Jacoco coverage reports on the ${sourceName.capitalize()} build."
 
             reports {
                 xml.required.set(true)
@@ -79,15 +82,15 @@ fun setupAndroidReporting() {
                 "**/*Screen*.*"
             )
 
-            val javaTree = fileTree("${project.buildDir}/intermediates/javac/$sourceName/classes"){
+            val javaTree = fileTree("${project.buildDir}/intermediates/javac/$sourceName/classes") {
                 exclude(fileFilter)
             }
-            val kotlinTree = fileTree("${project.buildDir}/tmp/kotlin-classes/$sourceName"){
+            val kotlinTree = fileTree("${project.buildDir}/tmp/kotlin-classes/$sourceName") {
                 exclude(fileFilter)
             }
             classDirectories.setFrom(files(javaTree, kotlinTree))
 
-            executionData.setFrom(files("${project.buildDir}/jacoco/${testTaskName}.exec"))
+            executionData.setFrom(files("${project.buildDir}/jacoco/$testTaskName.exec"))
             val coverageSourceDirs = listOf(
                 "${project.projectDir}/src/main/java",
                 "${project.projectDir}/src/$buildTypeName/java"
@@ -118,8 +121,16 @@ android {
 
     buildTypes {
         debug {
-           applicationIdSuffix = ".debug"
+            applicationIdSuffix = ".debug"
+            configure<FirebasePerfExtension> {
+                // Set this flag to 'false' to disable @AddTrace annotation processing and
+                // automatic monitoring of HTTP/S network requests
+                // for a specific build variant at compile time.
+                // Breaks jacoco reporting if true see https://github.com/firebase/firebase-android-sdk/issues/3948
+                setInstrumentationEnabled(false)
+            }
         }
+
         release {
             isMinifyEnabled = false
             proguardFiles(
@@ -191,7 +202,7 @@ dependencies {
     testImplementation(libs.coroutines.test)
     debugImplementation(libs.compose.ui.tooling)
     debugImplementation(libs.compose.ui.test.manifest)
-    
+
     // Chucker
     debugImplementation(libs.chucker.debug)
     releaseImplementation(libs.chucker.release)
