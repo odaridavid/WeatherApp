@@ -1,3 +1,5 @@
+import com.google.firebase.perf.plugin.FirebasePerfExtension
+
 plugins {
     alias(libs.plugins.com.android.application)
     alias(libs.plugins.org.jetbrains.kotlin.android)
@@ -120,7 +122,15 @@ android {
     buildTypes {
         debug {
             applicationIdSuffix = ".debug"
+            configure<FirebasePerfExtension> {
+                // Set this flag to 'false' to disable @AddTrace annotation processing and
+                // automatic monitoring of HTTP/S network requests
+                // for a specific build variant at compile time.
+                // Breaks jacoco reporting if true see https://github.com/firebase/firebase-android-sdk/issues/3948
+                setInstrumentationEnabled(false)
+            }
         }
+
         release {
             isMinifyEnabled = false
             proguardFiles(
