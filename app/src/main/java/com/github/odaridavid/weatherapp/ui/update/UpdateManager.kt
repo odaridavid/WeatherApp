@@ -37,8 +37,8 @@ class UpdateManager @Inject constructor(
         )
 
         appUpdateInfoTask.addOnSuccessListener { appUpdateInfo ->
-            if (appUpdateInfo.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE
-                && appUpdateInfo.isUpdateTypeAllowed(AppUpdateType.FLEXIBLE)
+            if (appUpdateInfo.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE &&
+                appUpdateInfo.isUpdateTypeAllowed(AppUpdateType.FLEXIBLE)
             ) {
                 update(
                     appUpdateManager = appUpdateManager,
@@ -70,5 +70,4 @@ class UpdateManager @Inject constructor(
             AppUpdateOptions.newBuilder(AppUpdateType.FLEXIBLE).build()
         )
     }
-
 }
