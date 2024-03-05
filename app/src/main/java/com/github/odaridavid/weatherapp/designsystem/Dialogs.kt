@@ -3,11 +3,10 @@ package com.github.odaridavid.weatherapp.designsystem
 import android.Manifest
 import androidx.activity.result.ActivityResultLauncher
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
@@ -112,6 +111,22 @@ fun <T> SettingOptionsDialog(
             }
         }
     }
+}
+
+@Composable
+fun UpdateDialog(
+    onDismiss: () -> Unit,
+    onConfirm: () -> Unit,
+) {
+    Dialog(onDismissRequest = { onDismiss() }) {
+        Box {
+            Text(text = stringResource(R.string.update_available))
+            Button(onClick = { onConfirm() }) {
+                Text(text = stringResource(R.string.install_update))
+            }
+        }
+    }
+
 }
 
 @Preview

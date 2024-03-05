@@ -198,6 +198,9 @@ dependencies {
 
     // Memory Leak Detection
     debugImplementation(libs.leakcanary)
+
+    // In-app update
+    implementation(libs.bundles.google.play)
 }
 
 kapt {

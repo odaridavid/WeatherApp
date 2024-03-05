@@ -33,4 +33,6 @@
     <string name="error_server">Oops! Something is wrong on our end :(</string>
     <string name="error_generic">Something is happening that\'s disturbing the force :(</string>
     <string name="error_connection">Check your internet connection and try again</string>
+    <string name="update_available">Update is available for install</string>
+    <string name="install_update">Install</string>
 </resources>
