@@ -41,16 +41,20 @@ fun PermissionRationaleDialog(
             Text(text = stringResource(R.string.location_rationale_description))
         },
         buttons = {
-            Button(onClick = {
-                isDialogShown.value = false
-                activityPermissionResult.launch(Manifest.permission.ACCESS_COARSE_LOCATION)
-            }) {
+            Button(
+                onClick = {
+                    isDialogShown.value = false
+                    activityPermissionResult.launch(Manifest.permission.ACCESS_COARSE_LOCATION)
+                }
+            ) {
                 Text(text = stringResource(R.string.location_rationale_button_grant))
             }
-            Button(onClick = {
-                isDialogShown.value = false
-                showWeatherUI.value = false
-            }) {
+            Button(
+                onClick = {
+                    isDialogShown.value = false
+                    showWeatherUI.value = false
+                }
+            ) {
                 Text(text = stringResource(R.string.location_rationale_button_deny))
             }
         }
@@ -126,7 +130,6 @@ fun UpdateDialog(
             }
         }
     }
-
 }
 
 @Preview

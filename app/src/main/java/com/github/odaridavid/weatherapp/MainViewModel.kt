@@ -62,7 +62,6 @@ class MainViewModel @Inject constructor(
             _state.emit(stateReducer(state.value))
         }
     }
-
 }
 
 data class MainViewState(
@@ -82,5 +81,4 @@ sealed class MainViewIntent {
     data class LogException(val throwable: Throwable) : MainViewIntent()
 
     data object UpdateApp : MainViewIntent()
-
 }

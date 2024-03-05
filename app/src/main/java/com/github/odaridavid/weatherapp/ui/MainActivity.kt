@@ -162,4 +162,3 @@ class MainActivity : ComponentActivity() {
         updateManager.unregisterListeners()
     }
 }
-
