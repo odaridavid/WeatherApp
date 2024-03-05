@@ -11,5 +11,4 @@ enum class ErrorType {
     SERVER,
     GENERIC,
     IO_CONNECTION,
-    UNAUTHORIZED
 }
