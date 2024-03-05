@@ -1,9 +1,9 @@
 package com.github.odaridavid.weatherapp.ui
 
 import android.annotation.SuppressLint
-import android.app.Activity
 import android.location.Location
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts
@@ -25,17 +25,23 @@ import com.github.odaridavid.weatherapp.designsystem.EnableLocationSettingScreen
 import com.github.odaridavid.weatherapp.designsystem.LoadingScreen
 import com.github.odaridavid.weatherapp.designsystem.RequiresPermissionsScreen
 import com.github.odaridavid.weatherapp.designsystem.theme.WeatherAppTheme
+import com.github.odaridavid.weatherapp.ui.update.UpdateManager
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
     private val mainViewModel: MainViewModel by viewModels()
+
+    @Inject
+    lateinit var updateManager: UpdateManager
+
     private val locationRequestLauncher =
         registerForActivityResult(ActivityResultContracts.StartIntentSenderForResult()) { result ->
-            if (result.resultCode == Activity.RESULT_OK) {
+            if (result.resultCode == RESULT_OK) {
                 mainViewModel.processIntent(MainViewIntent.CheckLocationSettings(isEnabled = true))
             } else {
                 mainViewModel.processIntent(MainViewIntent.CheckLocationSettings(isEnabled = false))
@@ -46,9 +52,21 @@ class MainActivity : ComponentActivity() {
             mainViewModel.processIntent(MainViewIntent.GrantPermission(isGranted = isGranted))
         }
 
+    private val updateRequestLauncher =
+        registerForActivityResult(ActivityResultContracts.StartIntentSenderForResult()) { result ->
+            if (result.resultCode == RESULT_OK) {
+                // TODO Trigger a UI event
+                Log.d("MainActivity", "Update successful")
+            } else {
+                Log.e("MainActivity", "Update failed")
+            }
+        }
+
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        updateManager.checkForUpdates(activityResultLauncher = updateRequestLauncher)
 
         createLocationRequest(
             activity = this@MainActivity,
@@ -114,6 +132,11 @@ class MainActivity : ComponentActivity() {
 
             else -> LoadingScreen()
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        updateManager.unregisterListeners()
     }
 }
 

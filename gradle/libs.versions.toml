@@ -40,6 +40,8 @@ retrofit = "2.9.0"
 truth = "1.4.2"
 turbine = "1.0.0"
 leakcanary = "3.0-alpha-1"
+#InAppUpdate
+inappupdate = "2.1.0"
 
 [libraries]
 activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "activity-compose" }
@@ -90,6 +92,8 @@ retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit
 truth = { module = "com.google.truth:truth", version.ref = "truth" }
 turbine = { module = "app.cash.turbine:turbine", version.ref = "turbine" }
 leakcanary = { module = "com.squareup.leakcanary:leakcanary-android", version.ref = "leakcanary" }
+inapp-update = { module = "com.google.android.play:app-update", version.ref = "inappupdate" }
+inapp-update-ktx = { module = "com.google.android.play:app-update-ktx", version.ref = "inappupdate" }
 
 [plugins]
 com-android-application = { id = "com.android.application", version.ref = "android-gradle-plugin" }
@@ -119,4 +123,8 @@ firebase = [
     "firebase-analytics",
     "firebase-crashlytics",
     "firebase-perfomance-monitoring",
+]
+google-play = [
+    "inapp-update",
+    "inapp-update-ktx",
 ]
