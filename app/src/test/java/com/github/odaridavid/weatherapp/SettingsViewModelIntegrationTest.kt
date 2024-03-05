@@ -2,14 +2,12 @@ package com.github.odaridavid.weatherapp
 
 import app.cash.turbine.test
 import com.github.odaridavid.weatherapp.core.api.SettingsRepository
-import com.github.odaridavid.weatherapp.core.api.WeatherRepository
 import com.github.odaridavid.weatherapp.core.model.SupportedLanguage
 import com.github.odaridavid.weatherapp.core.model.TimeFormat
 import com.github.odaridavid.weatherapp.core.model.Units
 import com.github.odaridavid.weatherapp.ui.settings.SettingsScreenIntent
 import com.github.odaridavid.weatherapp.ui.settings.SettingsScreenViewState
 import com.github.odaridavid.weatherapp.ui.settings.SettingsViewModel
-import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.runBlocking
 import org.junit.Rule
@@ -32,10 +30,10 @@ class SettingsViewModelIntegrationTest {
         val expectedState = SettingsScreenViewState(
             selectedUnit = Units.METRIC.value,
             selectedLanguage = SupportedLanguage.ENGLISH.languageName,
-            availableLanguages = SupportedLanguage.values().map { it.languageName },
-            availableUnits = Units.values().map { it.value },
+            availableLanguages = SupportedLanguage.entries.map { it.languageName },
+            availableUnits = Units.entries.map { it.value },
             selectedTimeFormat = TimeFormat.TWENTY_FOUR_HOUR.name,
-            availableFormats = TimeFormat.values().map { it.value },
+            availableFormats = TimeFormat.entries.map { it.value },
             versionInfo = "1.0.0"
         )
 
