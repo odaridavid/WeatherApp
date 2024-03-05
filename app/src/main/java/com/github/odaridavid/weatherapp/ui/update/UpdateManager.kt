@@ -3,7 +3,6 @@ package com.github.odaridavid.weatherapp.ui.update
 import android.content.Context
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.IntentSenderRequest
-import com.github.odaridavid.weatherapp.core.api.Logger
 import com.google.android.play.core.appupdate.AppUpdateInfo
 import com.google.android.play.core.appupdate.AppUpdateManager
 import com.google.android.play.core.appupdate.AppUpdateManagerFactory
@@ -15,7 +14,6 @@ import javax.inject.Inject
 
 class UpdateManager @Inject constructor(
     @ApplicationContext private val context: Context,
-    private val logger: Logger,
     private val updateStateFactory: UpdateStateFactory,
 ) {
 
@@ -24,16 +22,19 @@ class UpdateManager @Inject constructor(
     }
 
     fun checkForUpdates(
-        activityResultLauncher: ActivityResultLauncher<IntentSenderRequest>
+        activityResultLauncher: ActivityResultLauncher<IntentSenderRequest>,
+        onUpdateDownloaded: () -> Unit,
+        onUpdateFailure: (Throwable) -> Unit,
     ) {
         val appUpdateInfoTask = appUpdateManager.appUpdateInfo
 
-        appUpdateManager.registerListener(updateStateFactory.getUpdateStateListener(
-            onDownloaded = {
-                // TODO: Notify the user that the update is ready to be installed.Don't do it this way.
-                appUpdateManager.completeUpdate()
-            }
-        ))
+        appUpdateManager.registerListener(
+            updateStateFactory.getUpdateStateListener(
+                onDownloaded = {
+                    onUpdateDownloaded()
+                }
+            )
+        )
 
         appUpdateInfoTask.addOnSuccessListener { appUpdateInfo ->
             if (appUpdateInfo.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE
@@ -46,12 +47,16 @@ class UpdateManager @Inject constructor(
                 )
             }
         }.addOnFailureListener { exception ->
-            logger.logException(UpdateAppException(exception))
+            onUpdateFailure(UpdateAppException(exception))
         }
     }
 
     fun unregisterListeners() {
         appUpdateManager.unregisterListener(updateStateFactory.getUpdateStateListener())
+    }
+
+    fun completeUpdate() {
+        appUpdateManager.completeUpdate()
     }
 
     private fun update(

@@ -21,14 +21,19 @@ class MainViewModel @Inject constructor(
     private val _state = MutableStateFlow(MainViewState())
     val state: StateFlow<MainViewState> = _state.asStateFlow()
 
+    private val _hasAppUpdate = MutableStateFlow(false)
+    val hasAppUpdate: StateFlow<Boolean> = _hasAppUpdate.asStateFlow()
+
     fun processIntent(mainViewIntent: MainViewIntent) {
         when (mainViewIntent) {
             is MainViewIntent.GrantPermission -> {
                 setState { copy(isPermissionGranted = mainViewIntent.isGranted) }
             }
+
             is MainViewIntent.CheckLocationSettings -> {
                 setState { copy(isLocationSettingEnabled = mainViewIntent.isEnabled) }
             }
+
             is MainViewIntent.ReceiveLocation -> {
                 val defaultLocation = DefaultLocation(
                     longitude = mainViewIntent.longitude,
@@ -39,8 +44,15 @@ class MainViewModel @Inject constructor(
                 }
                 setState { copy(defaultLocation = defaultLocation) }
             }
+
             is MainViewIntent.LogException -> {
-               logger.logException(mainViewIntent.throwable)
+                logger.logException(mainViewIntent.throwable)
+            }
+
+            is MainViewIntent.UpdateApp -> {
+                viewModelScope.launch {
+                    _hasAppUpdate.emit(true)
+                }
             }
         }
     }
@@ -68,5 +80,7 @@ sealed class MainViewIntent {
     data class ReceiveLocation(val latitude: Double, val longitude: Double) : MainViewIntent()
 
     data class LogException(val throwable: Throwable) : MainViewIntent()
+
+    data object UpdateApp : MainViewIntent()
 
 }

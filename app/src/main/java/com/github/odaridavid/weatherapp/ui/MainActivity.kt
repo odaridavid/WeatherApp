@@ -24,6 +24,7 @@ import com.github.odaridavid.weatherapp.common.createLocationRequest
 import com.github.odaridavid.weatherapp.designsystem.EnableLocationSettingScreen
 import com.github.odaridavid.weatherapp.designsystem.LoadingScreen
 import com.github.odaridavid.weatherapp.designsystem.RequiresPermissionsScreen
+import com.github.odaridavid.weatherapp.designsystem.UpdateDialog
 import com.github.odaridavid.weatherapp.designsystem.theme.WeatherAppTheme
 import com.github.odaridavid.weatherapp.ui.update.UpdateManager
 import com.google.android.gms.location.FusedLocationProviderClient
@@ -55,7 +56,7 @@ class MainActivity : ComponentActivity() {
     private val updateRequestLauncher =
         registerForActivityResult(ActivityResultContracts.StartIntentSenderForResult()) { result ->
             if (result.resultCode == RESULT_OK) {
-                // TODO Trigger a UI event
+                // TODO Trigger a UI event ,is this even necessary since we already have a listener?
                 Log.d("MainActivity", "Update successful")
             } else {
                 Log.e("MainActivity", "Update failed")
@@ -66,7 +67,15 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        updateManager.checkForUpdates(activityResultLauncher = updateRequestLauncher)
+        updateManager.checkForUpdates(
+            activityResultLauncher = updateRequestLauncher,
+            onUpdateDownloaded = {
+                mainViewModel.processIntent(MainViewIntent.UpdateApp)
+            },
+            onUpdateFailure = { exception ->
+                mainViewModel.processIntent(MainViewIntent.LogException(throwable = exception))
+            }
+        )
 
         createLocationRequest(
             activity = this@MainActivity,
@@ -85,6 +94,20 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colors.background
                 ) {
                     val state = mainViewModel.state.collectAsState().value
+
+                    // TODO test this with internal testing track
+                    mainViewModel.hasAppUpdate.collectAsState().value.let { hasAppUpdate ->
+                        if (hasAppUpdate) {
+                            UpdateDialog(
+                                onDismiss = {
+                                    // TODO dismiss it
+                                },
+                                onConfirm = {
+                                    updateManager.completeUpdate()
+                                }
+                            )
+                        }
+                    }
 
                     CheckForPermissions(
                         onPermissionGranted = {
