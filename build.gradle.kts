@@ -5,6 +5,7 @@ plugins {
     alias(libs.plugins.mapsplatform.secrets.gradle.plugin) apply false
     alias(libs.plugins.dagger.hilt.android) apply false
     alias(libs.plugins.org.jetbrains.kotlin.plugin.serialization) apply false
+    alias(libs.plugins.kotlinMultiplatform) apply false
 //    TODO Move some of these to toml file
     id("com.github.ben-manes.versions") version "0.41.0"
     id("nl.littlerobots.version-catalog-update") version "0.8.4"

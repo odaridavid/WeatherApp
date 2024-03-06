@@ -22,7 +22,7 @@ hilt = "2.51"
 hilt-nav-compose = "1.2.0"
 # Testing
 junit = "4.13.2"
-kotlin-android = "1.9.22"
+kotlin = "1.9.22"
 kotlin-serialization = "1.9.22"
 kotlinx-coroutines-android = "1.8.0"
 kotlinx-serialization = "1.6.3"
@@ -100,8 +100,11 @@ com-android-application = { id = "com.android.application", version.ref = "andro
 com-android-library = { id = "com.android.library", version.ref = "android-gradle-plugin" }
 dagger-hilt-android = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
 mapsplatform-secrets-gradle-plugin = { id = "com.google.android.libraries.mapsplatform.secrets-gradle-plugin", version.ref = "mapsplatform-secrets" }
-org-jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin-android" }
+org-jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 org-jetbrains-kotlin-plugin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin-serialization" }
+#Multiplatform
+kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
+kotlinCocoapods = { id = "org.jetbrains.kotlin.native.cocoapods", version.ref = "kotlin" }
 
 [bundles]
 androidx = [
