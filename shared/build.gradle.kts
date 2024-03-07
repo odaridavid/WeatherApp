@@ -37,7 +37,7 @@ android {
     namespace = "com.github.odaridavid.weatherapp.shared"
     compileSdk = 34
     defaultConfig {
-        minSdk = 24
+        minSdk = 23
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
