@@ -28,7 +28,7 @@ kotlin {
             //put your multiplatform dependencies here
         }
         commonTest.dependencies {
-//            implementation(libs.kotlin.test)
+           // TODO Add common test dependencies
         }
     }
 }
