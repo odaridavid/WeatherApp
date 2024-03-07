@@ -11,7 +11,7 @@ kotlin {
             }
         }
     }
-    
+
     listOf(
         iosX64(),
         iosArm64(),
@@ -28,7 +28,7 @@ kotlin {
             //put your multiplatform dependencies here
         }
         commonTest.dependencies {
-           // TODO Add common test dependencies
+            // TODO Add common test dependencies
         }
     }
 }
