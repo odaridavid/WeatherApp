@@ -10,7 +10,6 @@ import com.github.odaridavid.weatherapp.core.model.HourlyWeather
 import com.github.odaridavid.weatherapp.core.model.ServerException
 import com.github.odaridavid.weatherapp.core.model.Temperature
 import com.github.odaridavid.weatherapp.core.model.TimeFormat
-import com.github.odaridavid.weatherapp.core.model.UnauthorizedException
 import com.github.odaridavid.weatherapp.core.model.Units
 import com.github.odaridavid.weatherapp.core.model.Weather
 import com.github.odaridavid.weatherapp.core.model.WeatherInfo
@@ -86,7 +85,10 @@ private fun getDate(utcInMillis: Long, formatPattern: String): String {
 }
 
 fun mapResponseCodeToThrowable(code: Int): Throwable = when (code) {
-    HttpURLConnection.HTTP_UNAUTHORIZED -> UnauthorizedException("Unauthorized access : $code")
+    HttpURLConnection.HTTP_BAD_REQUEST -> ClientException("Bad request : $code: Check request parameters")
+    HttpURLConnection.HTTP_UNAUTHORIZED -> ClientException("Unauthorized access : $code: Check API Token")
+    HttpURLConnection.HTTP_NOT_FOUND -> ClientException("Resource not found : $code: Check parameters")
+    TOO_MANY_REQUESTS -> ClientException("Too many requests : $code: Rate limit exceeded")
     in CLIENT_ERRORS -> ClientException("Client error : $code")
     in SERVER_ERRORS -> ServerException("Server error : $code")
     else -> GenericException("Generic error : $code")
@@ -97,7 +99,6 @@ fun mapThrowableToErrorType(throwable: Throwable): ErrorType {
         is IOException -> ErrorType.IO_CONNECTION
         is ClientException -> ErrorType.CLIENT
         is ServerException -> ErrorType.SERVER
-        is UnauthorizedException -> ErrorType.UNAUTHORIZED
         else -> ErrorType.GENERIC
     }
     return errorType
@@ -105,3 +106,4 @@ fun mapThrowableToErrorType(throwable: Throwable): ErrorType {
 
 private val SERVER_ERRORS = 500..600
 private val CLIENT_ERRORS = 400..499
+private const val TOO_MANY_REQUESTS = 429

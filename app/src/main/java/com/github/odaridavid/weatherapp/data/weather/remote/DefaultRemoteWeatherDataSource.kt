@@ -2,13 +2,10 @@ package com.github.odaridavid.weatherapp.data.weather.remote
 
 import com.github.odaridavid.weatherapp.BuildConfig
 import com.github.odaridavid.weatherapp.core.Result
-import com.github.odaridavid.weatherapp.core.api.SettingsRepository
 import com.github.odaridavid.weatherapp.core.model.DefaultLocation
 import com.github.odaridavid.weatherapp.core.model.ExcludedData
 import com.github.odaridavid.weatherapp.core.model.SupportedLanguage
-import com.github.odaridavid.weatherapp.core.model.TimeFormat
 import com.github.odaridavid.weatherapp.core.model.Weather
-import kotlinx.coroutines.flow.firstOrNull
 import javax.inject.Inject
 
 class DefaultRemoteWeatherDataSource @Inject constructor(
@@ -46,5 +43,5 @@ class DefaultRemoteWeatherDataSource @Inject constructor(
         }
 
     private fun getLanguageValue(language: String) =
-        SupportedLanguage.values().first { it.languageName == language }.languageValue
+        SupportedLanguage.entries.first { it.languageName == language }.languageValue
 }

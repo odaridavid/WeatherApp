@@ -16,7 +16,7 @@ class SettingsRepositoryUnitTest {
     @Test
     fun `when we fetch available languages, then we get all available languages`() {
         val settingsRepo = createSettingsRepository()
-        assert(settingsRepo.getAvailableLanguages().size == SupportedLanguage.values().size)
+        assert(settingsRepo.getAvailableLanguages().size == SupportedLanguage.entries.size)
     }
 
     @Test
@@ -64,7 +64,7 @@ class SettingsRepositoryUnitTest {
     @Test
     fun `when we fetch available units, then we get all available units`() {
         val settingsRepo = createSettingsRepository()
-        assert(settingsRepo.getAvailableUnits().size == Units.values().size)
+        assert(settingsRepo.getAvailableUnits().size == Units.entries.size)
     }
 
     @Test
@@ -91,7 +91,7 @@ class SettingsRepositoryUnitTest {
     @Test
     fun `when we fetch available time formats, then we get all available formats`() {
         val settingsRepo = createSettingsRepository()
-        assert(settingsRepo.getFormats().size == TimeFormat.values().size)
+        assert(settingsRepo.getFormats().size == TimeFormat.entries.size)
     }
 
     @Test

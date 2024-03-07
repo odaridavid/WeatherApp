@@ -167,6 +167,7 @@ android {
 
 dependencies {
 
+    implementation (project(":shared"))
     // Jetpack Core
     implementation(libs.bundles.androidx)
     implementation(platform(libs.compose.bom))

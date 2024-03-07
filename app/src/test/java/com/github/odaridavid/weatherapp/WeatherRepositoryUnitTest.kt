@@ -140,7 +140,7 @@ class WeatherRepositoryUnitTest {
         }
 
     @Test
-    fun `when we fetch weather data and an unauthorized error occurs, then an unauthorized error is emitted`() =
+    fun `when we fetch weather data and an unauthorized error occurs, then a client error is emitted`() =
         runBlocking {
             coEvery {
                 mockOpenWeatherService.getWeatherData(
@@ -169,7 +169,7 @@ class WeatherRepositoryUnitTest {
 
             Truth.assertThat(actualResults).isInstanceOf(Result.Error::class.java)
             Truth.assertThat((actualResults as Result.Error).errorType)
-                .isEqualTo(ErrorType.UNAUTHORIZED)
+                .isEqualTo(ErrorType.CLIENT)
         }
 
     @Test

@@ -33,7 +33,7 @@ class FakeSettingsRepository : SettingsRepository {
 
     override fun getAppVersion(): String = "1.0.0"
 
-    override fun getAvailableLanguages(): List<String> = SupportedLanguage.values().map { it.languageName }
+    override fun getAvailableLanguages(): List<String> = SupportedLanguage.entries.map { it.languageName }
 
     override suspend fun setDefaultLocation(defaultLocation: DefaultLocation) {
         settingsMap[KEY_LAT_LNG] = "${defaultLocation.latitude}/${defaultLocation.longitude}"
@@ -54,8 +54,8 @@ class FakeSettingsRepository : SettingsRepository {
     }
 
     override fun getFormats(): List<String> {
-        return TimeFormat.values().map { it.value }
+        return TimeFormat.entries.map { it.value }
     }
 
-    override fun getAvailableUnits(): List<String> = Units.values().map { it.value }
+    override fun getAvailableUnits(): List<String> = Units.entries.map { it.value }
 }
