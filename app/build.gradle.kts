@@ -11,7 +11,8 @@ plugins {
     id("com.google.firebase.crashlytics")
     id("io.gitlab.arturbosch.detekt")
     jacoco
-    id("com.google.firebase.firebase-perf")
+    alias(libs.plugins.firebase.perf.plugin)
+    alias(libs.plugins.about.lib.plugin)
 }
 
 jacoco {
@@ -213,6 +214,10 @@ dependencies {
 
     // In-app update
     implementation(libs.bundles.google.play)
+
+    // About
+    implementation(libs.about.lib.core)
+    implementation(libs.about.lib.compose.ui)
 }
 
 kapt {

@@ -42,18 +42,17 @@ fun HomeTopBar(cityName: String, onSettingClicked: () -> Unit) {
 }
 
 @Composable
-fun SettingsTopBar(onBackButtonClicked: () -> Unit) {
+fun TopNavigationBar(onBackButtonClicked: () -> Unit, title: String) {
     Row(modifier = Modifier.padding(16.dp)) {
         IconWithAction(
             painter = painterResource(id = R.drawable.ic_arrow_back),
-            contentDescription = stringResource(R.string.settings_content_description_icon),
-            modifier = Modifier
-                .padding(8.dp),
+            contentDescription = stringResource(R.string.back_button_content_description_icon),
+            modifier = Modifier.padding(8.dp),
             onClicked = { onBackButtonClicked() }
         )
 
         MenuHeadline(
-            text = stringResource(R.string.settings_screen_title),
+            text = title,
             modifier = Modifier.align(Alignment.CenterVertically)
         )
     }
