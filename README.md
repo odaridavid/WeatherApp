@@ -90,27 +90,43 @@ Or setting up a [pre-commit/pre-push hook](https://pinterest.github.io/ktlint/la
 **Language :** [Kotlin](https://github.com/JetBrains/kotlin)
 
 **Libraries :**
+<details>
+  <summary>UI</summary> 
+  <a href="https://developer.android.com/jetpack/compose">Compose</a><br>
+  <a href="https://coil-kt.github.io/coil/compose/">Coil</a><br>
+  <a href="https://developer.android.com/guide/playcore/in-app-updates">InAppUpdate</a>
+</details>
 
-  *UI*
-- [Compose](https://developer.android.com/jetpack/compose)
-- [Coil](https://coil-kt.github.io/coil/compose/https://coil-kt.github.io/coil/compose/) 
+<details>
+  <summary>Data</summary> 
+  <a href="https://square.github.io/retrofit/">Retrofit</a><br>
+  <a href="https://square.github.io/okhttp/">OkHTTP</a><br>
+  <a href="https://kotlinlang.org/docs/serialization.html">kotlinx.serialization</a><br>
+  <a href="https://developer.android.com/topic/libraries/architecture/datastore">Preference Data Store</a>
+</details>
 
-  *Data*
-- [Retrofit](https://square.github.io/retrofit/)
-- [OkHTTP](https://square.github.io/okhttp/)
-- [kotlinx.serialization](https://kotlinlang.org/docs/serialization.html)
-- [Preference Data Store](https://developer.android.com/topic/libraries/architecture/datastore) 
+<details>
+  <summary>Testing</summary> 
+  <a href="https://junit.org/junit4/">JUnit</a><br>
+  <a href="https://mockk.io/">Mockk</a><br>
+  <a href="https://truth.dev/">Truth</a><br>
+  <a href="https://github.com/cashapp/turbine">Turbine</a>
+</details>
 
-   *Testing*
-- [Junit](https://junit.org/junit4/)
-- [Mockk](https://mockk.io/) 
-- [Truth](https://truth.dev/)
-- [Turbine](https://github.com/cashapp/turbine)
+<details>
+  <summary>Tooling/Project setup</summary>
+  <a href="https://github.com/google/secrets-gradle-plugin">Gradle secrets plugin</a><br>
+  <a href="https://developer.android.com/training/dependency-injection/hilt-android">Hilt (DI)</a><br>
+  <a href="https://firebase.google.com/docs">Firebase - Crashlytics, Performance</a><br>
+  <a href="https://www.bitrise.io/">Bitrise</a><br>
+  <a href="https://about.codecov.io/">Codecov</a><br>
+  <a href="https://github.com/detekt/detekt">Detekt</a><br>
+  <a href="https://ktlint.github.io/">Ktlint</a><br>
+  <a href="https://square.github.io/leakcanary/">LeakCanary</a><br>
+  <a href="https://github.com/mikepenz/AboutLibraries">About Libraries</a><br>
+  <a href="https://kotlinlang.org/docs/multiplatform.html">KMM</a>
+</details>
 
-   *Tooling/Project setup*
-- [Gradle secrets plugin](https://github.com/google/secrets-gradle-plugin)
-- [Hilt(DI)](https://developer.android.com/training/dependency-injection/hilt-android)
-- [Firebase - Crashlytics](https://firebase.google.com/docs/crashlytics)
 
 
 # LICENSE
