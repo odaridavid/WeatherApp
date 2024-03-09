@@ -6,6 +6,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.github.odaridavid.weatherapp.ui.about.AboutScreen
 import com.github.odaridavid.weatherapp.ui.home.HomeScreen
 import com.github.odaridavid.weatherapp.ui.home.HomeScreenIntent
 import com.github.odaridavid.weatherapp.ui.home.HomeViewModel
@@ -46,7 +47,7 @@ fun WeatherAppScreensConfig(
 
             SettingsScreen(
                 state = state,
-                onBackButtonClicked = { navController.navigate(Destinations.HOME.route) },
+                onBackButtonClicked = { navController.navigateUp() },
                 onLanguageChanged = { selectedLanguage ->
                     settingsViewModel.processIntent(
                         SettingsScreenIntent.ChangeLanguage(
@@ -61,13 +62,22 @@ fun WeatherAppScreensConfig(
                     settingsViewModel.processIntent(
                         SettingsScreenIntent.ChangeTimeFormat(selectedFormat)
                     )
+                },
+                onAboutClicked = {
+                    navController.navigate(Destinations.ABOUT.route)
                 }
             )
+        }
+        composable(Destinations.ABOUT.route) {
+            AboutScreen {
+                navController.navigateUp()
+            }
         }
     }
 }
 
 enum class Destinations(val route: String) {
     HOME("home"),
-    SETTINGS("settings")
+    SETTINGS("settings"),
+    ABOUT("about")
 }

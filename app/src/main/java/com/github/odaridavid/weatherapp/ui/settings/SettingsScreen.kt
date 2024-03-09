@@ -12,12 +12,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.github.odaridavid.weatherapp.R
-import com.github.odaridavid.weatherapp.designsystem.SettingOptionRow
 import com.github.odaridavid.weatherapp.designsystem.SettingOptionRadioButton
+import com.github.odaridavid.weatherapp.designsystem.SettingOptionRow
 import com.github.odaridavid.weatherapp.designsystem.SettingOptionsDialog
-import com.github.odaridavid.weatherapp.designsystem.SettingsTopBar
+import com.github.odaridavid.weatherapp.designsystem.TopNavigationBar
 import com.github.odaridavid.weatherapp.designsystem.VersionInfoText
-import com.github.odaridavid.weatherapp.core.model.TimeFormat
 
 @Composable
 fun SettingsScreen(
@@ -26,9 +25,13 @@ fun SettingsScreen(
     onLanguageChanged: (String) -> Unit,
     onUnitChanged: (String) -> Unit,
     onTimeFormatChanged: (String) -> Unit,
+    onAboutClicked: () -> Unit,
 ) {
     Column {
-        SettingsTopBar(onBackButtonClicked)
+        TopNavigationBar(
+            onBackButtonClicked = onBackButtonClicked,
+            title = stringResource(R.string.settings_screen_title),
+        )
 
         val openLanguageSelectionDialog = remember { mutableStateOf(false) }
         SettingOptionRow(
@@ -54,7 +57,7 @@ fun SettingsScreen(
         SettingOptionRow(
             optionLabel = stringResource(R.string.settings_time_format),
             optionValue = state.selectedTimeFormat,
-            optionIcon = R.drawable.baseline_access_time_24,
+            optionIcon = R.drawable.ic_time_24,
             optionIconContentDescription = stringResource(R.string.settings_content_description_time_icon)
         ) {
             openTimeFormatSelectionDialog.value = openTimeFormatSelectionDialog.value.not()
@@ -115,6 +118,14 @@ fun SettingsScreen(
                     onOptionSelected = onOptionSelected
                 )
             }
+        }
+
+        SettingOptionRow(
+            optionLabel = stringResource(R.string.settings_about),
+            optionIcon = R.drawable.ic_info_24,
+            optionIconContentDescription = stringResource(R.string.settings_content_description_about_icon)
+        ) {
+            onAboutClicked()
         }
 
         Spacer(modifier = Modifier.weight(1.0f))

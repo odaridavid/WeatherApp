@@ -17,7 +17,7 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun SettingOptionRow(
     optionLabel: String,
-    optionValue: String,
+    optionValue: String? = null,
     @DrawableRes optionIcon: Int,
     optionIconContentDescription: String,
     modifier: Modifier = Modifier,
@@ -40,10 +40,13 @@ fun SettingOptionRow(
             modifier = Modifier.padding(8.dp)
         )
         Spacer(modifier = Modifier.weight(1.0f))
-        Text(
-            text = optionValue,
-            style = MaterialTheme.typography.body1,
-            modifier = Modifier.padding(8.dp)
-        )
+
+        optionValue?.let {
+            Text(
+                text = it,
+                style = MaterialTheme.typography.body1,
+                modifier = Modifier.padding(8.dp)
+            )
+        }
     }
 }

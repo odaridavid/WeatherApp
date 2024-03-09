@@ -11,7 +11,8 @@ plugins {
     id("com.google.firebase.crashlytics")
     id("io.gitlab.arturbosch.detekt")
     jacoco
-    id("com.google.firebase.firebase-perf")
+    alias(libs.plugins.firebase.perf.plugin)
+    alias(libs.plugins.about.lib.plugin)
 }
 
 jacoco {
@@ -77,9 +78,12 @@ fun setupAndroidReporting() {
                 "**/*Activity*",
                 "**/di/**",
                 "**/hilt*/**",
+                // TODO Remove once UI and instrumented tests are added
                 "**/entrypoint/**",
                 "**/designsystem/**",
-                "**/*Screen*.*"
+                "**/*Screen*.*",
+                "**/*NavGraph*.*",
+                "**/*Destinations*.*"
             )
 
             val javaTree = fileTree("${project.buildDir}/intermediates/javac/$sourceName/classes") {
@@ -167,7 +171,7 @@ android {
 
 dependencies {
 
-    implementation (project(":shared"))
+    implementation(project(":shared"))
     // Jetpack Core
     implementation(libs.bundles.androidx)
     implementation(platform(libs.compose.bom))
@@ -213,6 +217,10 @@ dependencies {
 
     // In-app update
     implementation(libs.bundles.google.play)
+
+    // About
+    implementation(libs.about.lib.core)
+    implementation(libs.about.lib.compose.ui)
 }
 
 kapt {
