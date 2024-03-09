@@ -78,10 +78,12 @@ fun setupAndroidReporting() {
                 "**/*Activity*",
                 "**/di/**",
                 "**/hilt*/**",
+                // TODO Remove once UI and instrumented tests are added
                 "**/entrypoint/**",
                 "**/designsystem/**",
                 "**/*Screen*.*",
-                "**/*NavGraph*.*"
+                "**/*NavGraph*.*",
+                "**/*Destinations*.*"
             )
 
             val javaTree = fileTree("${project.buildDir}/intermediates/javac/$sourceName/classes") {
