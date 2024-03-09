@@ -80,7 +80,8 @@ fun setupAndroidReporting() {
                 "**/hilt*/**",
                 "**/entrypoint/**",
                 "**/designsystem/**",
-                "**/*Screen*.*"
+                "**/*Screen*.*",
+                "**/*NavGraph*.*"
             )
 
             val javaTree = fileTree("${project.buildDir}/intermediates/javac/$sourceName/classes") {
