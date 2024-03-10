@@ -1,9 +1,7 @@
-package com.github.odaridavid.weatherapp.designsystem
+package com.github.odaridavid.weatherapp.designsystem.molecule
 
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
@@ -14,8 +12,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
 import com.github.odaridavid.weatherapp.R
+import com.github.odaridavid.weatherapp.designsystem.WeatherAppTheme
 
 @Composable
 fun ConfirmButton(
@@ -44,7 +42,7 @@ fun SettingOptionRadioButton(
 ) {
     Row(
         Modifier
-            .padding(16.dp)
+            .padding(WeatherAppTheme.dimens.medium)
             .selectable(
                 selected = (text == selectedOption),
                 onClick = { onOptionSelected(text) }
@@ -55,6 +53,6 @@ fun SettingOptionRadioButton(
             selected = (text == selectedOption),
             onClick = null
         )
-        Body(text = text, modifier = Modifier.padding(start = 8.dp))
+        Body(text = text, modifier = Modifier.padding(start = WeatherAppTheme.dimens.small))
     }
 }

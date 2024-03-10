@@ -1,4 +1,4 @@
-package com.github.odaridavid.weatherapp.designsystem
+package com.github.odaridavid.weatherapp.designsystem.molecule
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -8,6 +8,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
+
+// todo check with 48
+private val ICON_SIZE = 40.dp
 
 @Composable
 fun WeatherIcon(iconUrl: String, contentDescription: String, modifier: Modifier = Modifier) {
@@ -29,7 +32,7 @@ fun IconWithAction(
         painter = painter,
         contentDescription = contentDescription,
         modifier = modifier
-            .defaultMinSize(40.dp)
+            .defaultMinSize(ICON_SIZE)
             .clickable { onClicked() }
     )
 }

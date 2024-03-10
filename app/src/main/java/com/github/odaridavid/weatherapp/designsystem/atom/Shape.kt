@@ -1,4 +1,4 @@
-package com.github.odaridavid.weatherapp.designsystem.theme
+package com.github.odaridavid.weatherapp.designsystem.atom
 
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Shapes

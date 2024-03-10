@@ -79,11 +79,11 @@ The folders are split into 4 boundaries:
   the screen state a bit more predictable and it's easier to scan through what actions are possible
   from a given screen.
 
-  The screen state e.g ```HomeScreenViewState``` is also modelled as a class with immutable
-  properties and makes state management way easier by reducing the state whenever their is a new
-  update received.
-  Some design patterns that can be seen here are the Observer pattern when consuming the flow ->
-  state flows in the composables and provides a reactive app.
+The screen state e.g ```HomeScreenViewState``` is also modelled as a class with immutable
+properties and makes state management way easier by reducing the state whenever their is a new
+update received.
+Some design patterns that can be seen here are the Observer pattern when consuming the flow ->
+state flows in the composables and provides a reactive app.
 </details>
 
 ![Add flow diagram here](/docs/MVI.png)
@@ -91,9 +91,9 @@ The folders are split into 4 boundaries:
 <details>
   <summary>Testing</summary>
 
-  The data layer is unit tested by mocking out external dependencies and the ui layer on the
-  viewmodels, an integration test is written that makes use of fake,so as to mimic the real scenario
-  as much as possible over using mocks, which would also turn it to a unit test.
+The data layer is unit tested by mocking out external dependencies and the ui layer on the
+viewmodels, an integration test is written that makes use of fake,so as to mimic the real scenario
+as much as possible over using mocks, which would also turn it to a unit test.
 </details>
 
 # Other Stuff 📦
@@ -119,9 +119,65 @@ dependency updates and running code quality checks ,defined in the `.github/work
 
 *Design System*
 
-```
-TBD
-```
+Under the `designsystem` package ,it follows a tiered approach to styling the app i.e
+<details>
+<summary>Atoms (Smallest Components)</summary>
+Typography:
+Define font styles, sizes, and weights for headers, paragraphs, and other text elements.
+
+Color Palette:
+Establish a color palette with primary, secondary, and accent colors. Specify their usage in 
+different contexts.
+
+Icons:
+Design a set of basic icons that represent common actions or concepts. Ensure consistency in style
+and sizing.
+
+Buttons:
+Create button styles with variations for primary, secondary, and tertiary actions. Include states 
+like hover and disabled.
+
+Input Fields:
+Design consistent styles for text inputs, checkboxes, radio buttons, and other form elements.
+</details>
+<details>
+<summary>Molecules (Simple Components)</summary>
+Form Elements:
+Combine atoms to create complete form components. Ensure consistency in spacing and alignment.
+
+Cards:
+Combine text, images, and buttons to create card components. Define variations for different use cases.
+
+Badges:
+Assemble icons and text to create badge components for notifications or status indicators.
+
+Avatars:
+Design avatar components for user profiles, incorporating images or initials.
+</details>
+<details>
+<summary>Organisms (Complex Components)</summary>
+Navigation Bars:
+Create a consistent navigation bar design that includes menus, icons, and navigation elements.
+
+Headers and Footers:
+Define headers and footers with appropriate spacing, logos, and navigation links.
+
+Lists:
+Assemble atoms and molecules to create list components, incorporating variations like simple lists, 
+detailed lists, and nested lists.
+
+Modals:
+Design modal components for overlays or pop-ups, ensuring consistency in styles and behavior.
+</details>
+<details>
+<summary>Templates (Page-Level Structures)</summary>
+Page Layouts:
+Establish consistent layouts for different types of pages (e.g., home page, product page, settings 
+page).
+
+Grid Systems:
+Define grid systems that ensure alignment and consistency across various screen sizes.
+</details>
 
 *Performance*
 

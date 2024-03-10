@@ -10,13 +10,13 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
 import com.github.odaridavid.weatherapp.R
-import com.github.odaridavid.weatherapp.designsystem.SettingOptionRadioButton
-import com.github.odaridavid.weatherapp.designsystem.SettingOptionRow
-import com.github.odaridavid.weatherapp.designsystem.SettingOptionsDialog
-import com.github.odaridavid.weatherapp.designsystem.TopNavigationBar
-import com.github.odaridavid.weatherapp.designsystem.VersionInfoText
+import com.github.odaridavid.weatherapp.designsystem.WeatherAppTheme
+import com.github.odaridavid.weatherapp.designsystem.molecule.SettingOptionRadioButton
+import com.github.odaridavid.weatherapp.designsystem.molecule.VersionInfoText
+import com.github.odaridavid.weatherapp.designsystem.organism.SettingOptionRow
+import com.github.odaridavid.weatherapp.designsystem.organism.SettingOptionsDialog
+import com.github.odaridavid.weatherapp.designsystem.organism.TopNavigationBar
 
 @Composable
 fun SettingsScreen(
@@ -128,13 +128,13 @@ fun SettingsScreen(
             onAboutClicked()
         }
 
-        Spacer(modifier = Modifier.weight(1.0f))
+        Spacer(modifier = Modifier.weight(WeatherAppTheme.weight.full))
 
         VersionInfoText(
             versionInfo = state.versionInfo,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(16.dp)
+                .padding(WeatherAppTheme.dimens.medium)
                 .align(Alignment.CenterHorizontally),
         )
     }

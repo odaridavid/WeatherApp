@@ -1,4 +1,4 @@
-package com.github.odaridavid.weatherapp.designsystem
+package com.github.odaridavid.weatherapp.designsystem.organism
 
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
@@ -12,7 +12,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.unit.dp
+import com.github.odaridavid.weatherapp.designsystem.WeatherAppTheme
 
 @Composable
 fun SettingOptionRow(
@@ -27,25 +27,25 @@ fun SettingOptionRow(
         modifier = modifier
             .fillMaxWidth()
             .clickable { onOptionClicked() }
-            .padding(16.dp)
+            .padding(WeatherAppTheme.dimens.medium)
     ) {
         Image(
             painter = painterResource(id = optionIcon),
             contentDescription = optionIconContentDescription,
-            modifier = Modifier.padding(8.dp)
+            modifier = Modifier.padding(WeatherAppTheme.dimens.small)
         )
         Text(
             text = optionLabel,
             style = MaterialTheme.typography.subtitle1,
-            modifier = Modifier.padding(8.dp)
+            modifier = Modifier.padding(WeatherAppTheme.dimens.small)
         )
-        Spacer(modifier = Modifier.weight(1.0f))
+        Spacer(modifier = Modifier.weight(WeatherAppTheme.weight.full))
 
         optionValue?.let {
             Text(
                 text = it,
                 style = MaterialTheme.typography.body1,
-                modifier = Modifier.padding(8.dp)
+                modifier = Modifier.padding(WeatherAppTheme.dimens.small)
             )
         }
     }

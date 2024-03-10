@@ -1,4 +1,4 @@
-package com.github.odaridavid.weatherapp.designsystem
+package com.github.odaridavid.weatherapp.designsystem.organism
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -17,37 +17,42 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.github.odaridavid.weatherapp.R
+import com.github.odaridavid.weatherapp.designsystem.WeatherAppTheme
+import com.github.odaridavid.weatherapp.designsystem.molecule.IconWithAction
+import com.github.odaridavid.weatherapp.designsystem.molecule.MenuHeadline
+
+private val ICON_SIZE = 40.dp
 
 @Composable
 fun HomeTopBar(cityName: String, onSettingClicked: () -> Unit) {
     Row(
         modifier = Modifier
-            .padding(16.dp)
+            .padding(WeatherAppTheme.dimens.medium)
             .fillMaxWidth()
     ) {
         Text(
             text = cityName,
             style = MaterialTheme.typography.h5
         )
-        Spacer(modifier = Modifier.weight(1.0f))
+        Spacer(modifier = Modifier.weight(WeatherAppTheme.weight.full))
         Image(
             painter = painterResource(id = if (isSystemInDarkTheme()) R.drawable.ic_settings_dark else R.drawable.ic_settings),
             contentDescription = stringResource(R.string.home_content_description_setting_icon),
             modifier = Modifier
-                .defaultMinSize(40.dp)
+                .defaultMinSize(ICON_SIZE)
                 .clickable { onSettingClicked() }
-                .padding(8.dp)
+                .padding(WeatherAppTheme.dimens.small)
         )
     }
 }
 
 @Composable
 fun TopNavigationBar(onBackButtonClicked: () -> Unit, title: String) {
-    Row(modifier = Modifier.padding(16.dp)) {
+    Row(modifier = Modifier.padding(WeatherAppTheme.dimens.medium)) {
         IconWithAction(
             painter = painterResource(id = R.drawable.ic_arrow_back),
             contentDescription = stringResource(R.string.back_button_content_description_icon),
-            modifier = Modifier.padding(8.dp),
+            modifier = Modifier.padding(WeatherAppTheme.dimens.small),
             onClicked = { onBackButtonClicked() }
         )
 

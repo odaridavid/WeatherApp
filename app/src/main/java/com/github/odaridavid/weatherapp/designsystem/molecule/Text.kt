@@ -1,4 +1,4 @@
-package com.github.odaridavid.weatherapp.designsystem
+package com.github.odaridavid.weatherapp.designsystem.molecule
 
 import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.Column
@@ -13,9 +13,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.dp
 import com.github.odaridavid.weatherapp.R
-import com.github.odaridavid.weatherapp.core.model.Temperature
+import com.github.odaridavid.weatherapp.designsystem.WeatherAppTheme
 
 @Composable
 fun ErrorTextWithAction(
@@ -31,7 +30,7 @@ fun ErrorTextWithAction(
         Button(
             onClick = { onTryAgainClicked() },
             modifier = Modifier
-                .padding(16.dp)
+                .padding(WeatherAppTheme.dimens.medium)
                 .align(Alignment.CenterHorizontally)
         ) {
             Text(
@@ -44,7 +43,7 @@ fun ErrorTextWithAction(
 }
 
 @Composable
-fun Headline(text: String, modifier: Modifier = Modifier, color: Color = Color.Unspecified) {
+fun Headline(text: String, modifier: Modifier = Modifier) {
     Text(
         text = text,
         modifier = modifier,
@@ -57,8 +56,8 @@ fun TemperatureHeadline(temperature: String, modifier: Modifier = Modifier) {
     Headline(
         text = temperature,
         modifier = modifier
-            .padding(horizontal = 16.dp)
-            .padding(vertical = 8.dp)
+            .padding(horizontal = WeatherAppTheme.dimens.medium)
+            .padding(vertical = WeatherAppTheme.dimens.small)
     )
 }
 
@@ -67,7 +66,10 @@ fun Subtitle(text: String, modifier: Modifier = Modifier, color: Color = Color.U
     Text(
         text = text,
         style = MaterialTheme.typography.subtitle1,
-        modifier = modifier.padding(horizontal = 16.dp, vertical = 8.dp),
+        modifier = modifier.padding(
+            horizontal = WeatherAppTheme.dimens.medium,
+            vertical = WeatherAppTheme.dimens.small
+        ),
         color = color
     )
 }
@@ -102,7 +104,7 @@ fun Body(text: String, modifier: Modifier = Modifier, color: Color = Color.Unspe
 fun Temperature(text: String) {
     Body(
         text = text,
-        modifier = Modifier.padding(4.dp)
+        modifier = Modifier.padding(WeatherAppTheme.dimens.extraSmall)
     )
 }
 
@@ -110,7 +112,7 @@ fun Temperature(text: String) {
 fun ForecastedTime(text: String, modifier: Modifier = Modifier) {
     Body(
         text = text,
-        modifier = modifier.padding(4.dp)
+        modifier = modifier.padding(WeatherAppTheme.dimens.extraSmall)
     )
 }
 
@@ -131,7 +133,7 @@ fun VersionInfoText(versionInfo: String, modifier: Modifier) {
         text = versionInfo,
         modifier = modifier
             .fillMaxWidth()
-            .padding(16.dp),
+            .padding(WeatherAppTheme.dimens.medium),
         textAlign = TextAlign.Center
     )
 }
