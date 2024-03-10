@@ -12,7 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.core.content.ContextCompat
-import com.github.odaridavid.weatherapp.designsystem.PermissionRationaleDialog
+import com.github.odaridavid.weatherapp.designsystem.organism.PermissionRationaleDialog
 import java.util.Locale
 
 private const val NO_OF_ADDRESSES = 1

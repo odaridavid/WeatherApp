@@ -6,7 +6,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import com.github.odaridavid.weatherapp.R
-import com.github.odaridavid.weatherapp.designsystem.TopNavigationBar
+import com.github.odaridavid.weatherapp.designsystem.organism.TopNavigationBar
 import com.mikepenz.aboutlibraries.ui.compose.m3.LibrariesContainer
 
 @Composable

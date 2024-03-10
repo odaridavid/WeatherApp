@@ -1,4 +1,4 @@
-package com.github.odaridavid.weatherapp.designsystem.theme
+package com.github.odaridavid.weatherapp.designsystem.atom
 
 import androidx.compose.ui.graphics.Color
 

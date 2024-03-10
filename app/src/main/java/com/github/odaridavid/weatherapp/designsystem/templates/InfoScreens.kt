@@ -1,4 +1,4 @@
-package com.github.odaridavid.weatherapp.designsystem
+package com.github.odaridavid.weatherapp.designsystem.templates
 
 import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.Column
@@ -10,24 +10,24 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
 import com.github.odaridavid.weatherapp.R
+import com.github.odaridavid.weatherapp.designsystem.WeatherAppTheme
 
 @Composable
 fun InfoScreen(@StringRes message: Int) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(16.dp)
+            .padding(WeatherAppTheme.dimens.medium)
     ) {
-        Spacer(modifier = Modifier.weight(0.5f))
+        Spacer(modifier = Modifier.weight(WeatherAppTheme.weight.half))
         Text(
             text = stringResource(message),
             modifier = Modifier
-                .padding(16.dp)
+                .padding(WeatherAppTheme.dimens.medium)
                 .align(Alignment.CenterHorizontally)
         )
-        Spacer(modifier = Modifier.weight(0.5f))
+        Spacer(modifier = Modifier.weight(WeatherAppTheme.weight.half))
     }
 }
 

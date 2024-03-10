@@ -1,4 +1,4 @@
-package com.github.odaridavid.weatherapp.designsystem
+package com.github.odaridavid.weatherapp.designsystem.organism
 
 import android.Manifest
 import androidx.activity.result.ActivityResultLauncher
@@ -25,6 +25,13 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.constraintlayout.compose.ConstraintLayout
 import com.github.odaridavid.weatherapp.R
+import com.github.odaridavid.weatherapp.designsystem.WeatherAppTheme
+import com.github.odaridavid.weatherapp.designsystem.molecule.ConfirmButton
+import com.github.odaridavid.weatherapp.designsystem.molecule.SettingOptionRadioButton
+
+// TODO Adapt per screen
+private val SETTING_DIALOG_MAX_HEIGHT = 200.dp
+private val SETTING_DIALOG_MIN_HEIGHT = 0.dp
 
 @Composable
 fun PermissionRationaleDialog(
@@ -80,7 +87,7 @@ fun <T> SettingOptionsDialog(
             val (dialog, confirmButton) = createRefs()
             LazyColumn(
                 modifier = Modifier
-                    .heightIn(0.dp, 200.dp)
+                    .heightIn(SETTING_DIALOG_MIN_HEIGHT, SETTING_DIALOG_MAX_HEIGHT)
                     .fillMaxWidth()
                     .constrainAs(dialog) {
                         top.linkTo(parent.top, margin = 16.dp)
@@ -106,7 +113,7 @@ fun <T> SettingOptionsDialog(
                 Spacer(modifier = Modifier.weight(1f))
                 ConfirmButton(
                     modifier = Modifier
-                        .padding(16.dp),
+                        .padding(WeatherAppTheme.dimens.medium),
                     onClick = {
                         onConfirm()
                     }

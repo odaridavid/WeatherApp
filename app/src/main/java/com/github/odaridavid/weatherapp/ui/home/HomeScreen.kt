@@ -17,20 +17,20 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
 import com.github.odaridavid.weatherapp.R
 import com.github.odaridavid.weatherapp.common.getCityName
 import com.github.odaridavid.weatherapp.core.model.CurrentWeather
 import com.github.odaridavid.weatherapp.core.model.DailyWeather
 import com.github.odaridavid.weatherapp.core.model.HourlyWeather
-import com.github.odaridavid.weatherapp.designsystem.ErrorTextWithAction
-import com.github.odaridavid.weatherapp.designsystem.ForecastedTime
-import com.github.odaridavid.weatherapp.designsystem.LoadingScreen
-import com.github.odaridavid.weatherapp.designsystem.Subtitle
-import com.github.odaridavid.weatherapp.designsystem.Temperature
-import com.github.odaridavid.weatherapp.designsystem.TemperatureHeadline
-import com.github.odaridavid.weatherapp.designsystem.HomeTopBar
-import com.github.odaridavid.weatherapp.designsystem.WeatherIcon
+import com.github.odaridavid.weatherapp.designsystem.WeatherAppTheme
+import com.github.odaridavid.weatherapp.designsystem.molecule.ErrorTextWithAction
+import com.github.odaridavid.weatherapp.designsystem.molecule.ForecastedTime
+import com.github.odaridavid.weatherapp.designsystem.molecule.Subtitle
+import com.github.odaridavid.weatherapp.designsystem.molecule.Temperature
+import com.github.odaridavid.weatherapp.designsystem.molecule.TemperatureHeadline
+import com.github.odaridavid.weatherapp.designsystem.molecule.WeatherIcon
+import com.github.odaridavid.weatherapp.designsystem.organism.HomeTopBar
+import com.github.odaridavid.weatherapp.designsystem.templates.LoadingScreen
 
 @Composable
 fun HomeScreen(
@@ -73,14 +73,14 @@ fun HomeScreen(
 
 @Composable
 private fun ColumnScope.ErrorScreen(errorMsgId: Int, onTryAgainClicked: () -> Unit) {
-    Spacer(modifier = Modifier.weight(0.5f))
+    Spacer(modifier = Modifier.weight(WeatherAppTheme.weight.half))
     ErrorTextWithAction(
         errorMessageId = errorMsgId,
-        modifier = Modifier.padding(16.dp)
+        modifier = Modifier.padding(WeatherAppTheme.dimens.medium)
     ) {
         onTryAgainClicked()
     }
-    Spacer(modifier = Modifier.Companion.weight(0.5f))
+    Spacer(modifier = Modifier.Companion.weight(WeatherAppTheme.weight.half))
 }
 
 @Composable
@@ -105,7 +105,7 @@ private fun CurrentWeatherWidget(currentWeather: CurrentWeather) {
 private fun HourlyWeatherWidget(hourlyWeatherList: List<HourlyWeather>) {
     Subtitle(text = stringResource(id = R.string.home_today_forecast_title))
 
-    LazyRow(modifier = Modifier.padding(16.dp)) {
+    LazyRow(modifier = Modifier.padding(WeatherAppTheme.dimens.medium)) {
         items(hourlyWeatherList) { hourlyWeather ->
             HourlyWeatherRow(
                 hourlyWeather = hourlyWeather,
@@ -122,12 +122,12 @@ private fun HourlyWeatherRow(hourlyWeather: HourlyWeather, modifier: Modifier) {
             iconUrl = hourlyWeather.weather.first().icon,
             contentDescription = hourlyWeather.weather.first().description,
             modifier = Modifier
-                .padding(4.dp)
+                .padding(WeatherAppTheme.dimens.extraSmall)
                 .align(Alignment.CenterVertically),
         )
         Column(
             modifier = Modifier
-                .padding(4.dp)
+                .padding(WeatherAppTheme.dimens.extraSmall)
                 .align(Alignment.CenterVertically)
         ) {
             Temperature(text = hourlyWeather.temperature)
@@ -141,7 +141,7 @@ private fun HourlyWeatherRow(hourlyWeather: HourlyWeather, modifier: Modifier) {
 private fun DailyWeatherWidget(dailyWeatherList: List<DailyWeather>) {
     Subtitle(text = stringResource(id = R.string.home_weekly_forecast_title))
 
-    LazyColumn(modifier = Modifier.padding(16.dp)) {
+    LazyColumn(modifier = Modifier.padding(WeatherAppTheme.dimens.medium)) {
         items(dailyWeatherList) { dailyWeather ->
             DailyWeatherRow(dailyWeather = dailyWeather, modifier = Modifier.animateItemPlacement())
         }
@@ -152,14 +152,14 @@ private fun DailyWeatherWidget(dailyWeatherList: List<DailyWeather>) {
 private fun DailyWeatherRow(dailyWeather: DailyWeather, modifier: Modifier) {
     Row(
         modifier = modifier
-            .padding(8.dp)
+            .padding(WeatherAppTheme.dimens.small)
             .fillMaxWidth()
     ) {
         WeatherIcon(
             iconUrl = dailyWeather.weather.first().icon,
             contentDescription = dailyWeather.weather.first().description,
             modifier = Modifier
-                .padding(4.dp)
+                .padding(WeatherAppTheme.dimens.extraSmall)
                 .align(Alignment.CenterVertically),
         )
         ForecastedTime(
@@ -167,7 +167,7 @@ private fun DailyWeatherRow(dailyWeather: DailyWeather, modifier: Modifier) {
             modifier = Modifier
                 .align(Alignment.CenterVertically)
         )
-        Spacer(modifier = Modifier.weight(1.0f))
+        Spacer(modifier = Modifier.weight(WeatherAppTheme.weight.full))
         Column(modifier = Modifier.align(Alignment.CenterVertically)) {
             Temperature(
                 text = stringResource(
