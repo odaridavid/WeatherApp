@@ -1,7 +1,6 @@
 package com.github.odaridavid.weatherapp.data.weather
 
 import com.github.odaridavid.weatherapp.core.Result
-import com.github.odaridavid.weatherapp.core.Result.Success
 import com.github.odaridavid.weatherapp.core.Result.Error
 import com.github.odaridavid.weatherapp.core.api.Logger
 import com.github.odaridavid.weatherapp.core.api.SettingsRepository
@@ -23,17 +22,20 @@ class DefaultWeatherRepository @Inject constructor(
     override suspend fun fetchWeatherData(
         defaultLocation: DefaultLocation,
         language: String,
-        units: String
+        units: String,
     ): Result<Weather> =
         try {
             val format =
                 settingsRepository.getFormat().firstOrNull() ?: TimeFormat.TWENTY_FOUR_HOUR.value
+
+            val excludedData = settingsRepository.getExcludedData()
 
             remoteWeatherDataSource.fetchWeatherData(
                 defaultLocation = defaultLocation,
                 units = units,
                 language = language,
                 format = format,
+                excludedData = excludedData
             )
         } catch (throwable: Throwable) {
             val errorType = mapThrowableToErrorType(throwable)

@@ -2,6 +2,7 @@ package com.github.odaridavid.weatherapp
 
 import com.github.odaridavid.weatherapp.core.api.SettingsRepository
 import com.github.odaridavid.weatherapp.core.model.DefaultLocation
+import com.github.odaridavid.weatherapp.core.model.ExcludedData
 import com.github.odaridavid.weatherapp.core.model.SupportedLanguage
 import com.github.odaridavid.weatherapp.core.model.TimeFormat
 import com.github.odaridavid.weatherapp.core.model.Units
@@ -55,6 +56,14 @@ class FakeSettingsRepository : SettingsRepository {
 
     override fun getFormats(): List<String> {
         return TimeFormat.entries.map { it.value }
+    }
+
+    override suspend fun getExcludedData(): String {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun setExcludedData(excludedData: List<ExcludedData>) {
+        TODO("Not yet implemented")
     }
 
     override fun getAvailableUnits(): List<String> = Units.entries.map { it.value }

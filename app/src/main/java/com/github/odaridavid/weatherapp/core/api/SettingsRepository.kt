@@ -1,7 +1,7 @@
 package com.github.odaridavid.weatherapp.core.api
 
 import com.github.odaridavid.weatherapp.core.model.DefaultLocation
-import com.github.odaridavid.weatherapp.core.model.TimeFormat
+import com.github.odaridavid.weatherapp.core.model.ExcludedData
 import kotlinx.coroutines.flow.Flow
 
 interface SettingsRepository {
@@ -28,5 +28,9 @@ interface SettingsRepository {
     suspend fun setFormat(format: String)
 
     fun getFormats() : List<String>
+
+    suspend fun getExcludedData() : String
+
+    suspend fun setExcludedData(excludedData: List<ExcludedData>)
 
 }
