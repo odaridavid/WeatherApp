@@ -58,33 +58,33 @@ fun HomeScreen(
 
         if (state.errorMessageId != null) {
             ErrorScreen(state.errorMessageId, onTryAgainClicked)
-        }
+        } else {
+            state.weather?.current?.let { currentWeather ->
+                CurrentWeatherWidget(currentWeather = currentWeather)
+            } ?: run {
+                EmptySectionWidget(
+                    label = stringResource(id = R.string.home_title_currently),
+                    weatherType = stringResource(id = R.string.home_weather_type_currently)
+                )
+            }
 
-        state.weather?.current?.let { currentWeather ->
-            CurrentWeatherWidget(currentWeather = currentWeather)
-        } ?: run {
-            EmptySectionWidget(
-                label = stringResource(id = R.string.home_title_currently),
-                weatherType = stringResource(id = R.string.home_weather_type_currently)
-            )
-        }
+            state.weather?.hourly?.let { hourlyWeather ->
+                HourlyWeatherWidget(hourlyWeatherList = hourlyWeather)
+            } ?: run {
+                EmptySectionWidget(
+                    label = stringResource(id = R.string.home_today_forecast_title),
+                    weatherType = stringResource(id = R.string.home_weather_type_hourly)
+                )
+            }
 
-        state.weather?.hourly?.let { hourlyWeather ->
-            HourlyWeatherWidget(hourlyWeatherList = hourlyWeather)
-        } ?: run {
-            EmptySectionWidget(
-                label = stringResource(id = R.string.home_today_forecast_title),
-                weatherType = stringResource(id = R.string.home_weather_type_hourly)
-            )
-        }
-
-        state.weather?.daily?.let { dailyWeather ->
-            DailyWeatherWidget(dailyWeatherList = dailyWeather)
-        } ?: run {
-            EmptySectionWidget(
-                label = stringResource(id = R.string.home_weekly_forecast_title),
-                weatherType = stringResource(id = R.string.home_weather_type_daily)
-            )
+            state.weather?.daily?.let { dailyWeather ->
+                DailyWeatherWidget(dailyWeatherList = dailyWeather)
+            } ?: run {
+                EmptySectionWidget(
+                    label = stringResource(id = R.string.home_weekly_forecast_title),
+                    weatherType = stringResource(id = R.string.home_weather_type_daily)
+                )
+            }
         }
     }
 }
