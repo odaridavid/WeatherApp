@@ -119,7 +119,7 @@ fun ForecastedTime(text: String, modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun MenuHeadline(text: String, modifier: Modifier = Modifier, color: Color = Color.Unspecified) {
+fun NavBarTitle(text: String, modifier: Modifier = Modifier, color: Color = Color.Unspecified) {
     Text(
         text = text,
         modifier = modifier,

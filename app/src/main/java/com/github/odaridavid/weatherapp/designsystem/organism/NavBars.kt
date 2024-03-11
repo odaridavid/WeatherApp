@@ -20,7 +20,7 @@ import androidx.compose.ui.unit.dp
 import com.github.odaridavid.weatherapp.R
 import com.github.odaridavid.weatherapp.designsystem.WeatherAppTheme
 import com.github.odaridavid.weatherapp.designsystem.molecule.IconWithAction
-import com.github.odaridavid.weatherapp.designsystem.molecule.MenuHeadline
+import com.github.odaridavid.weatherapp.designsystem.molecule.NavBarTitle
 
 private val ICON_SIZE = 40.dp
 
@@ -57,7 +57,7 @@ fun TopNavigationBar(onBackButtonClicked: () -> Unit, title: String) {
             onClicked = { onBackButtonClicked() }
         )
 
-        MenuHeadline(
+        NavBarTitle(
             text = title,
             modifier = Modifier.align(Alignment.CenterVertically)
         )

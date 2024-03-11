@@ -17,19 +17,19 @@ private val fonts = FontFamily(
     Font(R.font.rubik_bold, FontWeight.Bold)
 )
 
-// typography imported from NIA Design System, to be improved and tweaked later.
+// typography adapted from NIA Design System, to be improved and tweaked later.
 val typography = typographyFromDefaults(
     displayLarge = TextStyle(
         fontFamily = fonts,
         fontWeight = FontWeight.Bold,
-        fontSize = 57.sp,
+        fontSize = 64.sp,
         lineHeight = 64.sp,
         letterSpacing = (-0.25).sp,
     ),
     displayMedium = TextStyle(
         fontFamily = fonts,
-        fontWeight = FontWeight.Normal,
-        fontSize = 45.sp,
+        fontWeight = FontWeight.Bold,
+        fontSize = 48.sp,
         lineHeight = 52.sp,
         letterSpacing = 0.sp,
     ),
