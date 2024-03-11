@@ -17,6 +17,7 @@
     <string name="settings_unit_label">Units</string>
     <string name="settings_time_format">Time Format</string>
     <string name="settings_about">About</string>
+    <string name="settings_exclude_label">Exclude</string>
     <string name="settings_content_description_lang_icon">Language Icon</string>
     <string name="settings_content_description_unit_icon">Units Icon</string>
     <string name="settings_content_description_time_icon">Time Icon</string>
@@ -40,4 +41,5 @@
     <string name="error_connection">Check your internet connection and try again</string>
     <string name="update_available">Update is available for install</string>
     <string name="install_update">Install</string>
+    <string name="settings_content_description_exclude_icon">Exclude icon</string>
 </resources>
