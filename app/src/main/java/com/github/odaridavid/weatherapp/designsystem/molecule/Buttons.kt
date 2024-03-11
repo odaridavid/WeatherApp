@@ -1,5 +1,6 @@
 package com.github.odaridavid.weatherapp.designsystem.molecule
 
+import androidx.compose.foundation.background
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
@@ -13,7 +14,10 @@ fun PositiveButton(
     onClick: () -> Unit
 ) {
     Button(
-        modifier = modifier,
+        modifier = modifier.background(
+            color = MaterialTheme.colorScheme.primaryContainer,
+            shape = MaterialTheme.shapes.small
+        ),
         onClick = {
             onClick()
         },
@@ -33,7 +37,10 @@ fun NegativeButton(
     onClick: () -> Unit
 ) {
     Button(
-        modifier = modifier,
+        modifier = modifier.background(
+            color = MaterialTheme.colorScheme.secondaryContainer,
+            shape = MaterialTheme.shapes.small
+        ),
         onClick = {
             onClick()
         },
