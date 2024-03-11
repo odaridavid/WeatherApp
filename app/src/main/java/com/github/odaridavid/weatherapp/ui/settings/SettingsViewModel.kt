@@ -2,6 +2,7 @@ package com.github.odaridavid.weatherapp.ui.settings
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.github.odaridavid.weatherapp.core.api.Logger
 import com.github.odaridavid.weatherapp.core.api.SettingsRepository
 import com.github.odaridavid.weatherapp.core.model.ExcludedData
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -14,7 +15,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SettingsViewModel @Inject constructor(
-    private val settingsRepository: SettingsRepository
+    private val settingsRepository: SettingsRepository,
+    private val logger: Logger,
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(SettingsScreenViewState())
@@ -104,7 +106,10 @@ class SettingsViewModel @Inject constructor(
                 ExcludedData.DAILY.value -> ExcludedData.DAILY
                 ExcludedData.MINUTELY.value -> ExcludedData.MINUTELY
                 ExcludedData.ALERTS.value -> ExcludedData.ALERTS
-                else -> throw IllegalArgumentException("Invalid excluded data")
+                else ->{
+                    logger.logException(IllegalArgumentException("Invalid excluded data"))
+                    ExcludedData.NONE
+                }
             }
         }
     }

@@ -5,4 +5,5 @@ enum class ExcludedData(val value:String){
     DAILY("daily"),
     MINUTELY("minutely"),
     ALERTS("alerts"),
+    NONE(""),
 }
