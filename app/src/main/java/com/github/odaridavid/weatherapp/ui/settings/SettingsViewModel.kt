@@ -106,7 +106,7 @@ class SettingsViewModel @Inject constructor(
                 ExcludedData.DAILY.value -> ExcludedData.DAILY
                 ExcludedData.MINUTELY.value -> ExcludedData.MINUTELY
                 ExcludedData.ALERTS.value -> ExcludedData.ALERTS
-                else ->{
+                else -> {
                     logger.logException(IllegalArgumentException("Invalid excluded data"))
                     ExcludedData.NONE
                 }
