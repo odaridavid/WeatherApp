@@ -13,19 +13,23 @@ import coil.compose.AsyncImage
 private val ICON_SIZE = 40.dp
 
 @Composable
-fun WeatherIcon(iconUrl: String, contentDescription: String, modifier: Modifier = Modifier) {
+fun RemoteImage(
+    url: String,
+    contentDescription: String,
+    modifier: Modifier = Modifier
+) {
     AsyncImage(
-        model = iconUrl,
+        model = url,
         contentDescription = contentDescription,
         modifier = modifier,
     )
 }
 
 @Composable
-fun IconWithAction(
+fun ActionIcon(
     painter: Painter,
     contentDescription: String,
-    modifier: Modifier,
+    modifier: Modifier = Modifier,
     onClicked: () -> Unit
 ) {
     Image(

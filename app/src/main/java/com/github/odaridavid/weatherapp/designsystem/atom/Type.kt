@@ -116,7 +116,6 @@ val typography = typographyFromDefaults(
         lineHeight = 16.sp,
         letterSpacing = 0.4.sp,
     ),
-    // Used for Button
     labelLarge = TextStyle(
         fontFamily = fonts,
         fontWeight = FontWeight.Medium,
@@ -128,7 +127,6 @@ val typography = typographyFromDefaults(
             trim = Trim.LastLineBottom,
         ),
     ),
-    // Used for Navigation items
     labelMedium = TextStyle(
         fontFamily = fonts,
         fontWeight = FontWeight.Medium,
@@ -140,7 +138,6 @@ val typography = typographyFromDefaults(
             trim = Trim.LastLineBottom,
         ),
     ),
-    // Used for Tag
     labelSmall = TextStyle(
         fontFamily = fonts,
         fontWeight = FontWeight.Medium,

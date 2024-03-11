@@ -14,10 +14,8 @@ import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.BasicAlertDialog
-import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Modifier
@@ -28,10 +26,10 @@ import androidx.compose.ui.window.Dialog
 import androidx.constraintlayout.compose.ConstraintLayout
 import com.github.odaridavid.weatherapp.R
 import com.github.odaridavid.weatherapp.designsystem.WeatherAppTheme
-import com.github.odaridavid.weatherapp.designsystem.molecule.Body
-import com.github.odaridavid.weatherapp.designsystem.molecule.ConfirmButton
-import com.github.odaridavid.weatherapp.designsystem.molecule.Headline
-import com.github.odaridavid.weatherapp.designsystem.molecule.SettingOptionRadioButton
+import com.github.odaridavid.weatherapp.designsystem.molecule.LargeLabel
+import com.github.odaridavid.weatherapp.designsystem.molecule.MediumBody
+import com.github.odaridavid.weatherapp.designsystem.molecule.NegativeButton
+import com.github.odaridavid.weatherapp.designsystem.molecule.PositiveButton
 
 // TODO Adapt per screen
 private val SETTING_DIALOG_MAX_HEIGHT = 200.dp
@@ -44,29 +42,41 @@ fun PermissionRationaleDialog(
     activityPermissionResult: ActivityResultLauncher<String>,
     showWeatherUI: MutableState<Boolean>
 ) {
-    BasicAlertDialog(onDismissRequest = { isDialogShown.value = false }) {
+    BasicAlertDialog(
+        onDismissRequest = { isDialogShown.value = false },
+        modifier = Modifier
+            .background(MaterialTheme.colorScheme.surface)
+    ) {
         Column {
-            Headline(text = stringResource(R.string.location_rationale_title))
+            LargeLabel(
+                text = stringResource(R.string.location_rationale_title),
+                modifier = Modifier.padding(
+                    horizontal = WeatherAppTheme.dimens.medium,
+                    vertical = WeatherAppTheme.dimens.small
+                )
+            )
 
-            Body(text = stringResource(R.string.location_rationale_description))
+            MediumBody(
+                text = stringResource(R.string.location_rationale_description),
+                modifier = Modifier.padding(WeatherAppTheme.dimens.medium)
+            )
 
-            Row {
-                Button(
+            Row(modifier = Modifier.padding(WeatherAppTheme.dimens.medium)) {
+                PositiveButton(
+                    text = stringResource(R.string.location_rationale_button_grant),
                     onClick = {
                         isDialogShown.value = false
                         activityPermissionResult.launch(Manifest.permission.ACCESS_COARSE_LOCATION)
                     }
-                ) {
-                    Text(text = stringResource(R.string.location_rationale_button_grant))
-                }
-                Button(
+                )
+                Spacer(modifier = Modifier.weight(1f))
+                NegativeButton(
+                    text = stringResource(R.string.location_rationale_button_deny),
                     onClick = {
                         isDialogShown.value = false
                         showWeatherUI.value = false
                     }
-                ) {
-                    Text(text = stringResource(R.string.location_rationale_button_deny))
-                }
+                )
             }
         }
     }
@@ -115,7 +125,8 @@ fun <T> SettingOptionsDialog(
                     }
             ) {
                 Spacer(modifier = Modifier.weight(1f))
-                ConfirmButton(
+                PositiveButton(
+                    text = stringResource(R.string.settings_confirm),
                     modifier = Modifier
                         .padding(WeatherAppTheme.dimens.medium),
                     onClick = {
@@ -135,10 +146,11 @@ fun UpdateDialog(
 ) {
     Dialog(onDismissRequest = { onDismiss() }) {
         Box {
-            Text(text = stringResource(R.string.update_available))
-            Button(onClick = { onConfirm() }) {
-                Text(text = stringResource(R.string.install_update))
-            }
+            MediumBody(text = stringResource(R.string.update_available))
+            PositiveButton(
+                text = stringResource(R.string.install_update),
+                onClick = { onConfirm() }
+            )
         }
     }
 }

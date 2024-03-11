@@ -7,13 +7,13 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import com.github.odaridavid.weatherapp.designsystem.WeatherAppTheme
+import com.github.odaridavid.weatherapp.designsystem.molecule.LargeBody
+import com.github.odaridavid.weatherapp.designsystem.molecule.LargeLabel
 
 @Composable
 fun SettingOptionRow(
@@ -35,17 +35,18 @@ fun SettingOptionRow(
             contentDescription = optionIconContentDescription,
             modifier = Modifier.padding(WeatherAppTheme.dimens.small)
         )
-        Text(
+
+        LargeLabel(
             text = optionLabel,
-            style = MaterialTheme.typography.labelLarge.copy(fontWeight = FontWeight.Bold),
-            modifier = Modifier.padding(WeatherAppTheme.dimens.small)
+            modifier = Modifier.padding(WeatherAppTheme.dimens.small),
+            fontWeight = FontWeight.Bold
         )
+
         Spacer(modifier = Modifier.weight(WeatherAppTheme.weight.FULL))
 
         optionValue?.let {
-            Text(
+            LargeBody(
                 text = it,
-                style = MaterialTheme.typography.bodyLarge,
                 modifier = Modifier.padding(WeatherAppTheme.dimens.extraSmall)
             )
         }
