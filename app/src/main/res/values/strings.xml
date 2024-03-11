@@ -23,6 +23,7 @@
     <string name="settings_content_description_time_icon">Time Icon</string>
     <string name="settings_content_description_about_icon">About Icon</string>
     <string name="settings_confirm">Confirm</string>
+    <string name="settings_save">Save</string>
 
     <!--    About Screen-->
     <string name="about_screen_title">About</string>
