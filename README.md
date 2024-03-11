@@ -249,13 +249,11 @@ LeakCanary is also used to monitor for any memory leaks that might occur in debu
 
 # Screenshots 📱
 
+// TODO :Add screen recording of light and dark theme
+
 |                      Light Theme                      |                      Dark Theme                       |
 |:-----------------------------------------------------:|:-----------------------------------------------------:|
 | <img src="/docs/screenshots/white.png" width="300px"> | <img src="/docs/screenshots/black.png" width="300px"> |
-
-|                        Error                        |
-|:---------------------------------------------------:|
-| <img src="/docs/screenshots/drk.png" width="300px"> |
 
 ![](https://media.giphy.com/media/hWvk9iUU4uBBeyBq0k/giphy.gif)
 

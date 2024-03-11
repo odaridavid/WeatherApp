@@ -83,6 +83,18 @@ fun MediumHeadline(
 }
 
 @Composable
+fun SmallHeadline(
+    text: String,
+    modifier: Modifier = Modifier,
+) {
+    Text(
+        text = text,
+        style = MaterialTheme.typography.headlineSmall.copy(fontWeight = FontWeight.Bold),
+        modifier = modifier,
+    )
+}
+
+@Composable
 fun LargeBody(
     text: String,
     modifier: Modifier = Modifier,
