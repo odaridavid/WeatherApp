@@ -69,7 +69,6 @@ fun setupAndroidReporting() {
                 "**/*_MembersInjector.class",
                 "**/*_Factory*.*",
                 "**/*_Provide*Factory*.*",
-                "**/*Extensions*.*",
                 // sealed and data classes
                 "**/*\$Result.*",
                 "**/*\$Result$*.*",
@@ -83,7 +82,9 @@ fun setupAndroidReporting() {
                 "**/designsystem/**",
                 "**/*Screen*.*",
                 "**/*NavGraph*.*",
-                "**/*Destinations*.*"
+                "**/*Destinations*.*",
+                "**/common/**",
+                "**/*Extensions*.*",
             )
 
             val javaTree = fileTree("${project.buildDir}/intermediates/javac/$sourceName/classes") {
