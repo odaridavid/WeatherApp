@@ -8,6 +8,6 @@ import androidx.compose.runtime.Composable
 @Composable
 fun SettingBottomSheet() {
     ModalBottomSheet(onDismissRequest = {}) {
-       // TODO Add bottom sheet content
+        // TODO Add bottom sheet content
     }
 }

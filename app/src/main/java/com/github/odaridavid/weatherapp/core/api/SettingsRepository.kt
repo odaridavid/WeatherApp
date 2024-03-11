@@ -32,5 +32,4 @@ interface SettingsRepository {
     suspend fun getExcludedData(): Flow<String>
 
     suspend fun setExcludedData(excludedData: List<ExcludedData>)
-
 }

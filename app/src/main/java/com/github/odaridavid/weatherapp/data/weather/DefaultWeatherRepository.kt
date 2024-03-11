@@ -40,6 +40,4 @@ class DefaultWeatherRepository @Inject constructor(
             logger.logException(throwable)
             Error(errorType)
         }
-
-
 }

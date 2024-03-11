@@ -51,4 +51,3 @@ fun TopNavigationBar(onBackButtonClicked: () -> Unit, title: String) {
         )
     }
 }
-

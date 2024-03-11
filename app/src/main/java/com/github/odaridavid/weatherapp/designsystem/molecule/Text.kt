@@ -8,7 +8,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 
-
 @Composable
 fun LargeDisplay(text: String, modifier: Modifier = Modifier) {
     Text(

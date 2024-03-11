@@ -97,7 +97,7 @@ class DefaultSettingsRepository @Inject constructor(
     }
 
     companion object {
-        //Düsseldorf
+        // Düsseldorf
         const val DEFAULT_LONGITUDE = 6.773456
         const val DEFAULT_LATITUDE = 51.227741
 
