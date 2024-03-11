@@ -11,6 +11,9 @@ import com.github.odaridavid.weatherapp.data.weather.DefaultWeatherRepository
 import com.github.odaridavid.weatherapp.data.weather.remote.DefaultRemoteWeatherDataSource
 import com.github.odaridavid.weatherapp.data.weather.remote.OpenWeatherService
 import com.github.odaridavid.weatherapp.data.weather.remote.WeatherResponse
+import com.github.odaridavid.weatherapp.fakes.fakeSuccessMappedWeatherResponse
+import com.github.odaridavid.weatherapp.fakes.fakeSuccessWeatherResponse
+import com.github.odaridavid.weatherapp.rules.MainCoroutineRule
 import com.github.odaridavid.weatherapp.ui.home.HomeScreenIntent
 import com.github.odaridavid.weatherapp.ui.home.HomeScreenViewState
 import com.github.odaridavid.weatherapp.ui.home.HomeViewModel

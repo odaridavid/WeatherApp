@@ -3,10 +3,12 @@ package com.github.odaridavid.weatherapp
 
 import com.github.odaridavid.weatherapp.core.api.SettingsRepository
 import com.github.odaridavid.weatherapp.core.model.DefaultLocation
+import com.github.odaridavid.weatherapp.core.model.ExcludedData
 import com.github.odaridavid.weatherapp.core.model.SupportedLanguage
 import com.github.odaridavid.weatherapp.core.model.TimeFormat
 import com.github.odaridavid.weatherapp.core.model.Units
 import com.github.odaridavid.weatherapp.data.settings.DefaultSettingsRepository
+import com.github.odaridavid.weatherapp.fakes.FakeSettingsRepository
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.runBlocking
 import org.junit.Test
@@ -113,6 +115,17 @@ class SettingsRepositoryUnitTest {
             settingsRepo.getDefaultLocation().map { location ->
                 assert(location.latitude == 0.0)
                 assert(location.longitude == 0.0)
+            }
+        }
+    }
+
+    @Test
+    fun `when we update excluded data, then we get the updated excluded data`() {
+        val settingsRepo = createSettingsRepository()
+        runBlocking {
+            settingsRepo.setExcludedData(listOf(ExcludedData.ALERTS, ExcludedData.MINUTELY, ExcludedData.DAILY))
+            settingsRepo.getExcludedData().map { excludedData ->
+                assert(excludedData == "${ExcludedData.ALERTS.value},${ExcludedData.MINUTELY.value},${ExcludedData.DAILY.value}")
             }
         }
     }

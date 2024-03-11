@@ -12,6 +12,8 @@ import com.github.odaridavid.weatherapp.data.weather.remote.DefaultRemoteWeather
 import com.github.odaridavid.weatherapp.data.weather.remote.OpenWeatherService
 import com.github.odaridavid.weatherapp.data.weather.remote.RemoteWeatherDataSource
 import com.github.odaridavid.weatherapp.data.weather.remote.WeatherResponse
+import com.github.odaridavid.weatherapp.fakes.fakeSuccessMappedWeatherResponse
+import com.github.odaridavid.weatherapp.fakes.fakeSuccessWeatherResponse
 import com.google.common.truth.Truth
 import io.mockk.coEvery
 import io.mockk.impl.annotations.MockK

@@ -1,4 +1,4 @@
-package com.github.odaridavid.weatherapp
+package com.github.odaridavid.weatherapp.fakes
 
 import com.github.odaridavid.weatherapp.core.api.SettingsRepository
 import com.github.odaridavid.weatherapp.core.model.DefaultLocation
@@ -6,6 +6,7 @@ import com.github.odaridavid.weatherapp.core.model.ExcludedData
 import com.github.odaridavid.weatherapp.core.model.SupportedLanguage
 import com.github.odaridavid.weatherapp.core.model.TimeFormat
 import com.github.odaridavid.weatherapp.core.model.Units
+import com.github.odaridavid.weatherapp.data.settings.DefaultSettingsRepository.Companion.KEY_EXCLUDED_DATA
 import com.github.odaridavid.weatherapp.data.settings.DefaultSettingsRepository.Companion.KEY_LANGUAGE
 import com.github.odaridavid.weatherapp.data.settings.DefaultSettingsRepository.Companion.KEY_LAT_LNG
 import com.github.odaridavid.weatherapp.data.settings.DefaultSettingsRepository.Companion.KEY_TIME_FORMAT
@@ -15,7 +16,7 @@ import kotlinx.coroutines.flow.flow
 
 class FakeSettingsRepository : SettingsRepository {
 
-     private val settingsMap = mutableMapOf<String,String>()
+    private val settingsMap = mutableMapOf<String, String>()
     override suspend fun setLanguage(language: String) {
         settingsMap[KEY_LANGUAGE] = language
     }
@@ -29,18 +30,19 @@ class FakeSettingsRepository : SettingsRepository {
     }
 
     override suspend fun getUnits(): Flow<String> = flow {
-       emit(settingsMap[KEY_UNITS] ?: Units.METRIC.value)
+        emit(settingsMap[KEY_UNITS] ?: Units.METRIC.value)
     }
 
     override fun getAppVersion(): String = "1.0.0"
 
-    override fun getAvailableLanguages(): List<String> = SupportedLanguage.entries.map { it.languageName }
+    override fun getAvailableLanguages(): List<String> =
+        SupportedLanguage.entries.map { it.languageName }
 
     override suspend fun setDefaultLocation(defaultLocation: DefaultLocation) {
         settingsMap[KEY_LAT_LNG] = "${defaultLocation.latitude}/${defaultLocation.longitude}"
     }
 
-    override suspend fun getDefaultLocation(): Flow<DefaultLocation> = flow{
+    override suspend fun getDefaultLocation(): Flow<DefaultLocation> = flow {
         val latLng = settingsMap[KEY_LAT_LNG] ?: "0.0/0.0"
         val latLngList = latLng.split("/")
         DefaultLocation(latitude = latLngList[0].toDouble(), longitude = latLngList[1].toDouble())
@@ -58,12 +60,16 @@ class FakeSettingsRepository : SettingsRepository {
         return TimeFormat.entries.map { it.value }
     }
 
-    override suspend fun getExcludedData(): String {
-        TODO("Not yet implemented")
+    override suspend fun getExcludedData(): Flow<String> = flow {
+        emit(
+            settingsMap[KEY_EXCLUDED_DATA]
+                ?: "${ExcludedData.MINUTELY.value},${ExcludedData.ALERTS.value}"
+        )
     }
 
     override suspend fun setExcludedData(excludedData: List<ExcludedData>) {
-        TODO("Not yet implemented")
+        val formattedData = excludedData.joinToString(separator = ",") { it.value }
+        settingsMap[KEY_EXCLUDED_DATA] = formattedData
     }
 
     override fun getAvailableUnits(): List<String> = Units.entries.map { it.value }

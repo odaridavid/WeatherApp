@@ -5,6 +5,8 @@ import com.github.odaridavid.weatherapp.core.api.SettingsRepository
 import com.github.odaridavid.weatherapp.core.model.SupportedLanguage
 import com.github.odaridavid.weatherapp.core.model.TimeFormat
 import com.github.odaridavid.weatherapp.core.model.Units
+import com.github.odaridavid.weatherapp.fakes.FakeSettingsRepository
+import com.github.odaridavid.weatherapp.rules.MainCoroutineRule
 import com.github.odaridavid.weatherapp.ui.settings.SettingsScreenIntent
 import com.github.odaridavid.weatherapp.ui.settings.SettingsScreenViewState
 import com.github.odaridavid.weatherapp.ui.settings.SettingsViewModel
