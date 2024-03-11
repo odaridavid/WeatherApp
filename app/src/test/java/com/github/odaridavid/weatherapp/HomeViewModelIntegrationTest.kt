@@ -6,7 +6,10 @@ import com.github.odaridavid.weatherapp.core.api.Logger
 import com.github.odaridavid.weatherapp.core.api.SettingsRepository
 import com.github.odaridavid.weatherapp.core.api.WeatherRepository
 import com.github.odaridavid.weatherapp.core.model.DefaultLocation
+import com.github.odaridavid.weatherapp.core.model.ExcludedData
+import com.github.odaridavid.weatherapp.core.model.SupportedLanguage
 import com.github.odaridavid.weatherapp.core.model.TimeFormat
+import com.github.odaridavid.weatherapp.core.model.Units
 import com.github.odaridavid.weatherapp.data.weather.DefaultWeatherRepository
 import com.github.odaridavid.weatherapp.data.weather.remote.DefaultRemoteWeatherDataSource
 import com.github.odaridavid.weatherapp.data.weather.remote.OpenWeatherService
@@ -42,7 +45,10 @@ class HomeViewModelIntegrationTest {
     val mockLogger = mockk<Logger>(relaxed = true)
 
     @MockK
-    val mockSettingsRepository = mockk<SettingsRepository>(relaxed = true)
+    val mockSettingsRepository = mockk<SettingsRepository>(relaxed = true).apply {
+        coEvery { getFormat() } returns flowOf(TimeFormat.TWELVE_HOUR.value)
+        coEvery { getExcludedData() } returns flowOf(ExcludedData.NONE.value)
+    }
 
     @get:Rule
     val coroutineRule = MainCoroutineRule()
@@ -61,8 +67,6 @@ class HomeViewModelIntegrationTest {
         } returns Response.success<WeatherResponse>(
             fakeSuccessWeatherResponse
         )
-
-        coEvery { mockSettingsRepository.getFormat() } returns flowOf(TimeFormat.TWELVE_HOUR.value)
 
         val weatherRepository = createWeatherRepository()
 
@@ -192,16 +196,19 @@ class HomeViewModelIntegrationTest {
     private fun createViewModel(
         weatherRepository: WeatherRepository,
         settingsRepository: SettingsRepository = mockk<SettingsRepository>() {
-            coEvery { getUnits() } returns flowOf("metric")
+            coEvery { getUnits() } returns flowOf(Units.METRIC.value)
             coEvery { getDefaultLocation() } returns flowOf(
                 DefaultLocation(
                     longitude = 0.0, latitude = 0.0
                 )
             )
-            coEvery { getLanguage() } returns flowOf("English")
+            coEvery { getLanguage() } returns flowOf(SupportedLanguage.ENGLISH.languageName)
             coEvery { getAppVersion() } returns "1.0.0"
-            coEvery { getAvailableLanguages() } returns listOf("English")
-            coEvery { getAvailableUnits() } returns listOf("metric")
+            coEvery { getAvailableLanguages() } returns listOf(SupportedLanguage.ENGLISH.languageName)
+            coEvery { getAvailableUnits() } returns listOf(Units.METRIC.value)
+            coEvery { getFormats() } returns listOf(TimeFormat.TWENTY_FOUR_HOUR.value)
+            coEvery { getFormat() } returns flowOf(TimeFormat.TWENTY_FOUR_HOUR.value)
+            coEvery { getExcludedData() } returns flowOf(ExcludedData.CURRENT.value)
         }
     ): HomeViewModel =
         HomeViewModel(

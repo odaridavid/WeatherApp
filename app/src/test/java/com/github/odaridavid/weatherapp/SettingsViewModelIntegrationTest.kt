@@ -1,7 +1,9 @@
 package com.github.odaridavid.weatherapp
 
 import app.cash.turbine.test
+import com.github.odaridavid.weatherapp.core.api.Logger
 import com.github.odaridavid.weatherapp.core.api.SettingsRepository
+import com.github.odaridavid.weatherapp.core.model.ExcludedData
 import com.github.odaridavid.weatherapp.core.model.SupportedLanguage
 import com.github.odaridavid.weatherapp.core.model.TimeFormat
 import com.github.odaridavid.weatherapp.core.model.Units
@@ -10,6 +12,8 @@ import com.github.odaridavid.weatherapp.rules.MainCoroutineRule
 import com.github.odaridavid.weatherapp.ui.settings.SettingsScreenIntent
 import com.github.odaridavid.weatherapp.ui.settings.SettingsScreenViewState
 import com.github.odaridavid.weatherapp.ui.settings.SettingsViewModel
+import io.mockk.impl.annotations.MockK
+import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.runBlocking
 import org.junit.Rule
@@ -19,6 +23,9 @@ import org.junit.Test
 class SettingsViewModelIntegrationTest {
 
     private val settingsRepository: SettingsRepository = FakeSettingsRepository()
+
+    @MockK
+    private val logger: Logger = mockk()
 
     @get:Rule
     val coroutineRule = MainCoroutineRule()
@@ -36,7 +43,10 @@ class SettingsViewModelIntegrationTest {
             availableUnits = Units.entries.map { it.value },
             selectedTimeFormat = TimeFormat.TWENTY_FOUR_HOUR.name,
             availableFormats = TimeFormat.entries.map { it.value },
-            versionInfo = "1.0.0"
+            versionInfo = "1.0.0",
+            selectedExcludedData = listOf(ExcludedData.MINUTELY, ExcludedData.ALERTS),
+            excludedData = ExcludedData.entries,
+            selectedExcludedDataDisplayValue = "minutely,alerts"
         )
 
         settingsViewModel.state.test {
@@ -90,6 +100,7 @@ class SettingsViewModelIntegrationTest {
     }
 
     private fun createSettingsScreenViewModel(): SettingsViewModel = SettingsViewModel(
-        settingsRepository = settingsRepository
+        settingsRepository = settingsRepository,
+        logger = logger,
     )
 }

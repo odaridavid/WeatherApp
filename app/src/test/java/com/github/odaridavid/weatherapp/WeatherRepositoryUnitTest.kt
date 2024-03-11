@@ -6,6 +6,7 @@ import com.github.odaridavid.weatherapp.core.api.Logger
 import com.github.odaridavid.weatherapp.core.api.SettingsRepository
 import com.github.odaridavid.weatherapp.core.api.WeatherRepository
 import com.github.odaridavid.weatherapp.core.model.DefaultLocation
+import com.github.odaridavid.weatherapp.core.model.ExcludedData
 import com.github.odaridavid.weatherapp.core.model.TimeFormat
 import com.github.odaridavid.weatherapp.data.weather.DefaultWeatherRepository
 import com.github.odaridavid.weatherapp.data.weather.remote.DefaultRemoteWeatherDataSource
@@ -33,7 +34,10 @@ class WeatherRepositoryUnitTest {
     val mockOpenWeatherService = mockk<OpenWeatherService>(relaxed = true)
 
     @MockK
-    val mockSettingsRepository = mockk<SettingsRepository>(relaxed = true)
+    val mockSettingsRepository = mockk<SettingsRepository>(relaxed = true).apply {
+        coEvery { getFormat() } returns flowOf(TimeFormat.TWELVE_HOUR.value)
+        coEvery { getExcludedData() } returns flowOf(ExcludedData.NONE.value)
+    }
 
     @MockK
     val mockLogger = mockk<Logger>(relaxed = true)
@@ -60,7 +64,6 @@ class WeatherRepositoryUnitTest {
             } returns Response.success<WeatherResponse>(
                 fakeSuccessWeatherResponse
             )
-            coEvery { mockSettingsRepository.getFormat() } returns flowOf(TimeFormat.TWELVE_HOUR.value)
 
             val weatherRepository = createWeatherRepository()
 
