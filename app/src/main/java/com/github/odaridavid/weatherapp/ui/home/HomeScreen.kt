@@ -107,7 +107,6 @@ private fun EmptySectionWidget(label: String, weatherType: String) {
             textAlign = TextAlign.Center
         )
     }
-
 }
 
 @Composable
