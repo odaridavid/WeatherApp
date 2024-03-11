@@ -2,22 +2,25 @@ package com.github.odaridavid.weatherapp.ui.settings
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import com.github.odaridavid.weatherapp.R
+import com.github.odaridavid.weatherapp.core.model.ExcludedData
 import com.github.odaridavid.weatherapp.designsystem.WeatherAppTheme
-import com.github.odaridavid.weatherapp.designsystem.molecule.SettingOptionRadioButton
-import com.github.odaridavid.weatherapp.designsystem.molecule.VersionInfoText
+import com.github.odaridavid.weatherapp.designsystem.organism.BottomSheet
+import com.github.odaridavid.weatherapp.designsystem.organism.SettingOptionRadioButton
 import com.github.odaridavid.weatherapp.designsystem.organism.SettingOptionRow
 import com.github.odaridavid.weatherapp.designsystem.organism.SettingOptionsDialog
 import com.github.odaridavid.weatherapp.designsystem.organism.TopNavigationBar
+import com.github.odaridavid.weatherapp.designsystem.organism.VersionInfoText
 
+// todo replace the ugly looking dialogs with better looking bottom sheets.
 @Composable
 fun SettingsScreen(
     state: SettingsScreenViewState,
@@ -26,6 +29,7 @@ fun SettingsScreen(
     onUnitChanged: (String) -> Unit,
     onTimeFormatChanged: (String) -> Unit,
     onAboutClicked: () -> Unit,
+    onExcludedDataChanged: (List<ExcludedData>) -> Unit,
 ) {
     Column {
         TopNavigationBar(
@@ -61,6 +65,24 @@ fun SettingsScreen(
             optionIconContentDescription = stringResource(R.string.settings_content_description_time_icon)
         ) {
             openTimeFormatSelectionDialog.value = openTimeFormatSelectionDialog.value.not()
+        }
+
+        var showBottomSheet by remember { mutableStateOf(false) }
+        SettingOptionRow(
+            optionLabel = stringResource(id = R.string.settings_exclude_label),
+            optionIcon = R.drawable.ic_exclude_24,
+            optionValue = state.selectedExcludedDataDisplayValue,
+            optionIconContentDescription = stringResource(R.string.settings_content_description_exclude_icon),
+        ) {
+            showBottomSheet = showBottomSheet.not()
+        }
+
+        SettingOptionRow(
+            optionLabel = stringResource(R.string.settings_about),
+            optionIcon = R.drawable.ic_info_24,
+            optionIconContentDescription = stringResource(R.string.settings_content_description_about_icon)
+        ) {
+            onAboutClicked()
         }
 
         if (openLanguageSelectionDialog.value) {
@@ -120,22 +142,26 @@ fun SettingsScreen(
             }
         }
 
-        SettingOptionRow(
-            optionLabel = stringResource(R.string.settings_about),
-            optionIcon = R.drawable.ic_info_24,
-            optionIconContentDescription = stringResource(R.string.settings_content_description_about_icon)
-        ) {
-            onAboutClicked()
+        if (showBottomSheet) {
+            BottomSheet(
+                title = stringResource(id = R.string.settings_exclude_label),
+                selectedExcludedData = state.selectedExcludedData,
+                items = state.excludedData,
+                onDismiss = {
+                    showBottomSheet = showBottomSheet.not()
+                },
+                onSaveOption = { excludedData ->
+                    onExcludedDataChanged(excludedData)
+                    showBottomSheet = showBottomSheet.not()
+                }
+            )
         }
 
-        Spacer(modifier = Modifier.weight(WeatherAppTheme.weight.full))
+        Spacer(modifier = Modifier.weight(WeatherAppTheme.weight.FULL))
 
         VersionInfoText(
             versionInfo = state.versionInfo,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(WeatherAppTheme.dimens.medium)
-                .align(Alignment.CenterHorizontally),
+            modifier = Modifier.align(Alignment.CenterHorizontally),
         )
     }
 }

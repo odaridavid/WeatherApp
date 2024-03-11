@@ -3,7 +3,7 @@ package com.github.odaridavid.weatherapp.ui.settings
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.github.odaridavid.weatherapp.core.api.SettingsRepository
-import com.github.odaridavid.weatherapp.core.model.TimeFormat
+import com.github.odaridavid.weatherapp.core.model.ExcludedData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -27,21 +27,23 @@ class SettingsViewModel @Inject constructor(
                     combine(
                         settingsRepository.getLanguage(),
                         settingsRepository.getUnits(),
-                        settingsRepository.getFormat()
-                    ) { language, units, format ->
-                        Triple(language, units, format)
-                    }.collect { (language, units, format) ->
-                        setState {
-                            copy(
-                                selectedLanguage = language,
-                                selectedUnit = units,
-                                selectedTimeFormat = format,
-                                versionInfo = settingsRepository.getAppVersion(),
-                                availableLanguages = settingsRepository.getAvailableLanguages(),
-                                availableUnits = settingsRepository.getAvailableUnits(),
-                                availableFormats = settingsRepository.getFormats()
-                            )
-                        }
+                        settingsRepository.getFormat(),
+                        settingsRepository.getExcludedData()
+                    ) { language, units, format, excludedData ->
+                        SettingsScreenViewState(
+                            selectedLanguage = language,
+                            selectedUnit = units,
+                            selectedTimeFormat = format,
+                            selectedExcludedData = mapStringToExcludedData(excludedData),
+                            selectedExcludedDataDisplayValue = excludedData,
+                            versionInfo = settingsRepository.getAppVersion(),
+                            availableLanguages = settingsRepository.getAvailableLanguages(),
+                            availableUnits = settingsRepository.getAvailableUnits(),
+                            availableFormats = settingsRepository.getFormats(),
+                            excludedData = ExcludedData.entries,
+                        )
+                    }.collect { state ->
+                        setState { state }
                     }
                 }
             }
@@ -67,6 +69,20 @@ class SettingsViewModel @Inject constructor(
                     setState { copy(selectedTimeFormat = format) }
                 }
             }
+
+            is SettingsScreenIntent.ChangeExcludedData -> {
+                viewModelScope.launch {
+                    settingsRepository.setExcludedData(settingsScreenIntent.selectedExcludedData)
+                    setState {
+                        copy(
+                            selectedExcludedData = settingsScreenIntent.selectedExcludedData,
+                            selectedExcludedDataDisplayValue = mapExcludedDataToDisplayValue(
+                                settingsScreenIntent.selectedExcludedData
+                            ),
+                        )
+                    }
+                }
+            }
         }
     }
 
@@ -75,15 +91,35 @@ class SettingsViewModel @Inject constructor(
             _state.emit(stateReducer(state.value))
         }
     }
+
+    private fun mapExcludedDataToDisplayValue(excludedData: List<ExcludedData>): String {
+        return excludedData.joinToString { it.name }
+    }
+
+    private fun mapStringToExcludedData(excludedData: String): List<ExcludedData> {
+        return excludedData.split(",").map {
+            when (it.trim()) {
+                ExcludedData.CURRENT.value -> ExcludedData.CURRENT
+                ExcludedData.HOURLY.value -> ExcludedData.HOURLY
+                ExcludedData.DAILY.value -> ExcludedData.DAILY
+                ExcludedData.MINUTELY.value -> ExcludedData.MINUTELY
+                ExcludedData.ALERTS.value -> ExcludedData.ALERTS
+                else -> throw IllegalArgumentException("Invalid excluded data")
+            }
+        }
+    }
 }
 
 data class SettingsScreenViewState(
     val selectedUnit: String = "",
     val selectedLanguage: String = "",
     val selectedTimeFormat: String = "",
+    val selectedExcludedData: List<ExcludedData> = emptyList(),
+    val selectedExcludedDataDisplayValue: String = "",
     val availableLanguages: List<String> = emptyList(),
     val availableUnits: List<String> = emptyList(),
     val availableFormats: List<String> = emptyList(),
+    val excludedData: List<ExcludedData> = emptyList(),
     val versionInfo: String = "",
     val error: Throwable? = null
 )
