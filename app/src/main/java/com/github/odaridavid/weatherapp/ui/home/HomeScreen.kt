@@ -11,7 +11,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.MaterialTheme
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -73,14 +73,14 @@ fun HomeScreen(
 
 @Composable
 private fun ColumnScope.ErrorScreen(errorMsgId: Int, onTryAgainClicked: () -> Unit) {
-    Spacer(modifier = Modifier.weight(WeatherAppTheme.weight.half))
+    Spacer(modifier = Modifier.weight(WeatherAppTheme.weight.HALF))
     ErrorTextWithAction(
         errorMessageId = errorMsgId,
         modifier = Modifier.padding(WeatherAppTheme.dimens.medium)
     ) {
         onTryAgainClicked()
     }
-    Spacer(modifier = Modifier.Companion.weight(WeatherAppTheme.weight.half))
+    Spacer(modifier = Modifier.Companion.weight(WeatherAppTheme.weight.HALF))
 }
 
 @Composable
@@ -95,7 +95,7 @@ private fun CurrentWeatherWidget(currentWeather: CurrentWeather) {
                 id = R.string.home_feels_like_description,
                 currentWeather.feelsLike
             ),
-            color = MaterialTheme.colors.secondary
+            color = MaterialTheme.colorScheme.secondary
         )
     }
 }
@@ -167,7 +167,7 @@ private fun DailyWeatherRow(dailyWeather: DailyWeather, modifier: Modifier) {
             modifier = Modifier
                 .align(Alignment.CenterVertically)
         )
-        Spacer(modifier = Modifier.weight(WeatherAppTheme.weight.full))
+        Spacer(modifier = Modifier.weight(WeatherAppTheme.weight.FULL))
         Column(modifier = Modifier.align(Alignment.CenterVertically)) {
             Temperature(
                 text = stringResource(

@@ -65,6 +65,11 @@ fun WeatherAppScreensConfig(
                 },
                 onAboutClicked = {
                     navController.navigate(Destinations.ABOUT.route)
+                },
+                onExcludedDataChanged = { excludeData ->
+                    settingsViewModel.processIntent(
+                        SettingsScreenIntent.ChangeExcludedData(excludeData)
+                    )
                 }
             )
         }
