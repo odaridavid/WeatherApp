@@ -17,7 +17,6 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
-// TODO Check if Flow usage is necessary for one shot op
 class DefaultSettingsRepository @Inject constructor(
     @ApplicationContext private val context: Context
 ) : SettingsRepository {
@@ -26,7 +25,7 @@ class DefaultSettingsRepository @Inject constructor(
     private val PREF_UNITS by lazy { stringPreferencesKey(KEY_UNITS) }
     private val TIME_FORMAT by lazy { stringPreferencesKey(KEY_TIME_FORMAT) }
     private val PREF_LAT_LNG by lazy { stringPreferencesKey(KEY_LAT_LNG) }
-    private val PREF_EXCLUDED_DATA by lazy { stringPreferencesKey(KEY_EXCLUDED_DATA)}
+    private val PREF_EXCLUDED_DATA by lazy { stringPreferencesKey(KEY_EXCLUDED_DATA) }
 
     override suspend fun setLanguage(language: String) {
         set(key = PREF_LANGUAGE, value = language)
@@ -67,17 +66,18 @@ class DefaultSettingsRepository @Inject constructor(
     override suspend fun getFormat(): Flow<String> =
         get(key = TIME_FORMAT, default = TimeFormat.TWENTY_FOUR_HOUR.value)
 
-
     override suspend fun setFormat(format: String) {
         set(key = TIME_FORMAT, value = format)
     }
 
     override fun getFormats(): List<String> {
-       return TimeFormat.entries.map { it.value }
+        return TimeFormat.entries.map { it.value }
     }
 
-    // TODO Get excluded data from data store
-    override suspend fun getExcludedData(): String = "${ExcludedData.MINUTELY.value},${ExcludedData.ALERTS.value}"
+    override suspend fun getExcludedData(): Flow<String> = get(
+        key = PREF_EXCLUDED_DATA,
+        default = "${ExcludedData.MINUTELY.value},${ExcludedData.ALERTS.value}"
+    )
 
     override suspend fun setExcludedData(excludedData: List<ExcludedData>) {
         val formattedData = excludedData.joinToString(separator = ",") { it.value }

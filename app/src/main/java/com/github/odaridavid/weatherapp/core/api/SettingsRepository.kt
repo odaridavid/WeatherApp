@@ -27,9 +27,9 @@ interface SettingsRepository {
 
     suspend fun setFormat(format: String)
 
-    fun getFormats() : List<String>
+    fun getFormats(): List<String>
 
-    suspend fun getExcludedData() : String
+    suspend fun getExcludedData(): Flow<String>
 
     suspend fun setExcludedData(excludedData: List<ExcludedData>)
 
