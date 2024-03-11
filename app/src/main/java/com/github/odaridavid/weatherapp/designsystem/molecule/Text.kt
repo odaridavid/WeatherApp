@@ -4,18 +4,20 @@ import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.Button
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material3.Button
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import com.github.odaridavid.weatherapp.R
 import com.github.odaridavid.weatherapp.designsystem.WeatherAppTheme
 
+// TODO Revisit naming in this file of components
 @Composable
 fun ErrorTextWithAction(
     @StringRes errorMessageId: Int, modifier: Modifier, onTryAgainClicked: () -> Unit
@@ -25,7 +27,7 @@ fun ErrorTextWithAction(
             text = stringResource(id = errorMessageId),
             textAlign = TextAlign.Center,
             modifier = modifier.align(Alignment.CenterHorizontally),
-            style = MaterialTheme.typography.body1
+            style = MaterialTheme.typography.bodyMedium
         )
         Button(
             onClick = { onTryAgainClicked() },
@@ -35,7 +37,7 @@ fun ErrorTextWithAction(
         ) {
             Text(
                 text = stringResource(R.string.home_error_try_again),
-                style = MaterialTheme.typography.body1,
+                style = MaterialTheme.typography.bodyMedium,
                 textAlign = TextAlign.Center
             )
         }
@@ -47,7 +49,7 @@ fun Headline(text: String, modifier: Modifier = Modifier) {
     Text(
         text = text,
         modifier = modifier,
-        style = MaterialTheme.typography.h2
+        style = MaterialTheme.typography.displayLarge
     )
 }
 
@@ -65,7 +67,7 @@ fun TemperatureHeadline(temperature: String, modifier: Modifier = Modifier) {
 fun Subtitle(text: String, modifier: Modifier = Modifier, color: Color = Color.Unspecified) {
     Text(
         text = text,
-        style = MaterialTheme.typography.subtitle1,
+        style = MaterialTheme.typography.labelLarge,
         modifier = modifier.padding(
             horizontal = WeatherAppTheme.dimens.medium,
             vertical = WeatherAppTheme.dimens.small
@@ -83,7 +85,7 @@ fun Subtitle2(
 ) {
     Text(
         text = text,
-        style = MaterialTheme.typography.subtitle2,
+        style = MaterialTheme.typography.labelMedium,
         modifier = modifier,
         color = color,
         textAlign = textAlign
@@ -94,7 +96,7 @@ fun Subtitle2(
 fun Body(text: String, modifier: Modifier = Modifier, color: Color = Color.Unspecified) {
     Text(
         text = text,
-        style = MaterialTheme.typography.body2,
+        style = MaterialTheme.typography.bodyMedium,
         color = color,
         modifier = modifier
     )
@@ -121,7 +123,7 @@ fun MenuHeadline(text: String, modifier: Modifier = Modifier, color: Color = Col
     Text(
         text = text,
         modifier = modifier,
-        style = MaterialTheme.typography.h5,
+        style = MaterialTheme.typography.headlineMedium.copy(fontWeight = FontWeight.Bold),
         textAlign = TextAlign.Center,
         color = color
     )

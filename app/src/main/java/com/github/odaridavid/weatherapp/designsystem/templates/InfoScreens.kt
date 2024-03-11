@@ -5,7 +5,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.Text
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -20,14 +20,14 @@ fun InfoScreen(@StringRes message: Int) {
             .fillMaxWidth()
             .padding(WeatherAppTheme.dimens.medium)
     ) {
-        Spacer(modifier = Modifier.weight(WeatherAppTheme.weight.half))
+        Spacer(modifier = Modifier.weight(WeatherAppTheme.weight.HALF))
         Text(
             text = stringResource(message),
             modifier = Modifier
                 .padding(WeatherAppTheme.dimens.medium)
                 .align(Alignment.CenterHorizontally)
         )
-        Spacer(modifier = Modifier.weight(WeatherAppTheme.weight.half))
+        Spacer(modifier = Modifier.weight(WeatherAppTheme.weight.HALF))
     }
 }
 

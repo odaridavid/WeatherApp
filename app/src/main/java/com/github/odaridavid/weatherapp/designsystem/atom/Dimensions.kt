@@ -13,9 +13,9 @@ object Dimensions {
 }
 
 object Weight{
-  val none = 0f
-  val half = 0.5f
-  val full = 1f
+  const val NONE = 0f
+  const val HALF = 0.5f
+  const val FULL = 1f
 }
 
 val LocalDimens = staticCompositionLocalOf { Dimensions }

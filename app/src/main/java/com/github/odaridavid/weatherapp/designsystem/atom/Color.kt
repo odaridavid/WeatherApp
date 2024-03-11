@@ -2,6 +2,7 @@ package com.github.odaridavid.weatherapp.designsystem.atom
 
 import androidx.compose.ui.graphics.Color
 
+// TODO Expand color range
 val pink200 = Color(0xffff7597)
 val pink500 = Color(0xffff0266)
 val pink600 = Color(0xffd8004d)

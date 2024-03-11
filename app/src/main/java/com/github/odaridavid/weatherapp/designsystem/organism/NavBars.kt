@@ -8,13 +8,14 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.github.odaridavid.weatherapp.R
 import com.github.odaridavid.weatherapp.designsystem.WeatherAppTheme
@@ -32,9 +33,9 @@ fun HomeTopBar(cityName: String, onSettingClicked: () -> Unit) {
     ) {
         Text(
             text = cityName,
-            style = MaterialTheme.typography.h5
+            style = MaterialTheme.typography.headlineMedium.copy(fontWeight = FontWeight.Bold),
         )
-        Spacer(modifier = Modifier.weight(WeatherAppTheme.weight.full))
+        Spacer(modifier = Modifier.weight(WeatherAppTheme.weight.FULL))
         Image(
             painter = painterResource(id = if (isSystemInDarkTheme()) R.drawable.ic_settings_dark else R.drawable.ic_settings),
             contentDescription = stringResource(R.string.home_content_description_setting_icon),

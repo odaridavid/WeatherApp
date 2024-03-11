@@ -1,9 +1,9 @@
 package com.github.odaridavid.weatherapp.designsystem
 
 import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.darkColors
-import androidx.compose.material.lightColors
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.darkColorScheme
+import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import com.github.odaridavid.weatherapp.designsystem.atom.Dimensions
@@ -12,20 +12,19 @@ import com.github.odaridavid.weatherapp.designsystem.atom.LocalWeight
 import com.github.odaridavid.weatherapp.designsystem.atom.Weight
 import com.github.odaridavid.weatherapp.designsystem.atom.pink200
 import com.github.odaridavid.weatherapp.designsystem.atom.pink500
-import com.github.odaridavid.weatherapp.designsystem.atom.pink600
 import com.github.odaridavid.weatherapp.designsystem.atom.pinkDarkPrimary
 import com.github.odaridavid.weatherapp.designsystem.atom.shapes
 import com.github.odaridavid.weatherapp.designsystem.atom.typography
 
-private val LightColorPalette = lightColors(
+// TODO Debug menu or app to preview design system components
+private val LightColorPalette = lightColorScheme(
     primary = pink500,
     secondary = pink500,
-    primaryVariant = pink600,
     onPrimary = Color.Black,
     onSecondary = Color.Black
 )
 
-private val DarkColorPalette = darkColors(
+private val DarkColorPalette = darkColorScheme(
     primary = pink200,
     secondary = pink200,
     surface = pinkDarkPrimary
@@ -40,7 +39,7 @@ fun WeatherAppTheme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Compos
     }
 
     MaterialTheme(
-        colors = colors,
+        colorScheme = colors,
         typography = typography,
         shapes = shapes,
         content = content
