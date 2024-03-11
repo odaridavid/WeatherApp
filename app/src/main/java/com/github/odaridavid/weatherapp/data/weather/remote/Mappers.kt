@@ -21,9 +21,9 @@ import java.util.Locale
 import kotlin.math.roundToInt
 
 fun WeatherResponse.toCoreModel(unit: String, format: String): Weather = Weather(
-    current = current.toCoreModel(unit = unit),
-    daily = daily.map { it.toCoreModel(unit = unit) },
-    hourly = hourly.map { it.toCoreModel(unit = unit, format = format) }
+    current = current?.toCoreModel(unit = unit),
+    daily = daily?.map { it.toCoreModel(unit = unit) },
+    hourly = hourly?.map { it.toCoreModel(unit = unit, format = format) }
 )
 
 fun CurrentWeatherResponse.toCoreModel(unit: String): CurrentWeather =

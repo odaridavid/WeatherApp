@@ -16,6 +16,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import com.github.odaridavid.weatherapp.R
 import com.github.odaridavid.weatherapp.common.getCityName
 import com.github.odaridavid.weatherapp.core.model.CurrentWeather
@@ -23,6 +24,7 @@ import com.github.odaridavid.weatherapp.core.model.DailyWeather
 import com.github.odaridavid.weatherapp.core.model.HourlyWeather
 import com.github.odaridavid.weatherapp.designsystem.WeatherAppTheme
 import com.github.odaridavid.weatherapp.designsystem.molecule.LargeLabel
+import com.github.odaridavid.weatherapp.designsystem.molecule.MediumBody
 import com.github.odaridavid.weatherapp.designsystem.molecule.RemoteImage
 import com.github.odaridavid.weatherapp.designsystem.organism.ForecastedTime
 import com.github.odaridavid.weatherapp.designsystem.organism.HomeTopBar
@@ -60,14 +62,52 @@ fun HomeScreen(
 
         state.weather?.current?.let { currentWeather ->
             CurrentWeatherWidget(currentWeather = currentWeather)
+        } ?: run {
+            EmptySectionWidget(
+                label = stringResource(id = R.string.home_title_currently),
+                weatherType = stringResource(id = R.string.home_weather_type_currently)
+            )
         }
+
         state.weather?.hourly?.let { hourlyWeather ->
             HourlyWeatherWidget(hourlyWeatherList = hourlyWeather)
+        } ?: run {
+            EmptySectionWidget(
+                label = stringResource(id = R.string.home_today_forecast_title),
+                weatherType = stringResource(id = R.string.home_weather_type_hourly)
+            )
         }
+
         state.weather?.daily?.let { dailyWeather ->
             DailyWeatherWidget(dailyWeatherList = dailyWeather)
+        } ?: run {
+            EmptySectionWidget(
+                label = stringResource(id = R.string.home_weekly_forecast_title),
+                weatherType = stringResource(id = R.string.home_weather_type_daily)
+            )
         }
     }
+}
+
+@Composable
+private fun EmptySectionWidget(label: String, weatherType: String) {
+    Column {
+        LargeLabel(
+            text = label,
+            modifier = Modifier.padding(
+                horizontal = WeatherAppTheme.dimens.medium,
+                vertical = WeatherAppTheme.dimens.small
+            )
+        )
+        MediumBody(
+            text = stringResource(R.string.home_enable_weather_in_settings, weatherType),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(WeatherAppTheme.dimens.medium),
+            textAlign = TextAlign.Center
+        )
+    }
+
 }
 
 @Composable

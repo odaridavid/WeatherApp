@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name" translatable="false">WeatherApp</string>
+
     <!--Home Screen-->
     <string name="home_content_description_setting_icon">Setting Icon</string>
     <string name="home_title_currently">Currently</string>
@@ -10,6 +11,11 @@
     <string name="home_max_temp">Max %1$s</string>
     <string name="home_error_occured">An issue occurred</string>
     <string name="home_error_try_again">Try Again</string>
+    <string name="home_enable_weather_in_settings">Enable %1$s weather in settings to see data.</string>
+    <string name="home_weather_type_hourly">Hourly</string>
+    <string name="home_weather_type_daily">Daily</string>
+    <string name="home_weather_type_currently">Current</string>
+
     <!-- Settings Screen-->
     <string name="settings_screen_title">Settings</string>
     <string name="back_button_content_description_icon">Back Button</string>
@@ -22,6 +28,7 @@
     <string name="settings_content_description_unit_icon">Units Icon</string>
     <string name="settings_content_description_time_icon">Time Icon</string>
     <string name="settings_content_description_about_icon">About Icon</string>
+    <string name="settings_content_description_exclude_icon">Exclude icon</string>
     <string name="settings_confirm">Confirm</string>
     <string name="settings_save">Save</string>
 
@@ -40,7 +47,9 @@
     <string name="error_server">Oops! Something is wrong on our end :(</string>
     <string name="error_generic">Something is happening that\'s disturbing the force :(</string>
     <string name="error_connection">Check your internet connection and try again</string>
+
+    <!--    Update-->
     <string name="update_available">Update is available for install</string>
     <string name="install_update">Install</string>
-    <string name="settings_content_description_exclude_icon">Exclude icon</string>
+
 </resources>
