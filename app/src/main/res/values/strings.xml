@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name" translatable="false">WeatherApp</string>
+
     <!--Home Screen-->
     <string name="home_content_description_setting_icon">Setting Icon</string>
     <string name="home_title_currently">Currently</string>
@@ -10,6 +11,11 @@
     <string name="home_max_temp">Max %1$s</string>
     <string name="home_error_occured">An issue occurred</string>
     <string name="home_error_try_again">Try Again</string>
+    <string name="home_enable_weather_in_settings">Enable %1$s weather in settings to see data.</string>
+    <string name="home_weather_type_hourly">Hourly</string>
+    <string name="home_weather_type_daily">Daily</string>
+    <string name="home_weather_type_currently">Current</string>
+
     <!-- Settings Screen-->
     <string name="settings_screen_title">Settings</string>
     <string name="back_button_content_description_icon">Back Button</string>
@@ -17,11 +23,14 @@
     <string name="settings_unit_label">Units</string>
     <string name="settings_time_format">Time Format</string>
     <string name="settings_about">About</string>
+    <string name="settings_exclude_label">Exclude</string>
     <string name="settings_content_description_lang_icon">Language Icon</string>
     <string name="settings_content_description_unit_icon">Units Icon</string>
     <string name="settings_content_description_time_icon">Time Icon</string>
     <string name="settings_content_description_about_icon">About Icon</string>
+    <string name="settings_content_description_exclude_icon">Exclude icon</string>
     <string name="settings_confirm">Confirm</string>
+    <string name="settings_save">Save</string>
 
     <!--    About Screen-->
     <string name="about_screen_title">About</string>
@@ -29,8 +38,8 @@
     <!--    Permissions-->
     <string name="location_rationale_title">Permission Request</string>
     <string name="location_rationale_description">Hey there, we need location permission to show you relevant / accurate weather information.</string>
-    <string name="location_rationale_button_grant">Grant Permission</string>
-    <string name="location_rationale_button_deny">Deny Permission</string>
+    <string name="location_rationale_button_grant">Allow</string>
+    <string name="location_rationale_button_deny">Deny</string>
     <string name="location_no_permission_screen_description">You need to grant location access to use the app</string>
     <string name="location_settings_not_enabled">Check your location settings and enable them</string>
     <string name="error_unauthorized">You may need to log in or sign up to see this :)</string>
@@ -38,6 +47,9 @@
     <string name="error_server">Oops! Something is wrong on our end :(</string>
     <string name="error_generic">Something is happening that\'s disturbing the force :(</string>
     <string name="error_connection">Check your internet connection and try again</string>
+
+    <!--    Update-->
     <string name="update_available">Update is available for install</string>
     <string name="install_update">Install</string>
+
 </resources>

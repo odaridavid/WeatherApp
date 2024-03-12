@@ -11,5 +11,6 @@ interface RemoteWeatherDataSource {
         language: String,
         units: String,
         format: String,
+        excludedData: String
     ): Result<Weather>
 }

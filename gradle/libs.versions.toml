@@ -45,6 +45,7 @@ inappupdate = "2.1.0"
 #About
 about-lib = "11.1.0"
 firebase-perf = "1.4.2"
+compose-material3 = "1.2.1"
 
 [libraries]
 activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "activity-compose" }
@@ -56,7 +57,8 @@ com-firebase-crashlytics-plugin = { module = "com.google.firebase:firebase-crash
 #Firebase
 com-google-services = { module = "com.google.gms:google-services", version.ref = "com-google-services" }
 compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "compose-bom" }
-compose-material = { group = "androidx.compose.material", name = "material" }
+
+compose-material3 = { group = "androidx.compose.material3", name = "material3-android", version.ref = "compose-material3" }
 compose-navigation = { group = "androidx.navigation", name = "navigation-compose", version.ref = "compose-navigation" }
 compose-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
 compose-ui = { group = "androidx.compose.ui", name = "ui" }
@@ -124,7 +126,7 @@ androidx = [
     "lifecycle-runtime-ktx",
 ]
 compose = [
-    "compose-material",
+    "compose-material3",
     "compose-navigation",
     "compose-preview",
     "compose-ui",

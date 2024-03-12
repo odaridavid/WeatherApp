@@ -126,7 +126,7 @@ Typography:
 Define font styles, sizes, and weights for headers, paragraphs, and other text elements.
 
 Color Palette:
-Establish a color palette with primary, secondary, and accent colors. Specify their usage in 
+Establish a color palette with primary, secondary, and accent colors. Specify their usage in
 different contexts.
 
 Icons:
@@ -134,7 +134,7 @@ Design a set of basic icons that represent common actions or concepts. Ensure co
 and sizing.
 
 Buttons:
-Create button styles with variations for primary, secondary, and tertiary actions. Include states 
+Create button styles with variations for primary, secondary, and tertiary actions. Include states
 like hover and disabled.
 
 Input Fields:
@@ -146,7 +146,8 @@ Form Elements:
 Combine atoms to create complete form components. Ensure consistency in spacing and alignment.
 
 Cards:
-Combine text, images, and buttons to create card components. Define variations for different use cases.
+Combine text, images, and buttons to create card components. Define variations for different use
+cases.
 
 Badges:
 Assemble icons and text to create badge components for notifications or status indicators.
@@ -163,7 +164,7 @@ Headers and Footers:
 Define headers and footers with appropriate spacing, logos, and navigation links.
 
 Lists:
-Assemble atoms and molecules to create list components, incorporating variations like simple lists, 
+Assemble atoms and molecules to create list components, incorporating variations like simple lists,
 detailed lists, and nested lists.
 
 Modals:
@@ -249,13 +250,15 @@ LeakCanary is also used to monitor for any memory leaks that might occur in debu
 
 # Screenshots 📱
 
-|                      Light Theme                      |                      Dark Theme                       |
-|:-----------------------------------------------------:|:-----------------------------------------------------:|
-| <img src="/docs/screenshots/white.png" width="300px"> | <img src="/docs/screenshots/black.png" width="300px"> |
-
-|                        Error                        |
-|:---------------------------------------------------:|
-| <img src="/docs/screenshots/drk.png" width="300px"> |
+|                              Light Theme                               |                              Dark Theme                               |
+|:----------------------------------------------------------------------:|:---------------------------------------------------------------------:|
+|      <img src="/docs/screenshots/(Light)Main.png" width="250px">       |      <img src="/docs/screenshots/(Dark)Main.png" width="250px">       |
+|    <img src="/docs/screenshots/(Light)Settings.png" width="250px">     |    <img src="/docs/screenshots/(Dark)Settings.png" width="250px">     |
+| <img src="/docs/screenshots/(Light)Settings-Option.png" width="250px"> | <img src="/docs/screenshots/(Dark)Settings-Option.png" width="250px"> |
+|      <img src="/docs/screenshots/(Light)About.png" width="250px">      |      <img src="/docs/screenshots/(Dark)About.png" width="250px">      |
+|      <img src="/docs/screenshots/(Light)About.png" width="250px">      |      <img src="/docs/screenshots/(Dark)About.png" width="250px">      |
+|      <img src="/docs/screenshots/(Light)Error.png" width="250px">      |      <img src="/docs/screenshots/(Dark)Error.png" width="250px">      |
+|    <img src="/docs/screenshots/(Light)Excluded.png" width="250px">     |                                   -                                   |
 
 ![](https://media.giphy.com/media/hWvk9iUU4uBBeyBq0k/giphy.gif)
 

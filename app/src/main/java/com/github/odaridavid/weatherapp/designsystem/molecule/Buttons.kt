@@ -1,58 +1,54 @@
 package com.github.odaridavid.weatherapp.designsystem.molecule
 
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.selection.selectable
-import androidx.compose.material.Button
-import androidx.compose.material.ButtonDefaults
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.RadioButton
-import androidx.compose.material.Text
+import androidx.compose.foundation.background
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
-import com.github.odaridavid.weatherapp.R
-import com.github.odaridavid.weatherapp.designsystem.WeatherAppTheme
 
 @Composable
-fun ConfirmButton(
-    modifier: Modifier,
+fun PositiveButton(
+    text: String,
+    modifier: Modifier = Modifier,
     onClick: () -> Unit
 ) {
     Button(
-        modifier = modifier,
+        modifier = modifier.background(
+            color = MaterialTheme.colorScheme.primaryContainer,
+            shape = MaterialTheme.shapes.small
+        ),
         onClick = {
             onClick()
         },
         colors = ButtonDefaults.buttonColors(
-            backgroundColor = MaterialTheme.colors.secondary,
-            contentColor = MaterialTheme.colors.onSecondary
+            containerColor = MaterialTheme.colorScheme.primaryContainer,
+            contentColor = MaterialTheme.colorScheme.onPrimaryContainer
         )
     ) {
-        Text(text = stringResource(R.string.settings_confirm))
+        LargeLabel(text = text)
     }
 }
 
 @Composable
-fun SettingOptionRadioButton(
+fun NegativeButton(
     text: String,
-    selectedOption: String,
-    onOptionSelected: (String) -> Unit
+    modifier: Modifier = Modifier,
+    onClick: () -> Unit
 ) {
-    Row(
-        Modifier
-            .padding(WeatherAppTheme.dimens.medium)
-            .selectable(
-                selected = (text == selectedOption),
-                onClick = { onOptionSelected(text) }
-            ),
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        RadioButton(
-            selected = (text == selectedOption),
-            onClick = null
+    Button(
+        modifier = modifier.background(
+            color = MaterialTheme.colorScheme.secondaryContainer,
+            shape = MaterialTheme.shapes.small
+        ),
+        onClick = {
+            onClick()
+        },
+        colors = ButtonDefaults.buttonColors(
+            containerColor = MaterialTheme.colorScheme.secondaryContainer,
+            contentColor = MaterialTheme.colorScheme.onSecondaryContainer
         )
-        Body(text = text, modifier = Modifier.padding(start = WeatherAppTheme.dimens.small))
+    ) {
+        LargeLabel(text = text)
     }
 }

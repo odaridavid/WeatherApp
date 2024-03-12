@@ -3,7 +3,6 @@ package com.github.odaridavid.weatherapp.data.weather.remote
 import com.github.odaridavid.weatherapp.BuildConfig
 import com.github.odaridavid.weatherapp.core.Result
 import com.github.odaridavid.weatherapp.core.model.DefaultLocation
-import com.github.odaridavid.weatherapp.core.model.ExcludedData
 import com.github.odaridavid.weatherapp.core.model.SupportedLanguage
 import com.github.odaridavid.weatherapp.core.model.Weather
 import javax.inject.Inject
@@ -17,10 +16,9 @@ class DefaultRemoteWeatherDataSource @Inject constructor(
         language: String,
         units: String,
         format: String,
+        excludedData: String,
     ): Result<Weather> =
         try {
-
-            val excludedData = "${ExcludedData.MINUTELY.value},${ExcludedData.ALERTS.value}"
 
             val response = openWeatherService.getWeatherData(
                 longitude = defaultLocation.longitude,
@@ -28,7 +26,7 @@ class DefaultRemoteWeatherDataSource @Inject constructor(
                 excludedInfo = excludedData,
                 units = units,
                 language = getLanguageValue(language),
-                appid = BuildConfig.OPEN_WEATHER_API_KEY
+                appid = BuildConfig.OPEN_WEATHER_API_KEY,
             )
 
             if (response.isSuccessful && response.body() != null) {

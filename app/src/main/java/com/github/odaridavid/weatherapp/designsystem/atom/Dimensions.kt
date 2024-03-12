@@ -12,10 +12,10 @@ object Dimensions {
     val extraLarge = 32.dp
 }
 
-object Weight{
-  val none = 0f
-  val half = 0.5f
-  val full = 1f
+object Weight {
+    const val NONE = 0f
+    const val HALF = 0.5f
+    const val FULL = 1f
 }
 
 val LocalDimens = staticCompositionLocalOf { Dimensions }

@@ -1,11 +1,12 @@
 package com.github.odaridavid.weatherapp.designsystem.atom
 
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Shapes
+import androidx.compose.material3.Shapes
 import androidx.compose.ui.unit.dp
 
 val shapes = Shapes(
-    small = RoundedCornerShape(percent = 50),
+    extraSmall = RoundedCornerShape(4.dp),
+    small = RoundedCornerShape(8.dp),
     medium = RoundedCornerShape(size = 0f),
     large = RoundedCornerShape(
         topStart = 16.dp,

@@ -7,6 +7,7 @@ import androidx.datastore.preferences.core.stringPreferencesKey
 import com.github.odaridavid.weatherapp.BuildConfig
 import com.github.odaridavid.weatherapp.core.api.SettingsRepository
 import com.github.odaridavid.weatherapp.core.model.DefaultLocation
+import com.github.odaridavid.weatherapp.core.model.ExcludedData
 import com.github.odaridavid.weatherapp.core.model.SupportedLanguage
 import com.github.odaridavid.weatherapp.core.model.TimeFormat
 import com.github.odaridavid.weatherapp.core.model.Units
@@ -24,6 +25,7 @@ class DefaultSettingsRepository @Inject constructor(
     private val PREF_UNITS by lazy { stringPreferencesKey(KEY_UNITS) }
     private val TIME_FORMAT by lazy { stringPreferencesKey(KEY_TIME_FORMAT) }
     private val PREF_LAT_LNG by lazy { stringPreferencesKey(KEY_LAT_LNG) }
+    private val PREF_EXCLUDED_DATA by lazy { stringPreferencesKey(KEY_EXCLUDED_DATA) }
 
     override suspend fun setLanguage(language: String) {
         set(key = PREF_LANGUAGE, value = language)
@@ -64,13 +66,22 @@ class DefaultSettingsRepository @Inject constructor(
     override suspend fun getFormat(): Flow<String> =
         get(key = TIME_FORMAT, default = TimeFormat.TWENTY_FOUR_HOUR.value)
 
-
     override suspend fun setFormat(format: String) {
         set(key = TIME_FORMAT, value = format)
     }
 
     override fun getFormats(): List<String> {
-       return TimeFormat.values().map { it.value }
+        return TimeFormat.entries.map { it.value }
+    }
+
+    override suspend fun getExcludedData(): Flow<String> = get(
+        key = PREF_EXCLUDED_DATA,
+        default = "${ExcludedData.MINUTELY.value},${ExcludedData.ALERTS.value}"
+    )
+
+    override suspend fun setExcludedData(excludedData: List<ExcludedData>) {
+        val formattedData = excludedData.joinToString(separator = ",") { it.value }
+        set(key = PREF_EXCLUDED_DATA, value = formattedData)
     }
 
     private suspend fun <T> set(key: Preferences.Key<T>, value: T) {
@@ -86,7 +97,7 @@ class DefaultSettingsRepository @Inject constructor(
     }
 
     companion object {
-        //Düsseldorf
+        // Düsseldorf
         const val DEFAULT_LONGITUDE = 6.773456
         const val DEFAULT_LATITUDE = 51.227741
 
@@ -94,5 +105,6 @@ class DefaultSettingsRepository @Inject constructor(
         const val KEY_UNITS = "units"
         const val KEY_LAT_LNG = "lat_lng"
         const val KEY_TIME_FORMAT = "time_formats"
+        const val KEY_EXCLUDED_DATA = "excluded_data"
     }
 }
