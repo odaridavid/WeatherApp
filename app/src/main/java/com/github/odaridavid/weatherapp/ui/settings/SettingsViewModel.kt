@@ -95,7 +95,7 @@ class SettingsViewModel @Inject constructor(
     }
 
     private fun mapExcludedDataToDisplayValue(excludedData: List<ExcludedData>): String {
-        return excludedData.joinToString { it.name }
+        return excludedData.joinToString(separator = ",") { it.value.trim() }
     }
 
     private fun mapStringToExcludedData(excludedData: String): List<ExcludedData> {

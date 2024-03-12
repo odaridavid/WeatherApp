@@ -99,6 +99,21 @@ class SettingsViewModelIntegrationTest {
         }
     }
 
+    @Test
+    fun `when we change excluded data, then the excluded data is updated `() = runBlocking {
+        val settingsViewModel = createSettingsScreenViewModel()
+
+        settingsViewModel.processIntent(SettingsScreenIntent.ChangeExcludedData(selectedExcludedData = listOf(ExcludedData.CURRENT, ExcludedData.DAILY)))
+
+        settingsViewModel.state.test {
+            awaitItem().also { state ->
+                assert(state.error == null)
+                assert(state.selectedExcludedData == listOf(ExcludedData.CURRENT, ExcludedData.DAILY))
+                assert(state.selectedExcludedDataDisplayValue == "current,daily")
+            }
+        }
+    }
+
     private fun createSettingsScreenViewModel(): SettingsViewModel = SettingsViewModel(
         settingsRepository = settingsRepository,
         logger = logger,
