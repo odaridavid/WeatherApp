@@ -23,8 +23,6 @@ jobs:
         run: |
           git checkout -b update-dependency
           ./gradlew versionCatalogUpdate
-          git config --global user.email "davidkibzodari@gmail.com"
-          git config --global user.name "odaridavid"
           git add .
           git commit -m "Update version catalog"
           git push origin update-dependency
@@ -37,3 +35,4 @@ jobs:
           base: develop
           title: "Update Version Catalog"
           body: "Automated version update using GitHub Actions."
+          commit-message: "Update version catalog"
