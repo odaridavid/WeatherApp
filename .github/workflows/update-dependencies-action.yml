@@ -1,7 +1,7 @@
 name: Update Dependencies
 on:
   schedule:
-    - cron: '*/40 * * * *'
+    - cron: '10 0 * * 3'
 jobs:
   version-update:
     runs-on: macos-latest
@@ -21,10 +21,10 @@ jobs:
 
       - name: Version Update
         run: |
+          git checkout -b update-dependency
           ./gradlew versionCatalogUpdate
           git config --global user.email "davidkibzodari@gmail.com"
           git config --global user.name "odaridavid"
-          git checkout -b update-dependency
           git add .
           git commit -m "Update version catalog"
           git push origin update-dependency
@@ -32,6 +32,7 @@ jobs:
       - name: Open Pull Request
         uses: peter-evans/create-pull-request@v6
         with:
+          token: ${{ secrets.GITHUB_TOKEN }}
           branch: update-dependency
           base: develop
           title: "Update Version Catalog"
