@@ -187,6 +187,16 @@ default
 traces but can be extended as the app grows to monitor specific parts of the app that might be slow.
 LeakCanary is also used to monitor for any memory leaks that might occur in debug mode.
 
+*Build Times*
+
+The current CI build time , factoring in the project size, the number of tests etc.
+
+| Task                                    | Avg Time |
+|-----------------------------------------|----------|
+| Build -  Bitrise                        | 4m 30s   |
+| Code Analysis    - Github Actions       | 6m 30s   |
+| Update Dependencies    - Github Actions | 8m 30s   |
+
 # Technologies 🔨
 
 **Language :** [Kotlin](https://github.com/JetBrains/kotlin)
