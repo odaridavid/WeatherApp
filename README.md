@@ -256,9 +256,8 @@ LeakCanary is also used to monitor for any memory leaks that might occur in debu
 |    <img src="/docs/screenshots/(Light)Settings.png" width="250px">     |    <img src="/docs/screenshots/(Dark)Settings.png" width="250px">     |
 | <img src="/docs/screenshots/(Light)Settings-Option.png" width="250px"> | <img src="/docs/screenshots/(Dark)Settings-Option.png" width="250px"> |
 |      <img src="/docs/screenshots/(Light)About.png" width="250px">      |      <img src="/docs/screenshots/(Dark)About.png" width="250px">      |
-|      <img src="/docs/screenshots/(Light)About.png" width="250px">      |      <img src="/docs/screenshots/(Dark)About.png" width="250px">      |
 |      <img src="/docs/screenshots/(Light)Error.png" width="250px">      |      <img src="/docs/screenshots/(Dark)Error.png" width="250px">      |
-|    <img src="/docs/screenshots/(Light)Excluded.png" width="250px">     |                                   -                                   |
+|        <img src="/docs/screenshots/Excluded.png" width="250px">        |                                   -                                   |
 
 ![](https://media.giphy.com/media/hWvk9iUU4uBBeyBq0k/giphy.gif)
 
