@@ -1,7 +1,7 @@
 name: Update Dependencies
 on:
   schedule:
-    - cron: '*/30 * * * *'
+    - cron: '*/6 * * * *'
 jobs:
   version-update:
     runs-on: macos-latest
@@ -32,7 +32,6 @@ jobs:
       - name: Open Pull Request
         uses: peter-evans/create-pull-request@v6
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
           branch: update-dependency
           base: develop
           title: "Update Version Catalog"
