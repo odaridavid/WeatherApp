@@ -1,7 +1,7 @@
 name: Update Dependencies
 on:
   schedule:
-    - cron: '30 14 * * 1'
+    - cron: '*/10 * * * *'
 jobs:
   version-update:
     runs-on: macos-latest
