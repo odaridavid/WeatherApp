@@ -6,6 +6,7 @@ import com.github.odaridavid.weatherapp.core.api.Logger
 import com.github.odaridavid.weatherapp.core.api.SettingsRepository
 import com.github.odaridavid.weatherapp.core.api.WeatherRepository
 import com.github.odaridavid.weatherapp.core.model.DefaultLocation
+import com.github.odaridavid.weatherapp.core.model.ExcludedData
 import com.github.odaridavid.weatherapp.core.model.Weather
 import com.github.odaridavid.weatherapp.data.weather.remote.RemoteWeatherDataSource
 import com.github.odaridavid.weatherapp.data.weather.remote.mapThrowableToErrorType
@@ -26,7 +27,10 @@ class DefaultWeatherRepository @Inject constructor(
         try {
             val format = settingsRepository.getFormat().first()
 
-            val excludedData = settingsRepository.getExcludedData().first()
+            val excludedData = settingsRepository
+                .getExcludedData()
+                .first()
+                .replace(ExcludedData.NONE.value, "")
 
             remoteWeatherDataSource.fetchWeatherData(
                 defaultLocation = defaultLocation,
