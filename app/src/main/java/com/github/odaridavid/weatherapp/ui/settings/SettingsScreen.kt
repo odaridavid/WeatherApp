@@ -13,7 +13,7 @@ import androidx.compose.ui.res.stringResource
 import com.github.odaridavid.weatherapp.R
 import com.github.odaridavid.weatherapp.core.model.ExcludedData
 import com.github.odaridavid.weatherapp.designsystem.WeatherAppTheme
-import com.github.odaridavid.weatherapp.designsystem.organism.BottomSheet
+import com.github.odaridavid.weatherapp.designsystem.organism.MultiSelectBottomSheet
 import com.github.odaridavid.weatherapp.designsystem.organism.SettingOptionRadioButton
 import com.github.odaridavid.weatherapp.designsystem.organism.SettingOptionRow
 import com.github.odaridavid.weatherapp.designsystem.organism.SettingOptionsDialog
@@ -67,14 +67,14 @@ fun SettingsScreen(
             openTimeFormatSelectionDialog.value = openTimeFormatSelectionDialog.value.not()
         }
 
-        var showBottomSheet by remember { mutableStateOf(false) }
+        var showExcludedDataSheet by remember { mutableStateOf(false) }
         SettingOptionRow(
             optionLabel = stringResource(id = R.string.settings_exclude_label),
             optionIcon = R.drawable.ic_exclude_24,
             optionValue = state.selectedExcludedDataDisplayValue,
             optionIconContentDescription = stringResource(R.string.settings_content_description_exclude_icon),
         ) {
-            showBottomSheet = showBottomSheet.not()
+            showExcludedDataSheet = showExcludedDataSheet.not()
         }
 
         SettingOptionRow(
@@ -142,17 +142,17 @@ fun SettingsScreen(
             }
         }
 
-        if (showBottomSheet) {
-            BottomSheet(
+        if (showExcludedDataSheet) {
+            MultiSelectBottomSheet(
                 title = stringResource(id = R.string.settings_exclude_label),
-                selectedExcludedData = state.selectedExcludedData,
-                items = state.excludedData,
+                selectedItems = state.selectedExcludedData.map { it.toBottomSheetModel(isSelected = true) },
+                items = state.excludedData.map { it.toBottomSheetModel(isSelected = false) },
                 onDismiss = {
-                    showBottomSheet = showBottomSheet.not()
+                    showExcludedDataSheet = showExcludedDataSheet.not()
                 },
                 onSaveOption = { excludedData ->
-                    onExcludedDataChanged(excludedData)
-                    showBottomSheet = showBottomSheet.not()
+                    onExcludedDataChanged(excludedData.map { it.toExcludedData() })
+                    showExcludedDataSheet = showExcludedDataSheet.not()
                 }
             )
         }
