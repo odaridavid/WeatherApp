@@ -107,7 +107,8 @@ class SettingsViewModelIntegrationTest {
             SettingsScreenIntent.ChangeExcludedData(
                 selectedExcludedData = listOf(
                     ExcludedData.CURRENT,
-                    ExcludedData.DAILY
+                    ExcludedData.DAILY,
+                    ExcludedData.NONE
                 )
             )
         )
@@ -118,10 +119,11 @@ class SettingsViewModelIntegrationTest {
                 assert(
                     state.selectedExcludedData == listOf(
                         ExcludedData.CURRENT,
-                        ExcludedData.DAILY
+                        ExcludedData.DAILY,
+                        ExcludedData.NONE
                     )
                 )
-                assert(state.selectedExcludedDataDisplayValue == "current,daily")
+                assert(state.selectedExcludedDataDisplayValue == "current,daily,none")
             }
         }
     }
