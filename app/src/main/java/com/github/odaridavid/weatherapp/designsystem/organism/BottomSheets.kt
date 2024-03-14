@@ -7,6 +7,8 @@ import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ModalBottomSheet
@@ -30,17 +32,16 @@ import com.github.odaridavid.weatherapp.designsystem.molecule.SmallHeadline
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
-// todo revisit window insets for bottom of sheet cutting off button
 // todo reuse some logic for single select and multi select
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-inline fun MultiSelectBottomSheet(
+fun MultiSelectBottomSheet(
     title: String,
     items: List<BottomSheetItem>,
     selectedItems: List<BottomSheetItem>,
     sheetState: SheetState,
-    crossinline onSaveOption: (List<BottomSheetItem>) -> Unit,
-    noinline onDismiss: (() -> Unit)? = null,
+    onSaveState: (List<BottomSheetItem>) -> Unit,
+    onDismiss: (() -> Unit)? = null,
 ) {
     val scope = rememberCoroutineScope()
     ModalBottomSheet(
@@ -56,7 +57,8 @@ inline fun MultiSelectBottomSheet(
         windowInsets = WindowInsets.navigationBars,
     ) {
         Column(
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier
+                .fillMaxWidth()
         ) {
             SmallHeadline(
                 text = title,
@@ -65,56 +67,56 @@ inline fun MultiSelectBottomSheet(
                     horizontal = WeatherAppTheme.dimens.medium
                 )
             )
-
             val selectedItemsState =
                 remember { mutableStateListOf(*selectedItems.toTypedArray()) }
 
-            items.forEach { item ->
-                Row {
-                    Checkbox(
-                        checked = selectedItemsState.count { it.id == item.id } > 0,
-                        onCheckedChange = { isSelected ->
-                            if (isSelected) {
-                                if (item.id == NONE_ID) selectedItemsState.clear()
-                                // TODO use removeIf once min sdk is 24
-                                else selectedItemsState.removeAll { it.id == NONE_ID }
+            LazyColumn() {
+                items(items) { item ->
+                    Row {
+                        Checkbox(
+                            checked = selectedItemsState.count { it.id == item.id } > 0,
+                            onCheckedChange = { isSelected ->
+                                if (isSelected) {
+                                    if (item.id == NONE_ID) selectedItemsState.clear()
+                                    // TODO use removeIf once min sdk is 24
+                                    else selectedItemsState.removeAll { it.id == NONE_ID }
 
-                                selectedItemsState.add(item.copy(isSelected = true))
-                            } else {
-                                selectedItemsState.removeAll { it.id == item.id }
+                                    selectedItemsState.add(item.copy(isSelected = true))
+                                } else {
+                                    selectedItemsState.removeAll { it.id == item.id }
+                                }
                             }
-                        }
-                    )
-                    MediumBody(
-                        text = item.name,
-                        modifier = Modifier.padding(
-                            horizontal = WeatherAppTheme.dimens.small,
-                            vertical = WeatherAppTheme.dimens.medium
                         )
-                    )
+                        MediumBody(
+                            text = item.name,
+                            modifier = Modifier.padding(
+                                horizontal = WeatherAppTheme.dimens.small,
+                                vertical = WeatherAppTheme.dimens.medium
+                            )
+                        )
+                    }
                 }
             }
-
             MultiSelectSaveButtonSection(
-                onSaveOption,
-                selectedItemsState,
                 sheetState = sheetState,
                 coroutineScope = scope,
+                onSaveState = onSaveState,
+                selectedItemsState = selectedItemsState,
             )
         }
     }
 }
 
-// TODO Fix for long list like languages
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-inline fun SingleSelectBottomSheet(
+fun SingleSelectBottomSheet(
     title: String,
     items: List<BottomSheetItem>,
     selectedItem: BottomSheetItem,
     sheetState: SheetState,
-    crossinline onSaveOption: (BottomSheetItem) -> Unit,
-    noinline onDismiss: (() -> Unit)? = null,
+    onSaveState: (BottomSheetItem) -> Unit,
+    onDismiss: (() -> Unit)? = null,
 ) {
     val scope = rememberCoroutineScope()
     ModalBottomSheet(
@@ -141,30 +143,30 @@ inline fun SingleSelectBottomSheet(
             )
 
             val selectedItemsState = remember { mutableStateOf(selectedItem) }
-
-            items.forEach { item ->
-                Row {
-                    RadioButton(
-                        selected = selectedItemsState.value.id == item.id,
-                        onClick = {
-                            selectedItemsState.value = item.copy(isSelected = true)
-                        }
-                    )
-                    MediumBody(
-                        text = item.name,
-                        modifier = Modifier.padding(
-                            horizontal = WeatherAppTheme.dimens.small,
-                            vertical = WeatherAppTheme.dimens.medium
+            LazyColumn(Modifier.weight(1f, false)) {
+                items(items) { item ->
+                    Row {
+                        RadioButton(
+                            selected = selectedItemsState.value.id == item.id,
+                            onClick = {
+                                selectedItemsState.value = item.copy(isSelected = true)
+                            }
                         )
-                    )
+                        MediumBody(
+                            text = item.name,
+                            modifier = Modifier.padding(
+                                horizontal = WeatherAppTheme.dimens.small,
+                                vertical = WeatherAppTheme.dimens.medium
+                            )
+                        )
+                    }
                 }
             }
-
             SingleSelectSaveButtonSection(
-                onSaveOption,
-                selectedItemsState,
                 sheetState = sheetState,
                 coroutineScope = scope,
+                onSaveState = onSaveState,
+                selectedItemState = selectedItemsState,
             )
         }
     }
@@ -172,39 +174,42 @@ inline fun SingleSelectBottomSheet(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-inline fun SingleSelectSaveButtonSection(
-    crossinline onSaveOption: (BottomSheetItem) -> Unit,
-    selectedItemsState: MutableState<BottomSheetItem>,
+fun SingleSelectSaveButtonSection(
     sheetState: SheetState,
     coroutineScope: CoroutineScope,
+    onSaveState: (BottomSheetItem) -> Unit,
+    selectedItemState: MutableState<BottomSheetItem>,
 ) {
-    Box(
-        contentAlignment = Alignment.BottomEnd,
-        modifier = Modifier
-            .fillMaxWidth()
+    SaveButton(
+        sheetState = sheetState,
+        coroutineScope = coroutineScope,
     ) {
-        PositiveButton(
-            text = stringResource(id = R.string.settings_save),
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(WeatherAppTheme.dimens.medium)
-
-        ) {
-            coroutineScope.launch {
-                sheetState.hide()
-            }
-            onSaveOption(selectedItemsState.value)
-        }
+        onSaveState(selectedItemState.value)
     }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-inline fun MultiSelectSaveButtonSection(
-    crossinline onSaveOption: (List<BottomSheetItem>) -> Unit,
-    selectedItemsState: SnapshotStateList<BottomSheetItem>,
+fun MultiSelectSaveButtonSection(
     sheetState: SheetState,
-    coroutineScope: CoroutineScope
+    coroutineScope: CoroutineScope,
+    onSaveState: (List<BottomSheetItem>) -> Unit,
+    selectedItemsState: SnapshotStateList<BottomSheetItem>,
+) {
+    SaveButton(
+        sheetState = sheetState,
+        coroutineScope = coroutineScope,
+    ) {
+        onSaveState(selectedItemsState)
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun SaveButton(
+    sheetState: SheetState,
+    coroutineScope: CoroutineScope,
+    onSaveState: () -> Unit,
 ) {
     Box(
         contentAlignment = Alignment.BottomEnd,
@@ -221,7 +226,7 @@ inline fun MultiSelectSaveButtonSection(
             coroutineScope.launch {
                 sheetState.hide()
             }
-            onSaveOption(selectedItemsState)
+            onSaveState()
         }
     }
 }

@@ -41,7 +41,9 @@ fun SettingsScreen(
         )
 
         val scope = rememberCoroutineScope()
-        val languageSheetState = rememberModalBottomSheetState()
+        val languageSheetState = rememberModalBottomSheetState(
+            skipPartiallyExpanded = true
+        )
         SettingOptionRow(
             optionLabel = stringResource(R.string.settings_language_label),
             optionValue = state.selectedLanguage.languageName,
@@ -65,7 +67,6 @@ fun SettingsScreen(
             }
         }
 
-
         val timeFormatSheetState = rememberModalBottomSheetState()
         SettingOptionRow(
             optionLabel = stringResource(R.string.settings_time_format),
@@ -78,7 +79,9 @@ fun SettingsScreen(
             }
         }
 
-        val excludeSheetState = rememberModalBottomSheetState()
+        val excludeSheetState = rememberModalBottomSheetState(
+            skipPartiallyExpanded = true
+        )
         SettingOptionRow(
             optionLabel = stringResource(id = R.string.settings_exclude_label),
             optionIcon = R.drawable.ic_exclude_24,
@@ -139,7 +142,7 @@ private fun SetupBottomSheets(
             sheetState = languageSheetState,
             selectedItem = state.selectedLanguage.toBottomSheetModel(isSelected = true),
             items = state.availableLanguages.map { it.toBottomSheetModel(isSelected = false) },
-            onSaveOption = { bottomSheet ->
+            onSaveState = { bottomSheet ->
                 onLanguageChanged(bottomSheet.toSupportedLanguage())
             }
         )
@@ -151,7 +154,7 @@ private fun SetupBottomSheets(
             sheetState = unitsSheetState,
             selectedItem = state.selectedUnit.toBottomSheetModel(isSelected = true),
             items = state.availableUnits.map { it.toBottomSheetModel(isSelected = false) },
-            onSaveOption = { bottomSheet ->
+            onSaveState = { bottomSheet ->
                 onUnitChanged(bottomSheet.toUnits())
             }
         )
@@ -162,7 +165,7 @@ private fun SetupBottomSheets(
             sheetState = timeFormatSheetState,
             selectedItem = state.selectedTimeFormat.toBottomSheetModel(isSelected = true),
             items = state.availableFormats.map { it.toBottomSheetModel(isSelected = false) },
-            onSaveOption = { bottomSheet ->
+            onSaveState = { bottomSheet ->
                 onTimeFormatChanged(bottomSheet.toTimeFormat())
             }
         )
@@ -173,7 +176,7 @@ private fun SetupBottomSheets(
             sheetState = excludeSheetState,
             selectedItems = state.selectedExcludedData.map { it.toBottomSheetModel(isSelected = true) },
             items = state.excludedData.map { it.toBottomSheetModel(isSelected = false) },
-            onSaveOption = { bottomSheet ->
+            onSaveState = { bottomSheet ->
                 onExcludedDataChanged(bottomSheet.map { it.toExcludedData() })
             }
         )
