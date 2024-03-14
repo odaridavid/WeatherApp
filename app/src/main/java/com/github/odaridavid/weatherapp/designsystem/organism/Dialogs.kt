@@ -20,7 +20,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.constraintlayout.compose.ConstraintLayout
@@ -155,18 +154,3 @@ fun UpdateDialog(
     }
 }
 
-@Preview
-@Composable
-fun SettingOptionsDialogPreview() {
-    SettingOptionsDialog(
-        items = listOf("Celsius", "Fahrenheit"),
-        onDismiss = {},
-        onConfirm = {},
-    ) { unit ->
-        SettingOptionRadioButton(
-            text = unit,
-            selectedOption = "Celsius",
-            onOptionSelected = {}
-        )
-    }
-}

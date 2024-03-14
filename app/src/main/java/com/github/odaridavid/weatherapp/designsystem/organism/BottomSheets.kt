@@ -31,6 +31,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
 // todo revisit window insets for bottom of sheet cutting off button
+// todo reuse some logic for single select and multi select
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 inline fun MultiSelectBottomSheet(
@@ -201,7 +202,7 @@ inline fun SingleSelectSaveButtonSection(
 @Composable
 inline fun MultiSelectSaveButtonSection(
     crossinline onSaveOption: (List<BottomSheetItem>) -> Unit,
-    selectedItems: SnapshotStateList<BottomSheetItem>,
+    selectedItemsState: SnapshotStateList<BottomSheetItem>,
     sheetState: SheetState,
     coroutineScope: CoroutineScope
 ) {
@@ -220,7 +221,7 @@ inline fun MultiSelectSaveButtonSection(
             coroutineScope.launch {
                 sheetState.hide()
             }
-            onSaveOption(selectedItems)
+            onSaveOption(selectedItemsState)
         }
     }
 }
