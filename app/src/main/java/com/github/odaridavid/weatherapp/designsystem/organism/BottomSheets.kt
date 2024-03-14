@@ -187,7 +187,6 @@ inline fun MultiSelectSaveButtonSection(
     }
 }
 
-
 data class BottomSheetItem(
     val name: String,
     val id: Int,
