@@ -16,53 +16,46 @@ import kotlinx.coroutines.flow.flow
 
 class FakeSettingsRepository : SettingsRepository {
 
-    private val settingsMap = mutableMapOf<String, String>()
-    override suspend fun setLanguage(language: String) {
+    private val settingsMap = mutableMapOf<String, Any>()
+    override suspend fun setLanguage(language: SupportedLanguage) {
         settingsMap[KEY_LANGUAGE] = language
     }
 
-    override suspend fun getLanguage(): Flow<String> = flow {
-        emit(settingsMap[KEY_LANGUAGE] ?: SupportedLanguage.ENGLISH.languageName)
+    override suspend fun getLanguage(): Flow<SupportedLanguage> = flow {
+        emit(settingsMap[KEY_LANGUAGE] as? SupportedLanguage ?: SupportedLanguage.ENGLISH)
     }
 
-    override suspend fun setUnits(units: String) {
+    override suspend fun setUnits(units: Units) {
         settingsMap[KEY_UNITS] = units
     }
 
-    override suspend fun getUnits(): Flow<String> = flow {
-        emit(settingsMap[KEY_UNITS] ?: Units.METRIC.value)
+    override suspend fun getUnits(): Flow<Units> = flow {
+        emit(settingsMap[KEY_UNITS] as? Units ?: Units.METRIC)
     }
 
     override fun getAppVersion(): String = "1.0.0"
-
-    override fun getAvailableLanguages(): List<String> =
-        SupportedLanguage.entries.map { it.languageName }
 
     override suspend fun setDefaultLocation(defaultLocation: DefaultLocation) {
         settingsMap[KEY_LAT_LNG] = "${defaultLocation.latitude}/${defaultLocation.longitude}"
     }
 
     override suspend fun getDefaultLocation(): Flow<DefaultLocation> = flow {
-        val latLng = settingsMap[KEY_LAT_LNG] ?: "0.0/0.0"
+        val latLng = settingsMap[KEY_LAT_LNG] as? String ?: "0.0/0.0"
         val latLngList = latLng.split("/")
         DefaultLocation(latitude = latLngList[0].toDouble(), longitude = latLngList[1].toDouble())
     }
 
-    override suspend fun getFormat(): Flow<String> = flow {
-        emit(settingsMap[KEY_TIME_FORMAT] ?: TimeFormat.TWENTY_FOUR_HOUR.name)
+    override suspend fun getFormat(): Flow<TimeFormat> = flow {
+        emit(settingsMap[KEY_TIME_FORMAT] as? TimeFormat ?: TimeFormat.TWENTY_FOUR_HOUR)
     }
 
-    override suspend fun setFormat(format: String) {
+    override suspend fun setFormat(format: TimeFormat) {
         settingsMap[KEY_TIME_FORMAT] = format
-    }
-
-    override fun getFormats(): List<String> {
-        return TimeFormat.entries.map { it.value }
     }
 
     override suspend fun getExcludedData(): Flow<String> = flow {
         emit(
-            settingsMap[KEY_EXCLUDED_DATA]
+            settingsMap[KEY_EXCLUDED_DATA] as? String
                 ?: "${ExcludedData.MINUTELY.value},${ExcludedData.ALERTS.value}"
         )
     }
@@ -71,6 +64,4 @@ class FakeSettingsRepository : SettingsRepository {
         val formattedData = excludedData.joinToString(separator = ",") { it.value }
         settingsMap[KEY_EXCLUDED_DATA] = formattedData
     }
-
-    override fun getAvailableUnits(): List<String> = Units.entries.map { it.value }
 }
