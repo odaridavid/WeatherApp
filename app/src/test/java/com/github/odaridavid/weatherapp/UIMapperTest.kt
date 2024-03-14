@@ -6,6 +6,10 @@ import com.github.odaridavid.weatherapp.core.model.TimeFormat
 import com.github.odaridavid.weatherapp.core.model.Units
 import com.github.odaridavid.weatherapp.designsystem.organism.BottomSheetItem
 import com.github.odaridavid.weatherapp.ui.settings.toBottomSheetModel
+import com.github.odaridavid.weatherapp.ui.settings.toExcludedData
+import com.github.odaridavid.weatherapp.ui.settings.toSupportedLanguage
+import com.github.odaridavid.weatherapp.ui.settings.toTimeFormat
+import com.github.odaridavid.weatherapp.ui.settings.toUnits
 import org.junit.Test
 
 class UIMapperTest {
@@ -130,6 +134,70 @@ class UIMapperTest {
 
         assert(actual == expectedItems) {
             "Expected: $expectedItems \n Actual: $actual"
+        }
+    }
+
+    @Test
+    fun `when we map bottom sheet item to supported language, then we get the expected language`() {
+        val expectedLanguage = SupportedLanguage.AFRIKAANS
+        val bottomSheetItem = BottomSheetItem(
+            id = 0,
+            name = "Afrikaans",
+            isSelected = false
+        )
+
+        val actual = bottomSheetItem.toSupportedLanguage()
+
+        assert(actual == expectedLanguage) {
+            "Expected: $expectedLanguage \n Actual: $actual"
+        }
+    }
+
+    @Test
+    fun `when we map bottom sheet item to units, then we get the expected units`() {
+        val expectedUnits = Units.METRIC
+        val bottomSheetItem = BottomSheetItem(
+            id = 1,
+            name = "metric",
+            isSelected = false
+        )
+
+        val actual = bottomSheetItem.toUnits()
+
+        assert(actual == expectedUnits) {
+            "Expected: $expectedUnits \n Actual: $actual"
+        }
+    }
+
+    @Test
+    fun `when we map bottom sheet item to time format, then we get the expected time format`() {
+        val expectedTimeFormat = TimeFormat.TWENTY_FOUR_HOUR
+        val bottomSheetItem = BottomSheetItem(
+            id = 0,
+            name = "24 hours",
+            isSelected = false
+        )
+
+        val actual = bottomSheetItem.toTimeFormat()
+
+        assert(actual == expectedTimeFormat) {
+            "Expected: $expectedTimeFormat \n Actual: $actual"
+        }
+    }
+
+    @Test
+    fun `when we map bottom sheet item to excluded data, then we get the expected excluded data`() {
+        val expectedExcludedData = ExcludedData.CURRENT
+        val bottomSheetItem = BottomSheetItem(
+            id = 0,
+            name = "CURRENT",
+            isSelected = false
+        )
+
+        val actual = bottomSheetItem.toExcludedData()
+
+        assert(actual == expectedExcludedData) {
+            "Expected: $expectedExcludedData \n Actual: $actual"
         }
     }
 }
