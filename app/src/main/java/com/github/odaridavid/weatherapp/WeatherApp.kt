@@ -6,3 +6,4 @@ import dagger.hilt.android.HiltAndroidApp
 @HiltAndroidApp
 class WeatherApp : Application()
 // TODO Add global error handling
+// TODO Timber logging.

@@ -5,6 +5,9 @@ import androidx.lifecycle.viewModelScope
 import com.github.odaridavid.weatherapp.core.api.Logger
 import com.github.odaridavid.weatherapp.core.api.SettingsRepository
 import com.github.odaridavid.weatherapp.core.model.ExcludedData
+import com.github.odaridavid.weatherapp.core.model.SupportedLanguage
+import com.github.odaridavid.weatherapp.core.model.TimeFormat
+import com.github.odaridavid.weatherapp.core.model.Units
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -39,9 +42,9 @@ class SettingsViewModel @Inject constructor(
                             selectedExcludedData = mapStringToExcludedData(excludedData),
                             selectedExcludedDataDisplayValue = excludedData,
                             versionInfo = settingsRepository.getAppVersion(),
-                            availableLanguages = settingsRepository.getAvailableLanguages(),
-                            availableUnits = settingsRepository.getAvailableUnits(),
-                            availableFormats = settingsRepository.getFormats(),
+                            availableLanguages = SupportedLanguage.entries,
+                            availableUnits = Units.entries,
+                            availableFormats = TimeFormat.entries,
                             excludedData = ExcludedData.entries,
                         )
                     }.collect { state ->
@@ -94,9 +97,8 @@ class SettingsViewModel @Inject constructor(
         }
     }
 
-    private fun mapExcludedDataToDisplayValue(excludedData: List<ExcludedData>): String {
-        return excludedData.joinToString(separator = ",") { it.value.trim() }
-    }
+    private fun mapExcludedDataToDisplayValue(excludedData: List<ExcludedData>): String =
+        excludedData.joinToString(separator = ",") { it.value.trim() }
 
     private fun mapStringToExcludedData(excludedData: String): List<ExcludedData> {
         return excludedData.split(",").map {
@@ -106,6 +108,7 @@ class SettingsViewModel @Inject constructor(
                 ExcludedData.DAILY.value -> ExcludedData.DAILY
                 ExcludedData.MINUTELY.value -> ExcludedData.MINUTELY
                 ExcludedData.ALERTS.value -> ExcludedData.ALERTS
+                ExcludedData.NONE.value -> ExcludedData.NONE
                 else -> {
                     logger.logException(IllegalArgumentException("Invalid excluded data"))
                     ExcludedData.NONE
@@ -116,14 +119,14 @@ class SettingsViewModel @Inject constructor(
 }
 
 data class SettingsScreenViewState(
-    val selectedUnit: String = "",
-    val selectedLanguage: String = "",
-    val selectedTimeFormat: String = "",
+    val selectedUnit: Units = Units.METRIC,
+    val selectedLanguage: SupportedLanguage = SupportedLanguage.ENGLISH,
+    val selectedTimeFormat: TimeFormat = TimeFormat.TWENTY_FOUR_HOUR,
     val selectedExcludedData: List<ExcludedData> = emptyList(),
     val selectedExcludedDataDisplayValue: String = "",
-    val availableLanguages: List<String> = emptyList(),
-    val availableUnits: List<String> = emptyList(),
-    val availableFormats: List<String> = emptyList(),
+    val availableLanguages: List<SupportedLanguage> = emptyList(),
+    val availableUnits: List<Units> = emptyList(),
+    val availableFormats: List<TimeFormat> = emptyList(),
     val excludedData: List<ExcludedData> = emptyList(),
     val versionInfo: String = "",
     val error: Throwable? = null

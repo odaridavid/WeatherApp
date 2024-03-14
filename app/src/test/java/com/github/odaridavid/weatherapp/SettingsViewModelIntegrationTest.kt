@@ -37,12 +37,12 @@ class SettingsViewModelIntegrationTest {
         settingsViewModel.processIntent(SettingsScreenIntent.LoadSettingScreenData)
 
         val expectedState = SettingsScreenViewState(
-            selectedUnit = Units.METRIC.value,
-            selectedLanguage = SupportedLanguage.ENGLISH.languageName,
-            availableLanguages = SupportedLanguage.entries.map { it.languageName },
-            availableUnits = Units.entries.map { it.value },
-            selectedTimeFormat = TimeFormat.TWENTY_FOUR_HOUR.name,
-            availableFormats = TimeFormat.entries.map { it.value },
+            selectedUnit = Units.METRIC,
+            selectedLanguage = SupportedLanguage.ENGLISH,
+            availableLanguages = SupportedLanguage.entries,
+            availableUnits = Units.entries,
+            selectedTimeFormat = TimeFormat.TWENTY_FOUR_HOUR,
+            availableFormats = TimeFormat.entries,
             versionInfo = "1.0.0",
             selectedExcludedData = listOf(ExcludedData.MINUTELY, ExcludedData.ALERTS),
             excludedData = ExcludedData.entries,
@@ -61,12 +61,12 @@ class SettingsViewModelIntegrationTest {
     fun `when we change units, then the units are updated`() = runBlocking {
         val settingsViewModel = createSettingsScreenViewModel()
 
-        settingsViewModel.processIntent(SettingsScreenIntent.ChangeUnits(selectedUnits = "standard"))
+        settingsViewModel.processIntent(SettingsScreenIntent.ChangeUnits(selectedUnits = Units.STANDARD))
 
         settingsViewModel.state.test {
             awaitItem().also { state ->
                 assert(state.error == null)
-                assert(state.selectedUnit == "standard")
+                assert(state.selectedUnit == Units.STANDARD)
             }
         }
     }
@@ -75,12 +75,12 @@ class SettingsViewModelIntegrationTest {
     fun `when we change language, then the language is updated `() = runBlocking {
         val settingsViewModel = createSettingsScreenViewModel()
 
-        settingsViewModel.processIntent(SettingsScreenIntent.ChangeLanguage(selectedLanguage = "French"))
+        settingsViewModel.processIntent(SettingsScreenIntent.ChangeLanguage(selectedLanguage = SupportedLanguage.AFRIKAANS))
 
         settingsViewModel.state.test {
             awaitItem().also { state ->
                 assert(state.error == null)
-                assert(state.selectedLanguage == "French")
+                assert(state.selectedLanguage == SupportedLanguage.AFRIKAANS)
             }
         }
     }
@@ -89,12 +89,12 @@ class SettingsViewModelIntegrationTest {
     fun `when we change time format, then the format is updated `() = runBlocking {
         val settingsViewModel = createSettingsScreenViewModel()
 
-        settingsViewModel.processIntent(SettingsScreenIntent.ChangeTimeFormat(selectedTimeFormat = TimeFormat.TWENTY_FOUR_HOUR.name))
+        settingsViewModel.processIntent(SettingsScreenIntent.ChangeTimeFormat(selectedTimeFormat = TimeFormat.TWENTY_FOUR_HOUR))
 
         settingsViewModel.state.test {
             awaitItem().also { state ->
                 assert(state.error == null)
-                assert(state.selectedTimeFormat == TimeFormat.TWENTY_FOUR_HOUR.name)
+                assert(state.selectedTimeFormat == TimeFormat.TWENTY_FOUR_HOUR)
             }
         }
     }
@@ -103,13 +103,27 @@ class SettingsViewModelIntegrationTest {
     fun `when we change excluded data, then the excluded data is updated `() = runBlocking {
         val settingsViewModel = createSettingsScreenViewModel()
 
-        settingsViewModel.processIntent(SettingsScreenIntent.ChangeExcludedData(selectedExcludedData = listOf(ExcludedData.CURRENT, ExcludedData.DAILY)))
+        settingsViewModel.processIntent(
+            SettingsScreenIntent.ChangeExcludedData(
+                selectedExcludedData = listOf(
+                    ExcludedData.CURRENT,
+                    ExcludedData.DAILY,
+                    ExcludedData.NONE
+                )
+            )
+        )
 
         settingsViewModel.state.test {
             awaitItem().also { state ->
                 assert(state.error == null)
-                assert(state.selectedExcludedData == listOf(ExcludedData.CURRENT, ExcludedData.DAILY))
-                assert(state.selectedExcludedDataDisplayValue == "current,daily")
+                assert(
+                    state.selectedExcludedData == listOf(
+                        ExcludedData.CURRENT,
+                        ExcludedData.DAILY,
+                        ExcludedData.NONE
+                    )
+                )
+                assert(state.selectedExcludedDataDisplayValue == "current,daily,none")
             }
         }
     }

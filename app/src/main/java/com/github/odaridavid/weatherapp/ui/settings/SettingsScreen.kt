@@ -2,32 +2,35 @@ package com.github.odaridavid.weatherapp.ui.settings
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.SheetState
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import com.github.odaridavid.weatherapp.R
 import com.github.odaridavid.weatherapp.core.model.ExcludedData
+import com.github.odaridavid.weatherapp.core.model.SupportedLanguage
+import com.github.odaridavid.weatherapp.core.model.TimeFormat
+import com.github.odaridavid.weatherapp.core.model.Units
 import com.github.odaridavid.weatherapp.designsystem.WeatherAppTheme
-import com.github.odaridavid.weatherapp.designsystem.organism.BottomSheet
-import com.github.odaridavid.weatherapp.designsystem.organism.SettingOptionRadioButton
+import com.github.odaridavid.weatherapp.designsystem.organism.MultiSelectBottomSheet
 import com.github.odaridavid.weatherapp.designsystem.organism.SettingOptionRow
-import com.github.odaridavid.weatherapp.designsystem.organism.SettingOptionsDialog
+import com.github.odaridavid.weatherapp.designsystem.organism.SingleSelectBottomSheet
 import com.github.odaridavid.weatherapp.designsystem.organism.TopNavigationBar
 import com.github.odaridavid.weatherapp.designsystem.organism.VersionInfoText
+import kotlinx.coroutines.launch
 
-// todo replace the ugly looking dialogs with better looking bottom sheets.
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SettingsScreen(
     state: SettingsScreenViewState,
     onBackButtonClicked: () -> Unit,
-    onLanguageChanged: (String) -> Unit,
-    onUnitChanged: (String) -> Unit,
-    onTimeFormatChanged: (String) -> Unit,
+    onLanguageChanged: (SupportedLanguage) -> Unit,
+    onUnitChanged: (Units) -> Unit,
+    onTimeFormatChanged: (TimeFormat) -> Unit,
     onAboutClicked: () -> Unit,
     onExcludedDataChanged: (List<ExcludedData>) -> Unit,
 ) {
@@ -37,44 +40,57 @@ fun SettingsScreen(
             title = stringResource(R.string.settings_screen_title),
         )
 
-        val openLanguageSelectionDialog = remember { mutableStateOf(false) }
+        val scope = rememberCoroutineScope()
+        val languageSheetState = rememberModalBottomSheetState(
+            skipPartiallyExpanded = true
+        )
         SettingOptionRow(
             optionLabel = stringResource(R.string.settings_language_label),
-            optionValue = state.selectedLanguage,
+            optionValue = state.selectedLanguage.languageName,
             optionIcon = R.drawable.ic_language,
             optionIconContentDescription = stringResource(R.string.settings_content_description_lang_icon)
         ) {
-            openLanguageSelectionDialog.value = openLanguageSelectionDialog.value.not()
+            scope.launch {
+                languageSheetState.show()
+            }
         }
 
-        val openUnitSelectionDialog = remember { mutableStateOf(false) }
+        val unitsSheetState = rememberModalBottomSheetState()
         SettingOptionRow(
             optionLabel = stringResource(R.string.settings_unit_label),
-            optionValue = state.selectedUnit,
+            optionValue = state.selectedUnit.value,
             optionIcon = R.drawable.ic_units,
             optionIconContentDescription = stringResource(R.string.settings_content_description_unit_icon)
         ) {
-            openUnitSelectionDialog.value = openUnitSelectionDialog.value.not()
+            scope.launch {
+                unitsSheetState.show()
+            }
         }
 
-        val openTimeFormatSelectionDialog = remember { mutableStateOf(false) }
+        val timeFormatSheetState = rememberModalBottomSheetState()
         SettingOptionRow(
             optionLabel = stringResource(R.string.settings_time_format),
-            optionValue = state.selectedTimeFormat,
+            optionValue = state.selectedTimeFormat.value,
             optionIcon = R.drawable.ic_time_24,
             optionIconContentDescription = stringResource(R.string.settings_content_description_time_icon)
         ) {
-            openTimeFormatSelectionDialog.value = openTimeFormatSelectionDialog.value.not()
+            scope.launch {
+                timeFormatSheetState.show()
+            }
         }
 
-        var showBottomSheet by remember { mutableStateOf(false) }
+        val excludeSheetState = rememberModalBottomSheetState(
+            skipPartiallyExpanded = true
+        )
         SettingOptionRow(
             optionLabel = stringResource(id = R.string.settings_exclude_label),
             optionIcon = R.drawable.ic_exclude_24,
             optionValue = state.selectedExcludedDataDisplayValue,
             optionIconContentDescription = stringResource(R.string.settings_content_description_exclude_icon),
         ) {
-            showBottomSheet = showBottomSheet.not()
+            scope.launch {
+                excludeSheetState.show()
+            }
         }
 
         SettingOptionRow(
@@ -85,83 +101,84 @@ fun SettingsScreen(
             onAboutClicked()
         }
 
-        if (openLanguageSelectionDialog.value) {
-            val availableLanguages = state.availableLanguages
-            val (selectedOption, onOptionSelected) = remember { mutableStateOf(state.selectedLanguage) }
-            SettingOptionsDialog(
-                onDismiss = { openLanguageSelectionDialog.value = false },
-                onConfirm = {
-                    onLanguageChanged(selectedOption)
-                    openLanguageSelectionDialog.value = false
-                },
-                items = availableLanguages,
-            ) { language ->
-                SettingOptionRadioButton(
-                    text = language,
-                    selectedOption = selectedOption,
-                    onOptionSelected = onOptionSelected
-                )
-            }
-        }
-
-        if (openUnitSelectionDialog.value) {
-            val availableUnits = state.availableUnits
-            val (selectedOption, onOptionSelected) = remember { mutableStateOf(state.selectedUnit) }
-            SettingOptionsDialog(
-                onDismiss = { openUnitSelectionDialog.value = false },
-                onConfirm = {
-                    onUnitChanged(selectedOption)
-                    openUnitSelectionDialog.value = false
-                },
-                items = availableUnits,
-            ) { unit ->
-                SettingOptionRadioButton(
-                    text = unit,
-                    selectedOption = selectedOption,
-                    onOptionSelected = onOptionSelected
-                )
-            }
-        }
-
-        if (openTimeFormatSelectionDialog.value) {
-            val availableFormats = state.availableFormats
-            val (selectedOption, onOptionSelected) = remember { mutableStateOf(state.selectedTimeFormat) }
-            SettingOptionsDialog(
-                onDismiss = { openTimeFormatSelectionDialog.value = false },
-                onConfirm = {
-                    onTimeFormatChanged(selectedOption)
-                    openUnitSelectionDialog.value = false
-                },
-                items = availableFormats,
-            ) { unit ->
-                SettingOptionRadioButton(
-                    text = unit,
-                    selectedOption = selectedOption,
-                    onOptionSelected = onOptionSelected
-                )
-            }
-        }
-
-        if (showBottomSheet) {
-            BottomSheet(
-                title = stringResource(id = R.string.settings_exclude_label),
-                selectedExcludedData = state.selectedExcludedData,
-                items = state.excludedData,
-                onDismiss = {
-                    showBottomSheet = showBottomSheet.not()
-                },
-                onSaveOption = { excludedData ->
-                    onExcludedDataChanged(excludedData)
-                    showBottomSheet = showBottomSheet.not()
-                }
-            )
-        }
+        SetupBottomSheets(
+            state = state,
+            onLanguageChanged = onLanguageChanged,
+            onUnitChanged = onUnitChanged,
+            onTimeFormatChanged = onTimeFormatChanged,
+            onExcludedDataChanged = onExcludedDataChanged,
+            languageSheetState = languageSheetState,
+            unitsSheetState = unitsSheetState,
+            timeFormatSheetState = timeFormatSheetState,
+            excludeSheetState = excludeSheetState,
+        )
 
         Spacer(modifier = Modifier.weight(WeatherAppTheme.weight.FULL))
 
         VersionInfoText(
             versionInfo = state.versionInfo,
             modifier = Modifier.align(Alignment.CenterHorizontally),
+        )
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun SetupBottomSheets(
+    state: SettingsScreenViewState,
+    onLanguageChanged: (SupportedLanguage) -> Unit,
+    onUnitChanged: (Units) -> Unit,
+    onTimeFormatChanged: (TimeFormat) -> Unit,
+    onExcludedDataChanged: (List<ExcludedData>) -> Unit,
+    languageSheetState: SheetState,
+    unitsSheetState: SheetState,
+    timeFormatSheetState: SheetState,
+    excludeSheetState: SheetState
+) {
+
+    if (languageSheetState.isVisible) {
+        SingleSelectBottomSheet(
+            title = stringResource(id = R.string.settings_language_label),
+            sheetState = languageSheetState,
+            selectedItem = state.selectedLanguage.toBottomSheetModel(isSelected = true),
+            items = state.availableLanguages.map { it.toBottomSheetModel(isSelected = false) },
+            onSaveState = { bottomSheet ->
+                onLanguageChanged(bottomSheet.toSupportedLanguage())
+            }
+        )
+    }
+
+    if (unitsSheetState.isVisible) {
+        SingleSelectBottomSheet(
+            title = stringResource(id = R.string.settings_unit_label),
+            sheetState = unitsSheetState,
+            selectedItem = state.selectedUnit.toBottomSheetModel(isSelected = true),
+            items = state.availableUnits.map { it.toBottomSheetModel(isSelected = false) },
+            onSaveState = { bottomSheet ->
+                onUnitChanged(bottomSheet.toUnits())
+            }
+        )
+    }
+    if (timeFormatSheetState.isVisible) {
+        SingleSelectBottomSheet(
+            title = stringResource(id = R.string.settings_time_format),
+            sheetState = timeFormatSheetState,
+            selectedItem = state.selectedTimeFormat.toBottomSheetModel(isSelected = true),
+            items = state.availableFormats.map { it.toBottomSheetModel(isSelected = false) },
+            onSaveState = { bottomSheet ->
+                onTimeFormatChanged(bottomSheet.toTimeFormat())
+            }
+        )
+    }
+    if (excludeSheetState.isVisible) {
+        MultiSelectBottomSheet(
+            title = stringResource(id = R.string.settings_exclude_label),
+            sheetState = excludeSheetState,
+            selectedItems = state.selectedExcludedData.map { it.toBottomSheetModel(isSelected = true) },
+            items = state.excludedData.map { it.toBottomSheetModel(isSelected = false) },
+            onSaveState = { bottomSheet ->
+                onExcludedDataChanged(bottomSheet.map { it.toExcludedData() })
+            }
         )
     }
 }

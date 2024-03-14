@@ -35,7 +35,7 @@ class WeatherRepositoryUnitTest {
 
     @MockK
     val mockSettingsRepository = mockk<SettingsRepository>(relaxed = true).apply {
-        coEvery { getFormat() } returns flowOf(TimeFormat.TWELVE_HOUR.value)
+        coEvery { getFormat() } returns flowOf(TimeFormat.TWELVE_HOUR)
         coEvery { getExcludedData() } returns flowOf(ExcludedData.NONE.value)
     }
 

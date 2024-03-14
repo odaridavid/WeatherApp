@@ -7,6 +7,8 @@ import com.github.odaridavid.weatherapp.core.Result
 import com.github.odaridavid.weatherapp.core.api.SettingsRepository
 import com.github.odaridavid.weatherapp.core.api.WeatherRepository
 import com.github.odaridavid.weatherapp.core.model.DefaultLocation
+import com.github.odaridavid.weatherapp.core.model.SupportedLanguage
+import com.github.odaridavid.weatherapp.core.model.Units
 import com.github.odaridavid.weatherapp.core.model.Weather
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -51,9 +53,9 @@ class HomeViewModel @Inject constructor(
             is HomeScreenIntent.LoadWeatherData -> {
                 viewModelScope.launch {
                     val result = weatherRepository.fetchWeatherData(
-                        language = state.value.language,
+                        language = state.value.language.languageValue,
                         defaultLocation = state.value.defaultLocation,
-                        units = state.value.units
+                        units = state.value.units.value
                     )
                     processResult(result)
                 }
@@ -97,10 +99,10 @@ class HomeViewModel @Inject constructor(
 }
 
 data class HomeScreenViewState(
-    val units: String = "",
+    val units: Units = Units.METRIC,
     val defaultLocation: DefaultLocation = DefaultLocation(0.0, 0.0),
     val locationName: String = "-",
-    val language: String = "",
+    val language: SupportedLanguage = SupportedLanguage.ENGLISH,
     val weather: Weather? = null,
     val isLoading: Boolean = false,
     @StringRes val errorMessageId: Int? = null

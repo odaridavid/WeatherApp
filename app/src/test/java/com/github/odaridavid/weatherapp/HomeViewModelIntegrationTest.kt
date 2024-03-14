@@ -46,7 +46,7 @@ class HomeViewModelIntegrationTest {
 
     @MockK
     val mockSettingsRepository = mockk<SettingsRepository>(relaxed = true).apply {
-        coEvery { getFormat() } returns flowOf(TimeFormat.TWELVE_HOUR.value)
+        coEvery { getFormat() } returns flowOf(TimeFormat.TWELVE_HOUR)
         coEvery { getExcludedData() } returns flowOf(ExcludedData.NONE.value)
     }
 
@@ -77,12 +77,12 @@ class HomeViewModelIntegrationTest {
         viewModel.processIntent(HomeScreenIntent.LoadWeatherData)
 
         val expectedState = HomeScreenViewState(
-            units = "metric",
+            units = Units.METRIC,
             defaultLocation = DefaultLocation(
                 longitude = 0.0, latitude = 0.0
             ),
             locationName = "-",
-            language = "English",
+            language = SupportedLanguage.ENGLISH,
             weather = fakeSuccessMappedWeatherResponse,
             isLoading = false,
             errorMessageId = null
@@ -113,12 +113,12 @@ class HomeViewModelIntegrationTest {
             viewModel.processIntent(HomeScreenIntent.LoadWeatherData)
 
             val expectedState = HomeScreenViewState(
-                units = "metric",
+                units = Units.METRIC,
                 defaultLocation = DefaultLocation(
                     longitude = 0.0, latitude = 0.0
                 ),
                 locationName = "-",
-                language = "English",
+                language = SupportedLanguage.ENGLISH,
                 weather = null,
                 isLoading = false,
                 errorMessageId = R.string.error_client
@@ -142,12 +142,12 @@ class HomeViewModelIntegrationTest {
         val viewModel = createViewModel(weatherRepository = weatherRepository)
 
         val expectedState = HomeScreenViewState(
-            units = "metric",
+            units = Units.METRIC,
             defaultLocation = DefaultLocation(
                 longitude = 0.0, latitude = 0.0
             ),
             locationName = "-",
-            language = "English",
+            language = SupportedLanguage.ENGLISH,
             weather = fakeSuccessMappedWeatherResponse,
             isLoading = false,
             errorMessageId = null
@@ -173,12 +173,12 @@ class HomeViewModelIntegrationTest {
         )
 
         val expectedState = HomeScreenViewState(
-            units = "metric",
+            units = Units.METRIC,
             defaultLocation = DefaultLocation(
                 longitude = 0.0, latitude = 0.0
             ),
             locationName = "Paradise",
-            language = "English",
+            language = SupportedLanguage.ENGLISH,
             weather = fakeSuccessMappedWeatherResponse,
             isLoading = false,
             errorMessageId = null
@@ -196,18 +196,15 @@ class HomeViewModelIntegrationTest {
     private fun createViewModel(
         weatherRepository: WeatherRepository,
         settingsRepository: SettingsRepository = mockk<SettingsRepository>() {
-            coEvery { getUnits() } returns flowOf(Units.METRIC.value)
+            coEvery { getUnits() } returns flowOf(Units.METRIC)
             coEvery { getDefaultLocation() } returns flowOf(
                 DefaultLocation(
                     longitude = 0.0, latitude = 0.0
                 )
             )
-            coEvery { getLanguage() } returns flowOf(SupportedLanguage.ENGLISH.languageName)
+            coEvery { getLanguage() } returns flowOf(SupportedLanguage.ENGLISH)
             coEvery { getAppVersion() } returns "1.0.0"
-            coEvery { getAvailableLanguages() } returns listOf(SupportedLanguage.ENGLISH.languageName)
-            coEvery { getAvailableUnits() } returns listOf(Units.METRIC.value)
-            coEvery { getFormats() } returns listOf(TimeFormat.TWENTY_FOUR_HOUR.value)
-            coEvery { getFormat() } returns flowOf(TimeFormat.TWENTY_FOUR_HOUR.value)
+            coEvery { getFormat() } returns flowOf(TimeFormat.TWENTY_FOUR_HOUR)
             coEvery { getExcludedData() } returns flowOf(ExcludedData.CURRENT.value)
         }
     ): HomeViewModel =
