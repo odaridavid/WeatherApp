@@ -250,14 +250,16 @@ LeakCanary is also used to monitor for any memory leaks that might occur in debu
 
 # Screenshots 📱
 
-|                              Light Theme                               |                              Dark Theme                               |
-|:----------------------------------------------------------------------:|:---------------------------------------------------------------------:|
-|      <img src="/docs/screenshots/(Light)Main.png" width="250px">       |      <img src="/docs/screenshots/(Dark)Main.png" width="250px">       |
-|    <img src="/docs/screenshots/(Light)Settings.png" width="250px">     |    <img src="/docs/screenshots/(Dark)Settings.png" width="250px">     |
-| <img src="/docs/screenshots/(Light)Settings-Option.png" width="250px"> | <img src="/docs/screenshots/(Dark)Settings-Option.png" width="250px"> |
-|      <img src="/docs/screenshots/(Light)About.png" width="250px">      |      <img src="/docs/screenshots/(Dark)About.png" width="250px">      |
-|      <img src="/docs/screenshots/(Light)Error.png" width="250px">      |      <img src="/docs/screenshots/(Dark)Error.png" width="250px">      |
-|        <img src="/docs/screenshots/Excluded.png" width="250px">        |                                   -                                   |
+|                               Light Theme                                |                               Dark Theme                                |
+|:------------------------------------------------------------------------:|:-----------------------------------------------------------------------:|
+|       <img src="/docs/screenshots/(Light)Main.png" width="250px">        |       <img src="/docs/screenshots/(Dark)Main.png" width="250px">        |
+|     <img src="/docs/screenshots/(Light)Settings.png" width="250px">      |     <img src="/docs/screenshots/(Dark)Settings.png" width="250px">      |
+| <img src="/docs/screenshots/(Light)Settings-Exclude.png" width="250px">  | <img src="/docs/screenshots/(Dark)Settings-Exclude.png" width="250px">  |
+|       <img src="/docs/screenshots/(Light)About.png" width="250px">       |       <img src="/docs/screenshots/(Dark)About.png" width="250px">       |
+|       <img src="/docs/screenshots/(Light)Error.png" width="250px">       |       <img src="/docs/screenshots/(Dark)Error.png" width="250px">       |
+| <img src="/docs/screenshots/(Light)Settings-Language.png" width="250px"> | <img src="/docs/screenshots/(Dark)Settings-Language.png" width="250px"> |
+|   <img src="/docs/screenshots/(Light)Settings-Time.png" width="250px">   |   <img src="/docs/screenshots/(Dark)Settings-Time.png" width="250px">   |
+|         <img src="/docs/screenshots/Excluded.png" width="250px">         |                                    -                                    |
 
 ![](https://media.giphy.com/media/hWvk9iUU4uBBeyBq0k/giphy.gif)
 
