@@ -63,17 +63,17 @@ class DefaultSettingsRepository @Inject constructor(
         }
     }
 
-    override suspend fun getFormat(): Flow<String> =
-        get(key = TIME_FORMAT, default = TimeFormat.TWENTY_FOUR_HOUR.value)
-
-    override suspend fun setFormat(format: String) {
-        set(key = TIME_FORMAT, value = format)
+    override suspend fun getFormat(): Flow<TimeFormat> {
+        return get(key = TIME_FORMAT, default = TimeFormat.TWENTY_FOUR_HOUR.name).map {
+            TimeFormat.valueOf(it)
+        }
     }
 
-    override fun getFormats(): List<String> {
-        return TimeFormat.entries.map { it.value }
+    override suspend fun setFormat(format: TimeFormat) {
+        set(key = TIME_FORMAT, value = format.name)
     }
 
+    // TODO Refactor to flow of list of excluded data
     override suspend fun getExcludedData(): Flow<String> = get(
         key = PREF_EXCLUDED_DATA,
         default = "${ExcludedData.MINUTELY.value},${ExcludedData.ALERTS.value}"

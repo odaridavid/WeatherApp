@@ -123,9 +123,9 @@ inline fun SingleSelectBottomSheet(
             items.forEach { item ->
                 Row {
                     RadioButton(
-                        selected = selectedItemsState.value == item,
+                        selected = selectedItemsState.value.id == item.id,
                         onClick = {
-                            selectedItemsState.value = item
+                            selectedItemsState.value = item.copy(isSelected = true)
                         }
                     )
                     MediumBody(

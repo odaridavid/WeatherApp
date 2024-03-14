@@ -25,7 +25,7 @@ class DefaultWeatherRepository @Inject constructor(
         units: String,
     ): Result<Weather> =
         try {
-            val format = settingsRepository.getFormat().first()
+            val format = settingsRepository.getFormat().first().value
 
             val excludedData = settingsRepository
                 .getExcludedData()

@@ -12,11 +12,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import com.github.odaridavid.weatherapp.R
 import com.github.odaridavid.weatherapp.core.model.ExcludedData
+import com.github.odaridavid.weatherapp.core.model.TimeFormat
 import com.github.odaridavid.weatherapp.designsystem.WeatherAppTheme
 import com.github.odaridavid.weatherapp.designsystem.organism.MultiSelectBottomSheet
 import com.github.odaridavid.weatherapp.designsystem.organism.SettingOptionRadioButton
 import com.github.odaridavid.weatherapp.designsystem.organism.SettingOptionRow
 import com.github.odaridavid.weatherapp.designsystem.organism.SettingOptionsDialog
+import com.github.odaridavid.weatherapp.designsystem.organism.SingleSelectBottomSheet
 import com.github.odaridavid.weatherapp.designsystem.organism.TopNavigationBar
 import com.github.odaridavid.weatherapp.designsystem.organism.VersionInfoText
 
@@ -27,7 +29,7 @@ fun SettingsScreen(
     onBackButtonClicked: () -> Unit,
     onLanguageChanged: (String) -> Unit,
     onUnitChanged: (String) -> Unit,
-    onTimeFormatChanged: (String) -> Unit,
+    onTimeFormatChanged: (TimeFormat) -> Unit,
     onAboutClicked: () -> Unit,
     onExcludedDataChanged: (List<ExcludedData>) -> Unit,
 ) {
@@ -57,14 +59,14 @@ fun SettingsScreen(
             openUnitSelectionDialog.value = openUnitSelectionDialog.value.not()
         }
 
-        val openTimeFormatSelectionDialog = remember { mutableStateOf(false) }
+        var showTimeFormatSheet by remember { mutableStateOf(false) }
         SettingOptionRow(
             optionLabel = stringResource(R.string.settings_time_format),
-            optionValue = state.selectedTimeFormat,
+            optionValue = state.selectedTimeFormat.value,
             optionIcon = R.drawable.ic_time_24,
             optionIconContentDescription = stringResource(R.string.settings_content_description_time_icon)
         ) {
-            openTimeFormatSelectionDialog.value = openTimeFormatSelectionDialog.value.not()
+            showTimeFormatSheet = showTimeFormatSheet.not()
         }
 
         var showExcludedDataSheet by remember { mutableStateOf(false) }
@@ -123,23 +125,19 @@ fun SettingsScreen(
             }
         }
 
-        if (openTimeFormatSelectionDialog.value) {
-            val availableFormats = state.availableFormats
-            val (selectedOption, onOptionSelected) = remember { mutableStateOf(state.selectedTimeFormat) }
-            SettingOptionsDialog(
-                onDismiss = { openTimeFormatSelectionDialog.value = false },
-                onConfirm = {
-                    onTimeFormatChanged(selectedOption)
-                    openUnitSelectionDialog.value = false
+        if (showTimeFormatSheet) {
+            SingleSelectBottomSheet(
+                title = stringResource(id = R.string.settings_time_format),
+                selectedItem = state.selectedTimeFormat.toBottomSheetModel(isSelected = true),
+                items = state.availableFormats.map { it.toBottomSheetModel(isSelected = false) },
+                onDismiss = {
+                    showTimeFormatSheet = showTimeFormatSheet.not()
                 },
-                items = availableFormats,
-            ) { unit ->
-                SettingOptionRadioButton(
-                    text = unit,
-                    selectedOption = selectedOption,
-                    onOptionSelected = onOptionSelected
-                )
-            }
+                onSaveOption = { bottomSheet ->
+                    onTimeFormatChanged(bottomSheet.toTimeFormat())
+                    showTimeFormatSheet = showTimeFormatSheet.not()
+                }
+            )
         }
 
         if (showExcludedDataSheet) {
@@ -150,8 +148,8 @@ fun SettingsScreen(
                 onDismiss = {
                     showExcludedDataSheet = showExcludedDataSheet.not()
                 },
-                onSaveOption = { excludedData ->
-                    onExcludedDataChanged(excludedData.map { it.toExcludedData() })
+                onSaveOption = { bottomSheet ->
+                    onExcludedDataChanged(bottomSheet.map { it.toExcludedData() })
                     showExcludedDataSheet = showExcludedDataSheet.not()
                 }
             )
