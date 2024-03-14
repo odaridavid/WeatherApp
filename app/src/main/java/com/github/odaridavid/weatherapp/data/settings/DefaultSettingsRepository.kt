@@ -21,41 +21,42 @@ class DefaultSettingsRepository @Inject constructor(
     @ApplicationContext private val context: Context
 ) : SettingsRepository {
 
-    private val PREF_LANGUAGE by lazy { stringPreferencesKey(KEY_LANGUAGE) }
-    private val PREF_UNITS by lazy { stringPreferencesKey(KEY_UNITS) }
-    private val TIME_FORMAT by lazy { stringPreferencesKey(KEY_TIME_FORMAT) }
-    private val PREF_LAT_LNG by lazy { stringPreferencesKey(KEY_LAT_LNG) }
-    private val PREF_EXCLUDED_DATA by lazy { stringPreferencesKey(KEY_EXCLUDED_DATA) }
+    private val prefLanguage by lazy { stringPreferencesKey(KEY_LANGUAGE) }
+    private val prefUnits by lazy { stringPreferencesKey(KEY_UNITS) }
+    private val prefTimeFormat by lazy { stringPreferencesKey(KEY_TIME_FORMAT) }
+    private val prefLatLng by lazy { stringPreferencesKey(KEY_LAT_LNG) }
+    private val prefExcludedData by lazy { stringPreferencesKey(KEY_EXCLUDED_DATA) }
 
-    override suspend fun setLanguage(language: String) {
-        set(key = PREF_LANGUAGE, value = language)
+    override suspend fun setLanguage(language: SupportedLanguage) {
+        set(key = prefLanguage, value = language.name)
     }
 
-    override suspend fun getLanguage(): Flow<String> =
-        get(key = PREF_LANGUAGE, default = SupportedLanguage.ENGLISH.languageName)
-
-    override suspend fun setUnits(units: String) {
-        set(key = PREF_UNITS, value = units)
+    override suspend fun getLanguage(): Flow<SupportedLanguage> {
+        return get(key = prefLanguage, default = SupportedLanguage.ENGLISH.name).map {
+            SupportedLanguage.valueOf(it)
+        }
     }
 
-    override suspend fun getUnits(): Flow<String> =
-        get(key = PREF_UNITS, default = Units.METRIC.value)
+    override suspend fun setUnits(units: Units) {
+        set(key = prefUnits, value = units.name)
+    }
+
+    override suspend fun getUnits(): Flow<Units> {
+        return get(key = prefUnits, default = Units.METRIC.name).map {
+            Units.valueOf(it)
+        }
+    }
 
     override fun getAppVersion(): String =
         "Version : ${BuildConfig.VERSION_NAME}-${BuildConfig.BUILD_TYPE}"
 
-    override fun getAvailableLanguages(): List<String> =
-        SupportedLanguage.entries.map { it.languageName }
-
-    override fun getAvailableUnits(): List<String> = Units.entries.map { it.value }
-
     override suspend fun setDefaultLocation(defaultLocation: DefaultLocation) {
-        set(key = PREF_LAT_LNG, value = "${defaultLocation.latitude}/${defaultLocation.longitude}")
+        set(key = prefLatLng, value = "${defaultLocation.latitude}/${defaultLocation.longitude}")
     }
 
     override suspend fun getDefaultLocation(): Flow<DefaultLocation> {
         return get(
-            key = PREF_LAT_LNG,
+            key = prefLatLng,
             default = "$DEFAULT_LATITUDE/$DEFAULT_LONGITUDE"
         ).map { latlng ->
             val latLngList = latlng.split("/").map { it.toDouble() }
@@ -64,24 +65,24 @@ class DefaultSettingsRepository @Inject constructor(
     }
 
     override suspend fun getFormat(): Flow<TimeFormat> {
-        return get(key = TIME_FORMAT, default = TimeFormat.TWENTY_FOUR_HOUR.name).map {
+        return get(key = prefTimeFormat, default = TimeFormat.TWENTY_FOUR_HOUR.name).map {
             TimeFormat.valueOf(it)
         }
     }
 
     override suspend fun setFormat(format: TimeFormat) {
-        set(key = TIME_FORMAT, value = format.name)
+        set(key = prefTimeFormat, value = format.name)
     }
 
     // TODO Refactor to flow of list of excluded data
     override suspend fun getExcludedData(): Flow<String> = get(
-        key = PREF_EXCLUDED_DATA,
+        key = prefExcludedData,
         default = "${ExcludedData.MINUTELY.value},${ExcludedData.ALERTS.value}"
     )
 
     override suspend fun setExcludedData(excludedData: List<ExcludedData>) {
         val formattedData = excludedData.joinToString(separator = ",") { it.value }
-        set(key = PREF_EXCLUDED_DATA, value = formattedData)
+        set(key = prefExcludedData, value = formattedData)
     }
 
     private suspend fun <T> set(key: Preferences.Key<T>, value: T) {

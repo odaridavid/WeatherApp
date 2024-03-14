@@ -5,7 +5,9 @@ import androidx.lifecycle.viewModelScope
 import com.github.odaridavid.weatherapp.core.api.Logger
 import com.github.odaridavid.weatherapp.core.api.SettingsRepository
 import com.github.odaridavid.weatherapp.core.model.ExcludedData
+import com.github.odaridavid.weatherapp.core.model.SupportedLanguage
 import com.github.odaridavid.weatherapp.core.model.TimeFormat
+import com.github.odaridavid.weatherapp.core.model.Units
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -40,9 +42,8 @@ class SettingsViewModel @Inject constructor(
                             selectedExcludedData = mapStringToExcludedData(excludedData),
                             selectedExcludedDataDisplayValue = excludedData,
                             versionInfo = settingsRepository.getAppVersion(),
-                            // TODO Call these directly without a repo
-                            availableLanguages = settingsRepository.getAvailableLanguages(),
-                            availableUnits = settingsRepository.getAvailableUnits(),
+                            availableLanguages = SupportedLanguage.entries,
+                            availableUnits = Units.entries,
                             availableFormats = TimeFormat.entries,
                             excludedData = ExcludedData.entries,
                         )
@@ -118,13 +119,13 @@ class SettingsViewModel @Inject constructor(
 }
 
 data class SettingsScreenViewState(
-    val selectedUnit: String = "",
-    val selectedLanguage: String = "",
+    val selectedUnit: Units = Units.METRIC,
+    val selectedLanguage: SupportedLanguage = SupportedLanguage.ENGLISH,
     val selectedTimeFormat: TimeFormat = TimeFormat.TWENTY_FOUR_HOUR,
     val selectedExcludedData: List<ExcludedData> = emptyList(),
     val selectedExcludedDataDisplayValue: String = "",
-    val availableLanguages: List<String> = emptyList(),
-    val availableUnits: List<String> = emptyList(),
+    val availableLanguages: List<SupportedLanguage> = emptyList(),
+    val availableUnits: List<Units> = emptyList(),
     val availableFormats: List<TimeFormat> = emptyList(),
     val excludedData: List<ExcludedData> = emptyList(),
     val versionInfo: String = "",

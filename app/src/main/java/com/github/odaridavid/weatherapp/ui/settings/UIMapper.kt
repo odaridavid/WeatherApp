@@ -1,9 +1,12 @@
 package com.github.odaridavid.weatherapp.ui.settings
 
 import com.github.odaridavid.weatherapp.core.model.ExcludedData
+import com.github.odaridavid.weatherapp.core.model.SupportedLanguage
 import com.github.odaridavid.weatherapp.core.model.TimeFormat
+import com.github.odaridavid.weatherapp.core.model.Units
 import com.github.odaridavid.weatherapp.designsystem.organism.BottomSheetItem
 
+// TODO Fix repetition of mapping
 fun ExcludedData.toBottomSheetModel(isSelected: Boolean = false): BottomSheetItem {
     return BottomSheetItem(
         id = this.id,
@@ -26,4 +29,28 @@ fun TimeFormat.toBottomSheetModel(isSelected: Boolean = false): BottomSheetItem 
 
 fun BottomSheetItem.toTimeFormat(): TimeFormat {
     return TimeFormat.entries.first { it.ordinal == this.id }
+}
+
+fun Units.toBottomSheetModel(isSelected: Boolean = false): BottomSheetItem {
+    return BottomSheetItem(
+        id = this.ordinal,
+        name = this.value,
+        isSelected = isSelected
+    )
+}
+
+fun BottomSheetItem.toUnits(): Units {
+    return Units.entries.first { it.ordinal == this.id }
+}
+
+fun SupportedLanguage.toBottomSheetModel(isSelected: Boolean = false): BottomSheetItem {
+    return BottomSheetItem(
+        id = this.ordinal,
+        name = this.languageName,
+        isSelected = isSelected
+    )
+}
+
+fun BottomSheetItem.toSupportedLanguage(): SupportedLanguage {
+    return SupportedLanguage.entries.first { it.ordinal == this.id }
 }
