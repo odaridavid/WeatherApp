@@ -3,7 +3,6 @@ package com.github.odaridavid.weatherapp.data.weather.remote
 import com.github.odaridavid.weatherapp.BuildConfig
 import com.github.odaridavid.weatherapp.core.Result
 import com.github.odaridavid.weatherapp.core.model.DefaultLocation
-import com.github.odaridavid.weatherapp.core.model.SupportedLanguage
 import com.github.odaridavid.weatherapp.core.model.Weather
 import javax.inject.Inject
 
@@ -25,7 +24,7 @@ class DefaultRemoteWeatherDataSource @Inject constructor(
                 latitude = defaultLocation.latitude,
                 excludedInfo = excludedData,
                 units = units,
-                language = getLanguageValue(language),
+                language = language,
                 appid = BuildConfig.OPEN_WEATHER_API_KEY,
             )
 
@@ -39,7 +38,4 @@ class DefaultRemoteWeatherDataSource @Inject constructor(
         } catch (e: Exception) {
             throw e
         }
-
-    private fun getLanguageValue(language: String) =
-        SupportedLanguage.entries.first { it.languageName == language }.languageValue
 }
