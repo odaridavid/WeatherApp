@@ -46,6 +46,9 @@ inappupdate = "2.1.0"
 about-lib = "11.1.0"
 firebase-perf = "1.4.2"
 compose-material3 = "1.2.1"
+androidx-test-runner = "1.5.2"
+androidx-test-rules = "1.5.0"
+core-ktx = "1.5.0"
 
 [libraries]
 activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "activity-compose" }
@@ -103,6 +106,9 @@ inapp-update-ktx = { module = "com.google.android.play:app-update-ktx", version.
 #About
 about-lib-core = { module = "com.mikepenz:aboutlibraries-core", version.ref = "about-lib" }
 about-lib-compose-ui = { module = "com.mikepenz:aboutlibraries-compose-m3", version.ref = "about-lib" }
+android-test-runner = { module = "androidx.test:runner", version.ref = "androidx-test-runner" }
+android-test-rules = { module = "androidx.test:rules", version.ref = "androidx-test-rules" }
+test-core-ktx = { group = "androidx.test", name = "core-ktx", version.ref = "core-ktx" }
 
 [plugins]
 com-android-application = { id = "com.android.application", version.ref = "android-gradle-plugin" }
@@ -141,4 +147,9 @@ firebase = [
 google-play = [
     "inapp-update",
     "inapp-update-ktx",
+]
+android-test = [
+    "android-test-runner",
+    "android-test-rules",
+    "test-core-ktx"
 ]

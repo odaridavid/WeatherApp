@@ -208,6 +208,10 @@ dependencies {
     testImplementation(libs.coroutines.test)
     debugImplementation(libs.compose.ui.tooling)
     debugImplementation(libs.compose.ui.test.manifest)
+    // Android Test
+    androidTestImplementation(libs.bundles.android.test)
+    androidTestImplementation(libs.coroutines.test)
+    androidTestImplementation(libs.turbine)
 
     // Chucker
     debugImplementation(libs.chucker.debug)
