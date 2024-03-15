@@ -1,12 +1,10 @@
 package com.github.odaridavid.weatherapp
 
 import app.cash.turbine.test
-import com.github.odaridavid.weatherapp.core.Result
 import com.github.odaridavid.weatherapp.core.api.Logger
 import com.github.odaridavid.weatherapp.core.api.SettingsRepository
 import com.github.odaridavid.weatherapp.core.api.WeatherRepository
 import com.github.odaridavid.weatherapp.core.model.DefaultLocation
-import com.github.odaridavid.weatherapp.core.model.ExcludedData
 import com.github.odaridavid.weatherapp.core.model.SupportedLanguage
 import com.github.odaridavid.weatherapp.core.model.TimeFormat
 import com.github.odaridavid.weatherapp.core.model.Units
@@ -14,6 +12,7 @@ import com.github.odaridavid.weatherapp.data.weather.DefaultWeatherRepository
 import com.github.odaridavid.weatherapp.data.weather.remote.DefaultRemoteWeatherDataSource
 import com.github.odaridavid.weatherapp.data.weather.remote.OpenWeatherService
 import com.github.odaridavid.weatherapp.data.weather.remote.WeatherResponse
+import com.github.odaridavid.weatherapp.fakes.FakeSettingsRepository
 import com.github.odaridavid.weatherapp.fakes.fakeSuccessMappedWeatherResponse
 import com.github.odaridavid.weatherapp.fakes.fakeSuccessWeatherResponse
 import com.github.odaridavid.weatherapp.rules.MainCoroutineRule
@@ -27,7 +26,6 @@ import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.test.runTest
 import okhttp3.ResponseBody.Companion.toResponseBody
 import org.junit.Before
 import org.junit.Rule
@@ -36,7 +34,7 @@ import retrofit2.Response
 import java.util.TimeZone
 
 @OptIn(ExperimentalCoroutinesApi::class)
-class HomeViewModelIntegrationTest {
+class HomeViewModelTest {
 
     @MockK
     val mockOpenWeatherService = mockk<OpenWeatherService>(relaxed = true)
@@ -44,10 +42,8 @@ class HomeViewModelIntegrationTest {
     @MockK
     val mockLogger = mockk<Logger>(relaxed = true)
 
-    @MockK
-    val mockSettingsRepository = mockk<SettingsRepository>(relaxed = true).apply {
-        coEvery { getFormat() } returns flowOf(TimeFormat.TWELVE_HOUR)
-        coEvery { getExcludedData() } returns flowOf(ExcludedData.NONE.value)
+    private val settingsRepository: SettingsRepository by lazy {
+        FakeSettingsRepository()
     }
 
     @get:Rule
@@ -67,6 +63,8 @@ class HomeViewModelIntegrationTest {
         } returns Response.success<WeatherResponse>(
             fakeSuccessWeatherResponse
         )
+
+        settingsRepository.setFormat(TimeFormat.TWELVE_HOUR)
 
         val weatherRepository = createWeatherRepository()
 
@@ -133,13 +131,28 @@ class HomeViewModelIntegrationTest {
 
     @Test
     fun `when we init the screen, then update the state`() = runBlocking {
-        val weatherRepository = mockk<WeatherRepository>() {
-            coEvery { fetchWeatherData(any(), any(), any()) } returns Result.Success(
-                fakeSuccessMappedWeatherResponse
+        coEvery {
+            mockOpenWeatherService.getWeatherData(
+                any(), any(), any(), any(), any(), any()
             )
+        } returns Response.success<WeatherResponse>(
+            fakeSuccessWeatherResponse
+        )
+
+        val settingsRepository = mockk<SettingsRepository>() {
+            coEvery { getDefaultLocation() } returns flowOf(DefaultLocation(0.0, 0.0))
+            coEvery { getLanguage() } returns flowOf(SupportedLanguage.ENGLISH)
+            coEvery { getUnits() } returns flowOf(Units.METRIC)
+            coEvery { getFormat() } returns flowOf(TimeFormat.TWELVE_HOUR)
+            coEvery { getExcludedData() } returns flowOf("minutely,alerts")
         }
 
-        val viewModel = createViewModel(weatherRepository = weatherRepository)
+        val viewModel = createViewModel(
+            settingsRepository = settingsRepository,
+            weatherRepository = createWeatherRepository(
+                settingsRepository = settingsRepository
+            )
+        )
 
         val expectedState = HomeScreenViewState(
             units = Units.METRIC,
@@ -161,16 +174,30 @@ class HomeViewModelIntegrationTest {
     }
 
     @Test
-    fun `when we receive a city name, the state is updated with it`() = runTest {
-        val weatherRepository = mockk<WeatherRepository>() {
-            coEvery { fetchWeatherData(any(), any(), any()) } returns Result.Success(
-                fakeSuccessMappedWeatherResponse
+    fun `when we receive a city name, the state is updated with it`() = runBlocking {
+        coEvery {
+            mockOpenWeatherService.getWeatherData(
+                any(), any(), any(), any(), any(), any()
             )
+        } returns Response.success<WeatherResponse>(
+            fakeSuccessWeatherResponse
+        )
+        val settingsRepository = mockk<SettingsRepository>() {
+            coEvery { getDefaultLocation() } returns flowOf(DefaultLocation(0.0, 0.0))
+            coEvery { getLanguage() } returns flowOf(SupportedLanguage.ENGLISH)
+            coEvery { getUnits() } returns flowOf(Units.METRIC)
+            coEvery { getFormat() } returns flowOf(TimeFormat.TWELVE_HOUR)
+            coEvery { getExcludedData() } returns flowOf("minutely,alerts")
         }
 
         val viewModel = createViewModel(
-            weatherRepository = weatherRepository
+            settingsRepository = settingsRepository,
+            weatherRepository = createWeatherRepository(
+                settingsRepository = settingsRepository
+            )
         )
+
+        viewModel.processIntent(HomeScreenIntent.DisplayCityName(cityName = "Paradise"))
 
         val expectedState = HomeScreenViewState(
             units = Units.METRIC,
@@ -184,8 +211,6 @@ class HomeViewModelIntegrationTest {
             errorMessageId = null
         )
 
-        viewModel.processIntent(HomeScreenIntent.DisplayCityName(cityName = "Paradise"))
-
         viewModel.state.test {
             awaitItem().also { state ->
                 Truth.assertThat(state).isEqualTo(expectedState)
@@ -195,29 +220,20 @@ class HomeViewModelIntegrationTest {
 
     private fun createViewModel(
         weatherRepository: WeatherRepository,
-        settingsRepository: SettingsRepository = mockk<SettingsRepository>() {
-            coEvery { getUnits() } returns flowOf(Units.METRIC)
-            coEvery { getDefaultLocation() } returns flowOf(
-                DefaultLocation(
-                    longitude = 0.0, latitude = 0.0
-                )
-            )
-            coEvery { getLanguage() } returns flowOf(SupportedLanguage.ENGLISH)
-            coEvery { getAppVersion() } returns "1.0.0"
-            coEvery { getFormat() } returns flowOf(TimeFormat.TWENTY_FOUR_HOUR)
-            coEvery { getExcludedData() } returns flowOf(ExcludedData.CURRENT.value)
-        }
+        settingsRepository: SettingsRepository = this.settingsRepository
     ): HomeViewModel =
         HomeViewModel(
             weatherRepository = weatherRepository,
             settingsRepository = settingsRepository
         )
 
-    private fun createWeatherRepository() = DefaultWeatherRepository(
+    private fun createWeatherRepository(
+        settingsRepository: SettingsRepository = this.settingsRepository
+    ) = DefaultWeatherRepository(
         remoteWeatherDataSource = DefaultRemoteWeatherDataSource(
             mockOpenWeatherService
         ),
         logger = mockLogger,
-        settingsRepository = mockSettingsRepository,
+        settingsRepository = settingsRepository,
     )
 }

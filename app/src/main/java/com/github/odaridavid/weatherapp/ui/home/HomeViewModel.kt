@@ -42,8 +42,7 @@ class HomeViewModel @Inject constructor(
                         units = units,
                         defaultLocation = defaultLocation
                     )
-                }
-                processIntent(HomeScreenIntent.LoadWeatherData)
+                }.also { processIntent(HomeScreenIntent.LoadWeatherData) }
             }
         }
     }

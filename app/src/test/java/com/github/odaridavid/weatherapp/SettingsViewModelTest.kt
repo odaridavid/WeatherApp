@@ -20,7 +20,7 @@ import org.junit.Rule
 import org.junit.Test
 
 @OptIn(ExperimentalCoroutinesApi::class)
-class SettingsViewModelIntegrationTest {
+class SettingsViewModelTest {
 
     private val settingsRepository: SettingsRepository = FakeSettingsRepository()
 

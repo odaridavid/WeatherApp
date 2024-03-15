@@ -12,7 +12,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.runBlocking
 import org.junit.Test
 
-class SettingsRepositoryUnitTest {
+class SettingsRepositoryTest {
     // TODO Integration test with the real data store
 
     @Test
