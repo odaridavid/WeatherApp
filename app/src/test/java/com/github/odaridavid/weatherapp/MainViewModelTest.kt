@@ -3,8 +3,8 @@ package com.github.odaridavid.weatherapp
 import app.cash.turbine.test
 import com.github.odaridavid.weatherapp.core.api.Logger
 import com.github.odaridavid.weatherapp.core.api.SettingsRepository
+import com.github.odaridavid.weatherapp.fakes.FakeSettingsRepository
 import com.github.odaridavid.weatherapp.rules.MainCoroutineRule
-import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
@@ -14,7 +14,7 @@ import kotlinx.coroutines.test.runTest
 import org.junit.Rule
 import org.junit.Test
 
-class MainViewModelIntegrationTest {
+class MainViewModelTest {
 
     @OptIn(ExperimentalCoroutinesApi::class)
     @get:Rule
@@ -25,9 +25,8 @@ class MainViewModelIntegrationTest {
         every { logException(any()) } returns Unit
     }
 
-    @MockK
-    val settingsRepository = mockk<SettingsRepository>().apply {
-        coEvery { setDefaultLocation(any()) } returns Unit
+    private val settingsRepository: SettingsRepository by lazy {
+        FakeSettingsRepository()
     }
 
     @Test
@@ -98,7 +97,7 @@ class MainViewModelIntegrationTest {
     }
 
     private fun createMainViewModel(
-        settingsRepository: SettingsRepository = mockk(),
+        settingsRepository: SettingsRepository = this.settingsRepository,
         logger: Logger = mockk(),
     ): MainViewModel {
         return MainViewModel(settingsRepository = settingsRepository, logger = logger)

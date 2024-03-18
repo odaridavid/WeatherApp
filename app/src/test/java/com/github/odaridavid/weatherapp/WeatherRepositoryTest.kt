@@ -6,20 +6,19 @@ import com.github.odaridavid.weatherapp.core.api.Logger
 import com.github.odaridavid.weatherapp.core.api.SettingsRepository
 import com.github.odaridavid.weatherapp.core.api.WeatherRepository
 import com.github.odaridavid.weatherapp.core.model.DefaultLocation
-import com.github.odaridavid.weatherapp.core.model.ExcludedData
 import com.github.odaridavid.weatherapp.core.model.TimeFormat
 import com.github.odaridavid.weatherapp.data.weather.DefaultWeatherRepository
 import com.github.odaridavid.weatherapp.data.weather.remote.DefaultRemoteWeatherDataSource
 import com.github.odaridavid.weatherapp.data.weather.remote.OpenWeatherService
 import com.github.odaridavid.weatherapp.data.weather.remote.RemoteWeatherDataSource
 import com.github.odaridavid.weatherapp.data.weather.remote.WeatherResponse
+import com.github.odaridavid.weatherapp.fakes.FakeSettingsRepository
 import com.github.odaridavid.weatherapp.fakes.fakeSuccessMappedWeatherResponse
 import com.github.odaridavid.weatherapp.fakes.fakeSuccessWeatherResponse
 import com.google.common.truth.Truth
 import io.mockk.coEvery
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
-import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.runBlocking
 import okhttp3.ResponseBody.Companion.toResponseBody
 import org.junit.Before
@@ -28,15 +27,13 @@ import retrofit2.Response
 import java.io.IOException
 import java.util.TimeZone
 
-class WeatherRepositoryUnitTest {
+class WeatherRepositoryTest {
 
     @MockK
     val mockOpenWeatherService = mockk<OpenWeatherService>(relaxed = true)
 
-    @MockK
-    val mockSettingsRepository = mockk<SettingsRepository>(relaxed = true).apply {
-        coEvery { getFormat() } returns flowOf(TimeFormat.TWELVE_HOUR)
-        coEvery { getExcludedData() } returns flowOf(ExcludedData.NONE.value)
+    private val settingsRepository: SettingsRepository by lazy {
+        FakeSettingsRepository()
     }
 
     @MockK
@@ -64,6 +61,8 @@ class WeatherRepositoryUnitTest {
             } returns Response.success<WeatherResponse>(
                 fakeSuccessWeatherResponse
             )
+
+            settingsRepository.setFormat(TimeFormat.TWELVE_HOUR)
 
             val weatherRepository = createWeatherRepository()
 
@@ -275,7 +274,7 @@ class WeatherRepositoryUnitTest {
         remoteWeatherDataSource: RemoteWeatherDataSource = DefaultRemoteWeatherDataSource(
             openWeatherService = mockOpenWeatherService
         ),
-        settingsRepository: SettingsRepository = mockSettingsRepository,
+        settingsRepository: SettingsRepository = this.settingsRepository,
     ): WeatherRepository = DefaultWeatherRepository(
         remoteWeatherDataSource = remoteWeatherDataSource,
         logger = logger,

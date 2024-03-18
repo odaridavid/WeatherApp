@@ -2,6 +2,9 @@
 <project version="4">
   <component name="deploymentTargetDropDown">
     <value>
+      <entry key="SettingsRepositoryTest">
+        <State />
+      </entry>
       <entry key="app">
         <State>
           <targetSelectedWithDropDown>
@@ -17,6 +20,9 @@
           </targetSelectedWithDropDown>
           <timeTargetWasSelectedWithDropDown value="2024-03-11T13:56:18.647400Z" />
         </State>
+      </entry>
+      <entry key="when_we_update_language_then_we_get_the_updated_language()">
+        <State />
       </entry>
     </value>
   </component>

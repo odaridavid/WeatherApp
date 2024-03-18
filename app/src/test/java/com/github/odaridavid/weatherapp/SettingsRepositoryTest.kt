@@ -12,8 +12,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.runBlocking
 import org.junit.Test
 
-class SettingsRepositoryUnitTest {
-    // TODO Integration test with the real data store
+class SettingsRepositoryTest {
 
     @Test
     fun `when we update language, then we get the updated language`() {
