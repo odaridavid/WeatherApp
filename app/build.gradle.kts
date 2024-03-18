@@ -134,7 +134,7 @@ android {
                 // Breaks jacoco reporting if true see https://github.com/firebase/firebase-android-sdk/issues/3948
                 setInstrumentationEnabled(false)
             }
-           enableAndroidTestCoverage = true
+            enableAndroidTestCoverage = true
         }
 
         release {
