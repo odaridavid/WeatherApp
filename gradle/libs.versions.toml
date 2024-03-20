@@ -109,6 +109,8 @@ about-lib-compose-ui = { module = "com.mikepenz:aboutlibraries-compose-m3", vers
 android-test-runner = { module = "androidx.test:runner", version.ref = "androidx-test-runner" }
 android-test-rules = { module = "androidx.test:rules", version.ref = "androidx-test-rules" }
 test-core-ktx = { group = "androidx.test", name = "core-ktx", version.ref = "core-ktx" }
+test-compose-ui = { module = "androidx.compose.ui:ui-test-junit4", version.ref = "compose_version" }
+test-compose-manifest = { module = "androidx.compose.ui:ui-test-manifest", version.ref = "compose_version" }
 
 [plugins]
 com-android-application = { id = "com.android.application", version.ref = "android-gradle-plugin" }
