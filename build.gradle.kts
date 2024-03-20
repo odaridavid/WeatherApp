@@ -1,3 +1,5 @@
+import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
+
 plugins {
     alias(libs.plugins.com.android.application) apply false
     alias(libs.plugins.com.android.library) apply false
@@ -29,5 +31,18 @@ buildscript {
 versionCatalogUpdate {
     pin {
         versions.addAll("kotlin-android", "kotlin-serialization")
+    }
+}
+
+fun isNonStable(version: String): Boolean {
+    val nonStableKeyword = listOf("BETA", "ALPHA", "DEV").any { version.uppercase().contains(it) }
+    val regex = "^[0-9,.v-]+(-r)?$".toRegex()
+    val isStable = nonStableKeyword.not() || regex.matches(version)
+    return isStable.not()
+}
+
+tasks.withType<DependencyUpdatesTask> {
+    rejectVersionIf {
+        isNonStable(candidate.version)
     }
 }
