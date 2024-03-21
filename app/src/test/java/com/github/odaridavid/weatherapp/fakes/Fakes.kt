@@ -1,15 +1,15 @@
 package com.github.odaridavid.weatherapp.fakes
 
-import com.github.odaridavid.weatherapp.core.model.CurrentWeather
-import com.github.odaridavid.weatherapp.core.model.DailyWeather
-import com.github.odaridavid.weatherapp.core.model.HourlyWeather
-import com.github.odaridavid.weatherapp.core.model.Temperature
-import com.github.odaridavid.weatherapp.core.model.Weather
 import com.github.odaridavid.weatherapp.data.weather.remote.CurrentWeatherResponse
 import com.github.odaridavid.weatherapp.data.weather.remote.DailyWeatherResponse
 import com.github.odaridavid.weatherapp.data.weather.remote.HourlyWeatherResponse
 import com.github.odaridavid.weatherapp.data.weather.remote.TemperatureResponse
 import com.github.odaridavid.weatherapp.data.weather.remote.WeatherResponse
+import com.github.odaridavid.weatherapp.model.CurrentWeather
+import com.github.odaridavid.weatherapp.model.DailyWeather
+import com.github.odaridavid.weatherapp.model.HourlyWeather
+import com.github.odaridavid.weatherapp.model.Temperature
+import com.github.odaridavid.weatherapp.model.Weather
 
 // TODO Populate the responses with more data to test the mappers
 val fakeSuccessWeatherResponse = WeatherResponse(

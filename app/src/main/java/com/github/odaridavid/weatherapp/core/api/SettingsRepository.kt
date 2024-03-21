@@ -1,10 +1,10 @@
 package com.github.odaridavid.weatherapp.core.api
 
-import com.github.odaridavid.weatherapp.core.model.DefaultLocation
-import com.github.odaridavid.weatherapp.core.model.ExcludedData
-import com.github.odaridavid.weatherapp.core.model.SupportedLanguage
-import com.github.odaridavid.weatherapp.core.model.TimeFormat
-import com.github.odaridavid.weatherapp.core.model.Units
+import com.github.odaridavid.weatherapp.model.DefaultLocation
+import com.github.odaridavid.weatherapp.model.ExcludedData
+import com.github.odaridavid.weatherapp.model.SupportedLanguage
+import com.github.odaridavid.weatherapp.model.TimeFormat
+import com.github.odaridavid.weatherapp.model.Units
 import kotlinx.coroutines.flow.Flow
 
 interface SettingsRepository {

@@ -4,10 +4,6 @@ import app.cash.turbine.test
 import com.github.odaridavid.weatherapp.core.api.Logger
 import com.github.odaridavid.weatherapp.core.api.SettingsRepository
 import com.github.odaridavid.weatherapp.core.api.WeatherRepository
-import com.github.odaridavid.weatherapp.core.model.DefaultLocation
-import com.github.odaridavid.weatherapp.core.model.SupportedLanguage
-import com.github.odaridavid.weatherapp.core.model.TimeFormat
-import com.github.odaridavid.weatherapp.core.model.Units
 import com.github.odaridavid.weatherapp.data.weather.DefaultWeatherRepository
 import com.github.odaridavid.weatherapp.data.weather.remote.DefaultRemoteWeatherDataSource
 import com.github.odaridavid.weatherapp.data.weather.remote.OpenWeatherService
@@ -15,6 +11,10 @@ import com.github.odaridavid.weatherapp.data.weather.remote.WeatherResponse
 import com.github.odaridavid.weatherapp.fakes.FakeSettingsRepository
 import com.github.odaridavid.weatherapp.fakes.fakeSuccessMappedWeatherResponse
 import com.github.odaridavid.weatherapp.fakes.fakeSuccessWeatherResponse
+import com.github.odaridavid.weatherapp.model.DefaultLocation
+import com.github.odaridavid.weatherapp.model.SupportedLanguage
+import com.github.odaridavid.weatherapp.model.TimeFormat
+import com.github.odaridavid.weatherapp.model.Units
 import com.github.odaridavid.weatherapp.rules.MainCoroutineRule
 import com.github.odaridavid.weatherapp.ui.home.HomeScreenIntent
 import com.github.odaridavid.weatherapp.ui.home.HomeScreenViewState

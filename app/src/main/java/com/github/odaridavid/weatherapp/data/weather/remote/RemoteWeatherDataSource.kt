@@ -1,8 +1,8 @@
 package com.github.odaridavid.weatherapp.data.weather.remote
 
-import com.github.odaridavid.weatherapp.core.Result
-import com.github.odaridavid.weatherapp.core.model.DefaultLocation
-import com.github.odaridavid.weatherapp.core.model.Weather
+import com.github.odaridavid.weatherapp.model.DefaultLocation
+import com.github.odaridavid.weatherapp.model.Result
+import com.github.odaridavid.weatherapp.model.Weather
 
 interface RemoteWeatherDataSource {
 

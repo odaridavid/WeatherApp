@@ -1,4 +1,4 @@
-package com.github.odaridavid.weatherapp.core.model
+package com.github.odaridavid.weatherapp.model
 
 enum class ExcludedData(val value: String, val id: Int) {
     CURRENT("current", 0),

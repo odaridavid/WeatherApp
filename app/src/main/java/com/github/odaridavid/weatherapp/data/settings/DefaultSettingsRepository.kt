@@ -6,12 +6,12 @@ import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import com.github.odaridavid.weatherapp.BuildConfig
 import com.github.odaridavid.weatherapp.core.api.SettingsRepository
-import com.github.odaridavid.weatherapp.core.model.DefaultLocation
-import com.github.odaridavid.weatherapp.core.model.ExcludedData
-import com.github.odaridavid.weatherapp.core.model.SupportedLanguage
-import com.github.odaridavid.weatherapp.core.model.TimeFormat
-import com.github.odaridavid.weatherapp.core.model.Units
 import com.github.odaridavid.weatherapp.data.dataStore
+import com.github.odaridavid.weatherapp.model.DefaultLocation
+import com.github.odaridavid.weatherapp.model.ExcludedData
+import com.github.odaridavid.weatherapp.model.SupportedLanguage
+import com.github.odaridavid.weatherapp.model.TimeFormat
+import com.github.odaridavid.weatherapp.model.Units
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map

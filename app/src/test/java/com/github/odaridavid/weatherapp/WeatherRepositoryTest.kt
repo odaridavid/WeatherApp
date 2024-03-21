@@ -1,12 +1,8 @@
 package com.github.odaridavid.weatherapp
 
-import com.github.odaridavid.weatherapp.core.ErrorType
-import com.github.odaridavid.weatherapp.core.Result
 import com.github.odaridavid.weatherapp.core.api.Logger
 import com.github.odaridavid.weatherapp.core.api.SettingsRepository
 import com.github.odaridavid.weatherapp.core.api.WeatherRepository
-import com.github.odaridavid.weatherapp.core.model.DefaultLocation
-import com.github.odaridavid.weatherapp.core.model.TimeFormat
 import com.github.odaridavid.weatherapp.data.weather.DefaultWeatherRepository
 import com.github.odaridavid.weatherapp.data.weather.remote.DefaultRemoteWeatherDataSource
 import com.github.odaridavid.weatherapp.data.weather.remote.OpenWeatherService
@@ -15,6 +11,10 @@ import com.github.odaridavid.weatherapp.data.weather.remote.WeatherResponse
 import com.github.odaridavid.weatherapp.fakes.FakeSettingsRepository
 import com.github.odaridavid.weatherapp.fakes.fakeSuccessMappedWeatherResponse
 import com.github.odaridavid.weatherapp.fakes.fakeSuccessWeatherResponse
+import com.github.odaridavid.weatherapp.model.DefaultLocation
+import com.github.odaridavid.weatherapp.model.ErrorType
+import com.github.odaridavid.weatherapp.model.Result
+import com.github.odaridavid.weatherapp.model.TimeFormat
 import com.google.common.truth.Truth
 import io.mockk.coEvery
 import io.mockk.impl.annotations.MockK
