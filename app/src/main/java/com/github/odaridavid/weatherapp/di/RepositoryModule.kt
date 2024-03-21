@@ -28,5 +28,4 @@ interface RepositoryModule {
 
     @Binds
     fun bindRemoteWeatherDataSource(remoteWeatherDataSource: DefaultRemoteWeatherDataSource): RemoteWeatherDataSource
-
 }
