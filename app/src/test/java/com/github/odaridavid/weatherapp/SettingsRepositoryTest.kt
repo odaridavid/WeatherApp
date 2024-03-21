@@ -1,6 +1,6 @@
 package com.github.odaridavid.weatherapp
 
-import com.github.odaridavid.weatherapp.core.api.SettingsRepository
+import com.github.odaridavid.weatherapp.api.SettingsRepository
 import com.github.odaridavid.weatherapp.data.settings.DefaultSettingsRepository
 import com.github.odaridavid.weatherapp.fakes.FakeSettingsRepository
 import com.github.odaridavid.weatherapp.model.DefaultLocation

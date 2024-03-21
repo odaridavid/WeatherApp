@@ -2,8 +2,8 @@ package com.github.odaridavid.weatherapp.ui.settings
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.github.odaridavid.weatherapp.core.api.Logger
-import com.github.odaridavid.weatherapp.core.api.SettingsRepository
+import com.github.odaridavid.weatherapp.api.Logger
+import com.github.odaridavid.weatherapp.api.SettingsRepository
 import com.github.odaridavid.weatherapp.model.ExcludedData
 import com.github.odaridavid.weatherapp.model.SupportedLanguage
 import com.github.odaridavid.weatherapp.model.TimeFormat

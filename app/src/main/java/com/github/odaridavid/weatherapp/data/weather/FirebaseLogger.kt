@@ -1,6 +1,6 @@
 package com.github.odaridavid.weatherapp.data.weather
 
-import com.github.odaridavid.weatherapp.core.api.Logger
+import com.github.odaridavid.weatherapp.api.Logger
 import com.google.firebase.crashlytics.ktx.crashlytics
 import com.google.firebase.ktx.Firebase
 import javax.inject.Inject

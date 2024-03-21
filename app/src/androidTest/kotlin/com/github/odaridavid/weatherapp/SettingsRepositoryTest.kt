@@ -4,7 +4,7 @@ import android.content.Context
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.filters.SmallTest
 import app.cash.turbine.test
-import com.github.odaridavid.weatherapp.core.api.SettingsRepository
+import com.github.odaridavid.weatherapp.api.SettingsRepository
 import com.github.odaridavid.weatherapp.data.settings.DefaultSettingsRepository
 import com.github.odaridavid.weatherapp.model.DefaultLocation
 import com.github.odaridavid.weatherapp.model.ExcludedData
