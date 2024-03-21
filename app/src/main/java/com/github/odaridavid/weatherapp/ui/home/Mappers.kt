@@ -2,7 +2,7 @@ package com.github.odaridavid.weatherapp.ui.home
 
 import androidx.annotation.StringRes
 import com.github.odaridavid.weatherapp.R
-import com.github.odaridavid.weatherapp.core.ErrorType
+import com.github.odaridavid.weatherapp.model.ErrorType
 
 @StringRes
 fun ErrorType.toResourceId(): Int = when (this) {

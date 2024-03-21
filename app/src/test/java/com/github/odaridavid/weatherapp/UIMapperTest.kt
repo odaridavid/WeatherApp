@@ -1,10 +1,10 @@
 package com.github.odaridavid.weatherapp
 
-import com.github.odaridavid.weatherapp.core.model.ExcludedData
-import com.github.odaridavid.weatherapp.core.model.SupportedLanguage
-import com.github.odaridavid.weatherapp.core.model.TimeFormat
-import com.github.odaridavid.weatherapp.core.model.Units
 import com.github.odaridavid.weatherapp.designsystem.organism.BottomSheetItem
+import com.github.odaridavid.weatherapp.model.ExcludedData
+import com.github.odaridavid.weatherapp.model.SupportedLanguage
+import com.github.odaridavid.weatherapp.model.TimeFormat
+import com.github.odaridavid.weatherapp.model.Units
 import com.github.odaridavid.weatherapp.ui.settings.toBottomSheetModel
 import com.github.odaridavid.weatherapp.ui.settings.toExcludedData
 import com.github.odaridavid.weatherapp.ui.settings.toSupportedLanguage

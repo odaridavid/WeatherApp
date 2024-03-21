@@ -1,9 +1,9 @@
 package com.github.odaridavid.weatherapp.ui.settings
 
-import com.github.odaridavid.weatherapp.core.model.ExcludedData
-import com.github.odaridavid.weatherapp.core.model.SupportedLanguage
-import com.github.odaridavid.weatherapp.core.model.TimeFormat
-import com.github.odaridavid.weatherapp.core.model.Units
+import com.github.odaridavid.weatherapp.model.ExcludedData
+import com.github.odaridavid.weatherapp.model.SupportedLanguage
+import com.github.odaridavid.weatherapp.model.TimeFormat
+import com.github.odaridavid.weatherapp.model.Units
 
 sealed class SettingsScreenIntent {
 

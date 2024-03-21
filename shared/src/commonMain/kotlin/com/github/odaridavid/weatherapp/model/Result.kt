@@ -1,4 +1,4 @@
-package com.github.odaridavid.weatherapp.core
+package com.github.odaridavid.weatherapp.model
 
 sealed class Result<T> {
     data class Success<T>(val data: T) : Result<T>()

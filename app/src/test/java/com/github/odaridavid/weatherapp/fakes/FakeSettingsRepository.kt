@@ -1,16 +1,16 @@
 package com.github.odaridavid.weatherapp.fakes
 
 import com.github.odaridavid.weatherapp.core.api.SettingsRepository
-import com.github.odaridavid.weatherapp.core.model.DefaultLocation
-import com.github.odaridavid.weatherapp.core.model.ExcludedData
-import com.github.odaridavid.weatherapp.core.model.SupportedLanguage
-import com.github.odaridavid.weatherapp.core.model.TimeFormat
-import com.github.odaridavid.weatherapp.core.model.Units
 import com.github.odaridavid.weatherapp.data.settings.DefaultSettingsRepository.Companion.KEY_EXCLUDED_DATA
 import com.github.odaridavid.weatherapp.data.settings.DefaultSettingsRepository.Companion.KEY_LANGUAGE
 import com.github.odaridavid.weatherapp.data.settings.DefaultSettingsRepository.Companion.KEY_LAT_LNG
 import com.github.odaridavid.weatherapp.data.settings.DefaultSettingsRepository.Companion.KEY_TIME_FORMAT
 import com.github.odaridavid.weatherapp.data.settings.DefaultSettingsRepository.Companion.KEY_UNITS
+import com.github.odaridavid.weatherapp.model.DefaultLocation
+import com.github.odaridavid.weatherapp.model.ExcludedData
+import com.github.odaridavid.weatherapp.model.SupportedLanguage
+import com.github.odaridavid.weatherapp.model.TimeFormat
+import com.github.odaridavid.weatherapp.model.Units
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 

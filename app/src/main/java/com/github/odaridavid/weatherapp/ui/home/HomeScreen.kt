@@ -19,9 +19,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import com.github.odaridavid.weatherapp.R
 import com.github.odaridavid.weatherapp.common.getCityName
-import com.github.odaridavid.weatherapp.core.model.CurrentWeather
-import com.github.odaridavid.weatherapp.core.model.DailyWeather
-import com.github.odaridavid.weatherapp.core.model.HourlyWeather
 import com.github.odaridavid.weatherapp.designsystem.WeatherAppTheme
 import com.github.odaridavid.weatherapp.designsystem.molecule.LargeLabel
 import com.github.odaridavid.weatherapp.designsystem.molecule.MediumBody
@@ -32,6 +29,9 @@ import com.github.odaridavid.weatherapp.designsystem.organism.Temperature
 import com.github.odaridavid.weatherapp.designsystem.organism.TemperatureHeadline
 import com.github.odaridavid.weatherapp.designsystem.templates.ErrorScreen
 import com.github.odaridavid.weatherapp.designsystem.templates.LoadingScreen
+import com.github.odaridavid.weatherapp.model.CurrentWeather
+import com.github.odaridavid.weatherapp.model.DailyWeather
+import com.github.odaridavid.weatherapp.model.HourlyWeather
 
 @Composable
 fun HomeScreen(
