@@ -30,7 +30,7 @@ buildscript {
 
 versionCatalogUpdate {
     pin {
-        versions.addAll("kotlin-android", "kotlin-serialization")
+        versions.addAll("kotlin-android", "kotlin-serialization", "kotlin")
     }
 }
 
