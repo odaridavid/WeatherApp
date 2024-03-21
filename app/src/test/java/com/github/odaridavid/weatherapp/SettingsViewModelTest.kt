@@ -1,8 +1,8 @@
 package com.github.odaridavid.weatherapp
 
 import app.cash.turbine.test
-import com.github.odaridavid.weatherapp.core.api.Logger
-import com.github.odaridavid.weatherapp.core.api.SettingsRepository
+import com.github.odaridavid.weatherapp.api.Logger
+import com.github.odaridavid.weatherapp.api.SettingsRepository
 import com.github.odaridavid.weatherapp.fakes.FakeSettingsRepository
 import com.github.odaridavid.weatherapp.model.ExcludedData
 import com.github.odaridavid.weatherapp.model.SupportedLanguage

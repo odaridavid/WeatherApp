@@ -3,8 +3,8 @@ package com.github.odaridavid.weatherapp.ui.home
 import androidx.annotation.StringRes
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.github.odaridavid.weatherapp.core.api.SettingsRepository
-import com.github.odaridavid.weatherapp.core.api.WeatherRepository
+import com.github.odaridavid.weatherapp.api.SettingsRepository
+import com.github.odaridavid.weatherapp.api.WeatherRepository
 import com.github.odaridavid.weatherapp.model.DefaultLocation
 import com.github.odaridavid.weatherapp.model.Result
 import com.github.odaridavid.weatherapp.model.SupportedLanguage

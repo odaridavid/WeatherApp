@@ -1,8 +1,8 @@
 package com.github.odaridavid.weatherapp
 
-import com.github.odaridavid.weatherapp.core.api.Logger
-import com.github.odaridavid.weatherapp.core.api.SettingsRepository
-import com.github.odaridavid.weatherapp.core.api.WeatherRepository
+import com.github.odaridavid.weatherapp.api.Logger
+import com.github.odaridavid.weatherapp.api.SettingsRepository
+import com.github.odaridavid.weatherapp.api.WeatherRepository
 import com.github.odaridavid.weatherapp.data.weather.DefaultWeatherRepository
 import com.github.odaridavid.weatherapp.data.weather.remote.DefaultRemoteWeatherDataSource
 import com.github.odaridavid.weatherapp.data.weather.remote.OpenWeatherService

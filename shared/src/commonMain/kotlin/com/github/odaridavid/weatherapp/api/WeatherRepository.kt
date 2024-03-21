@@ -1,4 +1,4 @@
-package com.github.odaridavid.weatherapp.core.api
+package com.github.odaridavid.weatherapp.api
 
 import com.github.odaridavid.weatherapp.model.DefaultLocation
 import com.github.odaridavid.weatherapp.model.Result

@@ -5,7 +5,7 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import com.github.odaridavid.weatherapp.BuildConfig
-import com.github.odaridavid.weatherapp.core.api.SettingsRepository
+import com.github.odaridavid.weatherapp.api.SettingsRepository
 import com.github.odaridavid.weatherapp.data.dataStore
 import com.github.odaridavid.weatherapp.model.DefaultLocation
 import com.github.odaridavid.weatherapp.model.ExcludedData

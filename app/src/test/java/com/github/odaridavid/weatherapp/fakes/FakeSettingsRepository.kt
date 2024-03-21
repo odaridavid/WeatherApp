@@ -1,6 +1,6 @@
 package com.github.odaridavid.weatherapp.fakes
 
-import com.github.odaridavid.weatherapp.core.api.SettingsRepository
+import com.github.odaridavid.weatherapp.api.SettingsRepository
 import com.github.odaridavid.weatherapp.data.settings.DefaultSettingsRepository.Companion.KEY_EXCLUDED_DATA
 import com.github.odaridavid.weatherapp.data.settings.DefaultSettingsRepository.Companion.KEY_LANGUAGE
 import com.github.odaridavid.weatherapp.data.settings.DefaultSettingsRepository.Companion.KEY_LAT_LNG
