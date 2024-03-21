@@ -1,77 +1,83 @@
 [versions]
-activity-compose = "1.9.0-alpha03"
-android-gradle-plugin = "8.3.0"
-ben-manes-gradle = "0.51.0"
+about-lib = "11.1.0"
+activity-compose = "1.8.2"
+android-gradle-plugin = "8.3.1"
+androidx-test-rules = "1.5.0"
+androidx-test-runner = "1.5.2"
 chucker = "4.0.0"
 coil-compose = "2.6.0"
 com-google-services = "4.4.1"
-compose-bom = "2024.02.01"
-compose-navigation = "2.8.0-alpha03"
-core-ktx-version = "1.13.0-alpha05"
+compose-bom = "2024.03.00"
+compose-constraint = "1.0.1"
+compose-material3 = "1.2.1"
+compose-navigation = "2.7.7"
+core-ktx = "1.5.0"
+core-ktx-version = "1.12.0"
+coroutines = "1.8.0"
 coroutines-test = "1.8.0"
 crashlytics-plugin = "2.9.9"
-datastore = "1.1.0-beta01"
-firebase-bom = "32.7.3"
-compose-constraint = "1.0.1"
+datastore = "1.0.0"
+firebase-bom = "32.7.4"
+firebase-perf = "1.4.2"
 hilt = "2.51"
 hilt-nav-compose = "1.2.0"
+inappupdate = "2.1.0"
 junit = "4.13.2"
-kotlin = "1.9.22"
+kotlin = "1.9.23"
 kotlin-serialization = "1.9.22"
 kotlinx-coroutines-android = "1.8.0"
 kotlinx-serialization = "1.6.3"
 kotlinx-serialization-converter = "1.0.0"
-lifecycle-runtime-ktx = "2.8.0-alpha02"
-lifecycle-viewmodel-compose = "2.8.0-alpha02"
+leakcanary = "2.13"
+lifecycle-runtime-ktx = "2.7.0"
+lifecycle-viewmodel-compose = "2.7.0"
 mapsplatform-secrets = "2.0.1"
-mockk = "1.13.3"
-okhttp = "4.10.0"
-play-services-location = "21.1.0"
-retrofit = "2.9.0"
+mockk = "1.13.10"
+okhttp = "4.12.0"
+play-services-location = "21.2.0"
+retrofit = "2.10.0"
 truth = "1.4.2"
-turbine = "1.0.0"
-leakcanary = "3.0-alpha-1"
-inappupdate = "2.1.0"
-about-lib = "11.1.0"
-firebase-perf = "1.4.2"
-compose-material3 = "1.2.1"
-androidx-test-runner = "1.5.2"
-androidx-test-rules = "1.5.0"
-core-ktx = "1.5.0"
-coroutines = "1.8.0"
+turbine = "1.1.0"
 
 [libraries]
-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "activity-compose" }
+about-lib-compose-ui = { module = "com.mikepenz:aboutlibraries-compose-m3", version.ref = "about-lib" }
+about-lib-core = { module = "com.mikepenz:aboutlibraries-core", version.ref = "about-lib" }
+activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activity-compose" }
+android-test-rules = { module = "androidx.test:rules", version.ref = "androidx-test-rules" }
+android-test-runner = { module = "androidx.test:runner", version.ref = "androidx-test-runner" }
 chucker-debug = { module = "com.github.chuckerteam.chucker:library", version.ref = "chucker" }
 chucker-release = { module = "com.github.chuckerteam.chucker:library-no-op", version.ref = "chucker" }
 coil = { module = "io.coil-kt:coil-compose", version.ref = "coil-compose" }
 com-firebase-crashlytics-plugin = { module = "com.google.firebase:firebase-crashlytics-gradle", version.ref = "crashlytics-plugin" }
 com-google-services = { module = "com.google.gms:google-services", version.ref = "com-google-services" }
-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "compose-bom" }
-compose-material3 = { group = "androidx.compose.material3", name = "material3-android", version.ref = "compose-material3" }
-compose-navigation = { group = "androidx.navigation", name = "navigation-compose", version.ref = "compose-navigation" }
-compose-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
-compose-ui = { group = "androidx.compose.ui", name = "ui" }
+compose-bom = { module = "androidx.compose:compose-bom", version.ref = "compose-bom" }
+compose-constraint = { module = "androidx.constraintlayout:constraintlayout-compose", version.ref = "compose-constraint" }
+compose-material3 = { module = "androidx.compose.material3:material3-android", version.ref = "compose-material3" }
+compose-navigation = { module = "androidx.navigation:navigation-compose", version.ref = "compose-navigation" }
+compose-preview = { module = "androidx.compose.ui:ui-tooling-preview" }
+compose-ui = { module = "androidx.compose.ui:ui" }
 compose-ui-test-manifest = { module = "androidx.compose.ui:ui-test-manifest" }
 compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling" }
 compose-viewmodel-lifecycle = { module = "androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "lifecycle-viewmodel-compose" }
-compose-constraint = { group = "androidx.constraintlayout", name = "constraintlayout-compose", version.ref = "compose-constraint" }
 core-ktx = { module = "androidx.core:core-ktx", version.ref = "core-ktx-version" }
+coroutines = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutines" }
 coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "coroutines-test" }
+datastore = { module = "androidx.datastore:datastore-preferences", version.ref = "datastore" }
 firebase-analytics = { module = "com.google.firebase:firebase-analytics-ktx" }
 firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebase-bom" }
 firebase-crashlytics = { module = "com.google.firebase:firebase-crashlytics-ktx" }
 firebase-perfomance-monitoring = { module = "com.google.firebase:firebase-perf" }
-datastore = { group = "androidx.datastore", name = "datastore-preferences", version.ref = "datastore" }
-coroutines = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutines" }
 hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hilt" }
 hilt-compiler = { module = "com.google.dagger:hilt-compiler", version.ref = "hilt" }
-hilt-nav-compose = { group = "androidx.hilt", name = "hilt-navigation-compose", version.ref = "hilt-nav-compose" }
+hilt-nav-compose = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "hilt-nav-compose" }
+inapp-update = { module = "com.google.android.play:app-update", version.ref = "inappupdate" }
+inapp-update-ktx = { module = "com.google.android.play:app-update-ktx", version.ref = "inappupdate" }
 junit = { module = "junit:junit", version.ref = "junit" }
 kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "kotlinx-coroutines-android" }
 kotlinx-serialization = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinx-serialization" }
 kotlinx-serialization-converter = { module = "com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter", version.ref = "kotlinx-serialization-converter" }
-lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycle-runtime-ktx" }
+leakcanary = { module = "com.squareup.leakcanary:leakcanary-android", version.ref = "leakcanary" }
+lifecycle-runtime-ktx = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "lifecycle-runtime-ktx" }
 mock-agent = { module = "io.mockk:mockk-agent", version.ref = "mockk" }
 mock-android = { module = "io.mockk:mockk-android", version.ref = "mockk" }
 okhttp = { module = "com.squareup.okhttp3:okhttp" }
@@ -79,30 +85,27 @@ okhttp-bom = { module = "com.squareup.okhttp3:okhttp-bom", version.ref = "okhttp
 okhttp-logging-interceptor = { module = "com.squareup.okhttp3:logging-interceptor" }
 playservices-location = { module = "com.google.android.gms:play-services-location", version.ref = "play-services-location" }
 retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
+test-core-ktx = { module = "androidx.test:core-ktx", version.ref = "core-ktx" }
 truth = { module = "com.google.truth:truth", version.ref = "truth" }
 turbine = { module = "app.cash.turbine:turbine", version.ref = "turbine" }
-leakcanary = { module = "com.squareup.leakcanary:leakcanary-android", version.ref = "leakcanary" }
-inapp-update = { module = "com.google.android.play:app-update", version.ref = "inappupdate" }
-inapp-update-ktx = { module = "com.google.android.play:app-update-ktx", version.ref = "inappupdate" }
-about-lib-core = { module = "com.mikepenz:aboutlibraries-core", version.ref = "about-lib" }
-about-lib-compose-ui = { module = "com.mikepenz:aboutlibraries-compose-m3", version.ref = "about-lib" }
-android-test-runner = { module = "androidx.test:runner", version.ref = "androidx-test-runner" }
-android-test-rules = { module = "androidx.test:rules", version.ref = "androidx-test-rules" }
-test-core-ktx = { group = "androidx.test", name = "core-ktx", version.ref = "core-ktx" }
 
 [plugins]
+about-lib-plugin = { id = "com.mikepenz.aboutlibraries.plugin", version.ref = "about-lib" }
 com-android-application = { id = "com.android.application", version.ref = "android-gradle-plugin" }
 com-android-library = { id = "com.android.library", version.ref = "android-gradle-plugin" }
 dagger-hilt-android = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
+firebase-perf-plugin = { id = "com.google.firebase.firebase-perf", version.ref = "firebase-perf" }
+kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 mapsplatform-secrets-gradle-plugin = { id = "com.google.android.libraries.mapsplatform.secrets-gradle-plugin", version.ref = "mapsplatform-secrets" }
 org-jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 org-jetbrains-kotlin-plugin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin-serialization" }
-kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
-kotlinCocoapods = { id = "org.jetbrains.kotlin.native.cocoapods", version.ref = "kotlin" }
-about-lib-plugin = { id = "com.mikepenz.aboutlibraries.plugin", version.ref = "about-lib" }
-firebase-perf-plugin = { id = "com.google.firebase.firebase-perf", version.ref = "firebase-perf" }
 
 [bundles]
+android-test = [
+    "android-test-rules",
+    "android-test-runner",
+    "test-core-ktx",
+]
 androidx = [
     "activity-compose",
     "core-ktx",
@@ -111,12 +114,12 @@ androidx = [
     "lifecycle-runtime-ktx",
 ]
 compose = [
+    "compose-constraint",
     "compose-material3",
     "compose-navigation",
     "compose-preview",
     "compose-ui",
     "compose-viewmodel-lifecycle",
-    "compose-constraint",
 ]
 firebase = [
     "firebase-analytics",
@@ -126,9 +129,4 @@ firebase = [
 google-play = [
     "inapp-update",
     "inapp-update-ktx",
-]
-android-test = [
-    "android-test-runner",
-    "android-test-rules",
-    "test-core-ktx"
 ]
