@@ -40,6 +40,7 @@ androidx-test-rules = "1.5.0"
 core-ktx = "1.5.0"
 coroutines = "1.8.0"
 gemini = "0.2.2"
+openai = "3.7.0"
 
 [libraries]
 activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "activity-compose" }
@@ -91,6 +92,7 @@ android-test-runner = { module = "androidx.test:runner", version.ref = "androidx
 android-test-rules = { module = "androidx.test:rules", version.ref = "androidx-test-rules" }
 test-core-ktx = { group = "androidx.test", name = "core-ktx", version.ref = "core-ktx" }
 gemini = { module = "com.google.ai.client.generativeai:generativeai", version.ref = "gemini" }
+openai = { module = "com.aallam.openai:openai-client", version.ref = "openai" }
 
 [plugins]
 com-android-application = { id = "com.android.application", version.ref = "android-gradle-plugin" }

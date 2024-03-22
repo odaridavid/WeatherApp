@@ -59,6 +59,15 @@ fun HomeScreen(
         if (state.errorMessageId != null) {
             ErrorScreen(state.errorMessageId, onTryAgainClicked)
         } else {
+            state.recommendation?.let { recommendation ->
+                MediumBody(
+                    text = recommendation,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(WeatherAppTheme.dimens.medium),
+                    textAlign = TextAlign.Center
+                )
+            }
             state.weather?.current?.let { currentWeather ->
                 CurrentWeatherWidget(currentWeather = currentWeather)
             } ?: run {

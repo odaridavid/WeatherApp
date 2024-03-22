@@ -1,4 +1,4 @@
-package com.github.odaridavid.weatherapp.ui.home
+package com.github.odaridavid.weatherapp.data.ai
 
 import com.github.odaridavid.weatherapp.BuildConfig
 import com.google.ai.client.generativeai.GenerativeModel
@@ -6,7 +6,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 import javax.inject.Inject
 
-class AIOutfitRecommendation @Inject constructor() {
+class OutfitRecommendationRecommenderGemini @Inject constructor() {
 
     private val outfitsModel by lazy {
         GenerativeModel(

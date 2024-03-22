@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.github.odaridavid.weatherapp.api.SettingsRepository
 import com.github.odaridavid.weatherapp.api.WeatherRepository
+import com.github.odaridavid.weatherapp.data.ai.OutfitRecommendationRecommenderOpenAI
 import com.github.odaridavid.weatherapp.model.DefaultLocation
 import com.github.odaridavid.weatherapp.model.Result
 import com.github.odaridavid.weatherapp.model.SupportedLanguage
@@ -14,6 +15,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -21,7 +23,8 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val weatherRepository: WeatherRepository,
-    private val settingsRepository: SettingsRepository
+    private val settingsRepository: SettingsRepository,
+    private val outfitRecommendationRecommenderOpenAI: OutfitRecommendationRecommenderOpenAI,
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(HomeScreenViewState(isLoading = true))
@@ -70,6 +73,19 @@ class HomeViewModel @Inject constructor(
         when (result) {
             is Result.Success -> {
                 val weatherData = result.data
+                viewModelScope.launch {
+                    // TODO Do this someplace else?
+                    val temperature = weatherData.current?.temperature.toString()
+                    outfitRecommendationRecommenderOpenAI
+                        .generateOutfitRecommendation(temperature = temperature)
+                        .catch { e ->
+                            e.printStackTrace()
+                        }
+                        .collect { recommendation ->
+                            setState { copy(recommendation = recommendation) }
+                        }
+
+                }
                 setState {
                     copy(
                         weather = weatherData,
@@ -104,5 +120,6 @@ data class HomeScreenViewState(
     val language: SupportedLanguage = SupportedLanguage.ENGLISH,
     val weather: Weather? = null,
     val isLoading: Boolean = false,
+    val recommendation: String? = null,
     @StringRes val errorMessageId: Int? = null
 )

@@ -230,6 +230,7 @@ dependencies {
 
     // AI
     implementation(libs.gemini)
+    implementation(libs.openai)
 }
 
 kapt {
