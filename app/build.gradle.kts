@@ -227,6 +227,9 @@ dependencies {
     // About
     implementation(libs.about.lib.core)
     implementation(libs.about.lib.compose.ui)
+
+    // AI
+    implementation(libs.gemini)
 }
 
 kapt {
