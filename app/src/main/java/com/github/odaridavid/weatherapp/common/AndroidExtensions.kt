@@ -26,9 +26,13 @@ fun Context.getCityName(longitude: Double, latitude: Double, onAddressReceived: 
             }
         }
     } else {
-        val addresses = geoCoder.getFromLocation(latitude, longitude, NO_OF_ADDRESSES)
-        if (addresses?.isNotEmpty() == true) {
-              onAddressReceived(addresses[0])
+        try {
+            val addresses = geoCoder.getFromLocation(latitude, longitude, NO_OF_ADDRESSES)
+            if (addresses?.isNotEmpty() == true) {
+                  onAddressReceived(addresses[0])
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
     }
 }

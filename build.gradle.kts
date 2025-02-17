@@ -15,17 +15,17 @@ plugins {
     id("com.github.ben-manes.versions") version "0.41.0"
     id("nl.littlerobots.version-catalog-update") version "0.8.4"
     id("io.gitlab.arturbosch.detekt") version "1.23.3"
-    id("org.jlleitschuh.gradle.ktlint") version "12.1.0"
+    id("org.jlleitschuh.gradle.ktlint") version "12.1.1"
 }
 
 buildscript {
     dependencies {
         classpath(libs.com.google.services)
         classpath(libs.com.firebase.crashlytics.plugin)
-        classpath("com.github.ben-manes:gradle-versions-plugin:0.51.0")
-        classpath("nl.littlerobots.vcu:plugin:0.8.4")
-        classpath("io.gitlab.arturbosch.detekt:detekt-gradle-plugin:1.23.3")
-        classpath("com.android.tools.build:gradle:8.3.0")
+        classpath(libs.gradle.versions.plugin)
+        classpath(libs.littlerobots.plugin)
+        classpath(libs.detekt.gradle.plugin)
+        classpath(libs.gradle)
     }
 }
 
