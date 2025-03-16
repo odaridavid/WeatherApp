@@ -42,48 +42,50 @@ fun HomeScreen(
 ) {
     Column(modifier = Modifier.fillMaxSize()) {
 
-        LocalContext.current.getCityName(
-            latitude = state.defaultLocation.latitude,
-            longitude = state.defaultLocation.longitude
-        ) { address ->
-            val cityName = address.locality
-            onCityNameReceived(cityName)
-        }
-
-        HomeTopBar(cityName = state.locationName, onSettingClicked)
-
-        if (state.isLoading) {
-            LoadingScreen()
-        }
-
-        if (state.errorMessageId != null) {
-            ErrorScreen(state.errorMessageId, onTryAgainClicked)
-        } else {
-            state.weather?.current?.let { currentWeather ->
-                CurrentWeatherWidget(currentWeather = currentWeather)
-            } ?: run {
-                EmptySectionWidget(
-                    label = stringResource(id = R.string.home_title_currently),
-                    weatherType = stringResource(id = R.string.home_weather_type_currently)
-                )
+        when (state) {
+            is HomeScreenViewState.Loading -> {
+                LoadingScreen()
             }
-
-            state.weather?.hourly?.let { hourlyWeather ->
-                HourlyWeatherWidget(hourlyWeatherList = hourlyWeather)
-            } ?: run {
-                EmptySectionWidget(
-                    label = stringResource(id = R.string.home_today_forecast_title),
-                    weatherType = stringResource(id = R.string.home_weather_type_hourly)
-                )
+            is HomeScreenViewState.Error -> {
+                ErrorScreen(state.errorMessageId, onTryAgainClicked)
             }
+            is HomeScreenViewState.Success -> {
+                LocalContext.current.getCityName(
+                    latitude = state.defaultLocation.latitude,
+                    longitude = state.defaultLocation.longitude
+                ) { address ->
+                    val cityName = address.locality
+                    onCityNameReceived(cityName)
+                }
 
-            state.weather?.daily?.let { dailyWeather ->
-                DailyWeatherWidget(dailyWeatherList = dailyWeather)
-            } ?: run {
-                EmptySectionWidget(
-                    label = stringResource(id = R.string.home_weekly_forecast_title),
-                    weatherType = stringResource(id = R.string.home_weather_type_daily)
-                )
+                HomeTopBar(cityName = state.locationName, onSettingClicked)
+
+                state.weather.current?.let { currentWeather ->
+                    CurrentWeatherWidget(currentWeather = currentWeather)
+                } ?: run {
+                    EmptySectionWidget(
+                        label = stringResource(id = R.string.home_title_currently),
+                        weatherType = stringResource(id = R.string.home_weather_type_currently)
+                    )
+                }
+
+                state.weather.hourly?.let { hourlyWeather ->
+                    HourlyWeatherWidget(hourlyWeatherList = hourlyWeather)
+                } ?: run {
+                    EmptySectionWidget(
+                        label = stringResource(id = R.string.home_today_forecast_title),
+                        weatherType = stringResource(id = R.string.home_weather_type_hourly)
+                    )
+                }
+
+                state.weather.daily?.let { dailyWeather ->
+                    DailyWeatherWidget(dailyWeatherList = dailyWeather)
+                } ?: run {
+                    EmptySectionWidget(
+                        label = stringResource(id = R.string.home_weekly_forecast_title),
+                        weatherType = stringResource(id = R.string.home_weather_type_daily)
+                    )
+                }
             }
         }
     }

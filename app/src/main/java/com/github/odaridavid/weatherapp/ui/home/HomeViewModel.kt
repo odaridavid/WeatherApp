@@ -24,7 +24,7 @@ class HomeViewModel @Inject constructor(
     private val settingsRepository: SettingsRepository
 ) : ViewModel() {
 
-    private val _state = MutableStateFlow(HomeScreenViewState(isLoading = true))
+    private val _state = MutableStateFlow(HomeScreenViewState.Loading as HomeScreenViewState)
     val state: StateFlow<HomeScreenViewState> = _state.asStateFlow()
 
     init {
@@ -37,12 +37,14 @@ class HomeViewModel @Inject constructor(
                 Triple(language, units, defaultLocation)
             }.collect { (language, units, defaultLocation) ->
                 setState {
-                    copy(
+                    toSuccessState(
                         language = language,
                         units = units,
                         defaultLocation = defaultLocation
                     )
-                }.also { processIntent(HomeScreenIntent.LoadWeatherData) }
+                }
+
+                processIntent(HomeScreenIntent.LoadWeatherData)
             }
         }
     }
@@ -52,16 +54,18 @@ class HomeViewModel @Inject constructor(
             is HomeScreenIntent.LoadWeatherData -> {
                 viewModelScope.launch {
                     val result = weatherRepository.fetchWeatherData(
-                        language = state.value.language.languageValue,
-                        defaultLocation = state.value.defaultLocation,
-                        units = state.value.units.value
+                        language = (state.value as HomeScreenViewState.Success).language.languageValue,
+                        defaultLocation = (state.value as HomeScreenViewState.Success).defaultLocation,
+                        units = (state.value as HomeScreenViewState.Success).units.value
                     )
                     processResult(result)
                 }
             }
 
             is HomeScreenIntent.DisplayCityName -> {
-                setState { copy(locationName = homeScreenIntent.cityName) }
+                setState {
+                    toSuccessState(locationName = homeScreenIntent.cityName)
+                }
             }
         }
     }
@@ -71,20 +75,13 @@ class HomeViewModel @Inject constructor(
             is Result.Success -> {
                 val weatherData = result.data
                 setState {
-                    copy(
-                        weather = weatherData,
-                        isLoading = false,
-                        errorMessageId = null
-                    )
+                    toSuccessState(weather = weatherData)
                 }
             }
 
             is Result.Error -> {
                 setState {
-                    copy(
-                        isLoading = false,
-                        errorMessageId = result.errorType.toResourceId()
-                    )
+                    HomeScreenViewState.Error(errorMessageId = result.errorType.toResourceId())
                 }
             }
         }
@@ -95,14 +92,45 @@ class HomeViewModel @Inject constructor(
             _state.emit(stateReducer(state.value))
         }
     }
+
+    // TODO Fix dissapeared name on the top bar
+    private fun HomeScreenViewState.toSuccessState(
+        weather: Weather? = null,
+        units: Units = Units.METRIC,
+        locationName: String = "",
+        language: SupportedLanguage = SupportedLanguage.ENGLISH,
+        defaultLocation: DefaultLocation = DefaultLocation(0.0, 0.0),
+    ): HomeScreenViewState.Success {
+        return when (this) {
+            is HomeScreenViewState.Success -> this.copy(
+                units = if (this.units != units) units else this.units,
+                defaultLocation = if (this.defaultLocation != defaultLocation) defaultLocation else this.defaultLocation,
+                locationName = if (this.locationName != locationName) locationName else this.locationName,
+                language = if (this.language != language) language else this.language,
+                weather = weather ?: this.weather
+            )
+
+            is HomeScreenViewState.Loading, is HomeScreenViewState.Error -> HomeScreenViewState.Success(
+                units = units,
+                defaultLocation = defaultLocation,
+                locationName = locationName,
+                language = language,
+                weather = weather ?: Weather(null, null, null)
+            )
+        }
+    }
 }
 
-data class HomeScreenViewState(
-    val units: Units = Units.METRIC,
-    val defaultLocation: DefaultLocation = DefaultLocation(0.0, 0.0),
-    val locationName: String = "-",
-    val language: SupportedLanguage = SupportedLanguage.ENGLISH,
-    val weather: Weather? = null,
-    val isLoading: Boolean = false,
-    @StringRes val errorMessageId: Int? = null
-)
+sealed class HomeScreenViewState {
+    data class Success(
+        val units: Units,
+        val defaultLocation: DefaultLocation = DefaultLocation(0.0, 0.0),
+        val locationName: String,
+        val language: SupportedLanguage,
+        val weather: Weather
+    ) : HomeScreenViewState()
+
+    object Loading : HomeScreenViewState()
+
+    data class Error(@StringRes val errorMessageId: Int) : HomeScreenViewState()
+}

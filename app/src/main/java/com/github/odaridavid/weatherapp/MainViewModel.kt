@@ -18,7 +18,7 @@ class MainViewModel @Inject constructor(
     private val logger: Logger
 ) : ViewModel() {
 
-    private val _state = MutableStateFlow(MainViewState())
+    private val _state: MutableStateFlow<MainViewState> = MutableStateFlow(MainViewState.Loading)
     val state: StateFlow<MainViewState> = _state.asStateFlow()
 
     private val _hasAppUpdate = MutableStateFlow(false)
@@ -27,11 +27,15 @@ class MainViewModel @Inject constructor(
     fun processIntent(mainViewIntent: MainViewIntent) {
         when (mainViewIntent) {
             is MainViewIntent.GrantPermission -> {
-                setState { copy(isPermissionGranted = mainViewIntent.isGranted) }
+                setState {
+                    toSuccessState().copy(isPermissionGranted = mainViewIntent.isGranted)
+                }
             }
 
             is MainViewIntent.CheckLocationSettings -> {
-                setState { copy(isLocationSettingEnabled = mainViewIntent.isEnabled) }
+                setState {
+                    toSuccessState().copy(isLocationSettingEnabled = mainViewIntent.isEnabled)
+                }
             }
 
             is MainViewIntent.ReceiveLocation -> {
@@ -42,11 +46,14 @@ class MainViewModel @Inject constructor(
                 viewModelScope.launch {
                     settingsRepository.setDefaultLocation(defaultLocation)
                 }
-                setState { copy(defaultLocation = defaultLocation) }
+                setState {
+                    toSuccessState().copy(defaultLocation = defaultLocation)
+                }
             }
 
             is MainViewIntent.LogException -> {
                 logger.logException(mainViewIntent.throwable)
+                setState { MainViewState.Error }
             }
 
             is MainViewIntent.UpdateApp -> {
@@ -62,13 +69,40 @@ class MainViewModel @Inject constructor(
             _state.emit(stateReducer(state.value))
         }
     }
+
+    // TODO Fix default state on success
+    private fun MainViewState.toSuccessState(
+        isPermissionGranted: Boolean = false,
+        isLocationSettingEnabled: Boolean = false,
+        defaultLocation: DefaultLocation? = DefaultLocation(longitude = 0.0, latitude = 0.0),
+    ): MainViewState.Success {
+        return when (this) {
+            is MainViewState.Success -> this.copy(
+                isPermissionGranted = if (this.isPermissionGranted != isPermissionGranted) isPermissionGranted else this.isPermissionGranted,
+                isLocationSettingEnabled = if (this.isLocationSettingEnabled != isLocationSettingEnabled) isLocationSettingEnabled else this.isLocationSettingEnabled,
+                defaultLocation = defaultLocation
+            )
+            is MainViewState.Loading, is MainViewState.Error -> MainViewState.Success(
+                isPermissionGranted = isPermissionGranted,
+                isLocationSettingEnabled = isLocationSettingEnabled,
+                defaultLocation = DefaultLocation(longitude = 0.0, latitude = 0.0)
+            )
+        }
+    }
 }
 
-data class MainViewState(
-    val isPermissionGranted: Boolean = false,
-    val isLocationSettingEnabled: Boolean = false,
-    val defaultLocation: DefaultLocation? = DefaultLocation(longitude = 0.0, latitude = 0.0)
-)
+sealed class MainViewState {
+
+    object Loading : MainViewState()
+    data class Success(
+        val isPermissionGranted: Boolean,
+        val isLocationSettingEnabled: Boolean,
+        val defaultLocation: DefaultLocation? = DefaultLocation(longitude = 0.0, latitude = 0.0)
+    ) : MainViewState()
+
+    object Error : MainViewState()
+
+}
 
 sealed class MainViewIntent {
 

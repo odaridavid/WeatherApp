@@ -94,7 +94,9 @@ class MainActivity : ComponentActivity() {
 
             WeatherAppTheme {
                 Surface(
-                    modifier = Modifier.fillMaxSize().safeDrawingPadding(),
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .safeDrawingPadding(),
                     color = MaterialTheme.colorScheme.background
                 ) {
                     val state = mainViewModel.state.collectAsState().value
@@ -131,33 +133,33 @@ class MainActivity : ComponentActivity() {
     @SuppressLint("MissingPermission")
     @Composable
     private fun InitMainScreen(state: MainViewState) {
-        when {
-            state.isLocationSettingEnabled && state.isPermissionGranted -> {
-                fusedLocationProviderClient.lastLocation
-                    .addOnSuccessListener { location: Location? ->
-                        location?.run {
-                            mainViewModel.processIntent(
-                                MainViewIntent.ReceiveLocation(
-                                    longitude = location.longitude,
-                                    latitude = location.latitude
+        when (state) {
+            is MainViewState.Loading -> LoadingScreen()
+            is MainViewState.Error -> {
+                // TODO show error screen
+            }
+            is MainViewState.Success -> {
+                if (state.isLocationSettingEnabled && !state.isPermissionGranted) {
+                    RequiresPermissionsScreen()
+                } else if (!state.isLocationSettingEnabled && !state.isPermissionGranted) {
+                    EnableLocationSettingScreen()
+                } else {
+                    fusedLocationProviderClient.lastLocation
+                        .addOnSuccessListener { location: Location? ->
+                            location?.run {
+                                mainViewModel.processIntent(
+                                    MainViewIntent.ReceiveLocation(
+                                        longitude = location.longitude,
+                                        latitude = location.latitude
+                                    )
                                 )
-                            )
+                            }
+                        }.addOnFailureListener { exception ->
+                            mainViewModel.processIntent(MainViewIntent.LogException(throwable = exception))
                         }
-                    }.addOnFailureListener { exception ->
-                        mainViewModel.processIntent(MainViewIntent.LogException(throwable = exception))
-                    }
-                WeatherAppScreensConfig(navController = rememberNavController())
+                    WeatherAppScreensConfig(navController = rememberNavController())
+                }
             }
-
-            state.isLocationSettingEnabled && !state.isPermissionGranted -> {
-                RequiresPermissionsScreen()
-            }
-
-            !state.isLocationSettingEnabled && !state.isPermissionGranted -> {
-                EnableLocationSettingScreen()
-            }
-
-            else -> LoadingScreen()
         }
     }
 
